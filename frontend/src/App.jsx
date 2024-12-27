@@ -1,18 +1,19 @@
-import { Outlet } from 'react-router';
-import Intro from './pages/Intro';
-
+import { Outlet } from "react-router";
+import NavigationMenu from "./components/NavigationMenu";
+import TopSection from "./components/TopSection";
 
 const App = () => {
-
-    return (
-        <div>
-            <Intro />
-            {/* <main className="h-full bg-[#1A202C]">
-                <Outlet />
-            </main> */}
-
+  return (
+    <div>
+      <main className="w-full min-h-screen h-screen bg-background flex flex-col justify-end">
+        <div className="h-full">
+          <TopSection />
+          <Outlet />
         </div>
-    );
+        <NavigationMenu />
+      </main>
+    </div>
+  );
 };
 
 export default App;
