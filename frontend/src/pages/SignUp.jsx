@@ -1,11 +1,12 @@
 import { ChevronLeft, EyeClosed } from "lucide-react";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 
 const SignUp = () => {
+  const navigate=useNavigate();
   return (
-    <main className="w-full h-screen bg-background text-foreground flex flex-col justify-evenly items-start p-4">
+    <main className="w-full min-h-screen h-screen bg-background text-foreground flex flex-col justify-evenly items-start p-4">
       <div className="w-full">
-        <ChevronLeft />
+      <ChevronLeft onClick={() => navigate(-1)} />
       </div>
       <h1 className="text-3xl font-bold">Register</h1>
       <div className="w-full flex flex-col gap-4 justify-start items-start">
