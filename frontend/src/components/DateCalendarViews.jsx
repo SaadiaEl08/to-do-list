@@ -15,10 +15,41 @@ export default function DateCalendarViews() {
         onChange={(newValue) => {
           setDate(newValue);
         }}
+        disablePast={true}
+        showDaysOutsideCurrentMonth={true}
         slotProps={{
           day: {
             sx: {
-              "&.Mui-selected": "bg-red-500 text-white",
+              "&.Mui-selected": {
+                backgroundColor: "var(--primary)",
+                color: "var(--foreground)",
+              },
+              "&.MuiPickersDay-dayWithMargin": {
+                color: "var(--foreground)",
+              },
+              "&.MuiPickersDay-dayOutsideMonth": {
+                color: "var(--muted-foreground)",
+              },
+              "&.MuiPickersDay-today": {
+                border: "2px solid var(--primary)", 
+              },
+            },
+          },
+          leftArrowIcon: {
+            sx: {
+                color: "var(--foreground)",
+              
+            },
+          },
+          nextIconButton: {
+            sx: {
+                color: "var(--foreground)",
+              
+            },
+          },
+          switchViewIcon: {
+            sx: {
+                color: "var(--foreground)",
             },
           },
         }}
