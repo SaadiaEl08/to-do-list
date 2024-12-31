@@ -2,6 +2,7 @@ import { AlarmClockPlus, LucideFlag, SendHorizonal, Tag } from "lucide-react";
 import PopOver from "./PopOver";
 import { useState } from "react";
 import DateCalendarViews from "./DateCalendarViews";
+import MyTimeClock from "./MyTimeClock";
 
 const AddTask = () => {
   const [date, setDate] = useState(new Date());
@@ -25,7 +26,7 @@ const AddTask = () => {
   };
 
   const handleTimerClick = () => {
-    setIsOpenTaskForm(false);
+    setIsOpenSchedule(false);
     setIsOpenTimer(true);
   };
 
@@ -69,13 +70,29 @@ const AddTask = () => {
           <DateCalendarViews />
           <div className="w-full  flex items-center justify-between  ">
             <button className="text-primary h-12 px-5 w-full">Cancel</button>
-            <button className="text-foreground h-12 px-5 w-full bg-primary rounded ">
+            <button
+              className="text-foreground h-12 px-5 w-full bg-primary rounded "
+              onClick={handleTimerClick}
+            >
               Choose Time
             </button>
           </div>
         </div>
       )}
-      {isOpenTimer && <div>Timer</div>}
+      {isOpenTimer && (
+        <div className="flex flex-col gap-4 ">
+          <MyTimeClock />
+          <div className="w-full  flex items-center justify-between  ">
+            <button className="text-primary h-12 px-5 w-full">Cancel</button>
+            <button
+              className="text-foreground h-12 px-5 w-full bg-primary rounded "
+              onClick={handleTimerClick}
+            >
+              Save
+            </button>
+          </div>
+        </div>
+      )}
       {isOpenPriority && <div>Priority</div>}
       {isOpenCategory && <div>Category</div>}
     </PopOver>
