@@ -32,6 +32,7 @@ const TaskPriority = () => {
           </div>
         ))}
       </div>
+
     </div>
   );
 };

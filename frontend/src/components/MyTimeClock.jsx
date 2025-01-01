@@ -12,7 +12,7 @@ export default function MyTimeClock() {
         views={["hours", "minutes"]}
         ampmInClock={false}
         ampm={false}
-        displayStaticWrapperAs=""
+        displayStaticWrapperAs="mobile"
         value={value}
         onChange={(newValue) => setValue(newValue)}
         slotProps={{

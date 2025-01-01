@@ -4,14 +4,17 @@ import { useState } from "react";
 import DateCalendarViews from "./DateCalendarViews";
 import MyTimeClock from "./MyTimeClock";
 import TaskPriority from "./TaskPriority";
+import TaskCategory from "./TaskCategory";
+import CreateCategory from "./CreateCategory";
 
 const AddTask = () => {
-  const [date, setDate] = useState(new Date());
   const [isOpenTaskForm, setIsOpenTaskForm] = useState(true);
   const [isOpenSchedule, setIsOpenSchedule] = useState(false);
   const [isOpenTimer, setIsOpenTimer] = useState(false);
   const [isOpenPriority, setIsOpenPriority] = useState(false);
   const [isOpenCategory, setIsOpenCategory] = useState(false);
+  const [isOpenCreateCategory, setCreateCategory] = useState(false);
+
   const [taskInfo, setTaskInfo] = useState({
     title: "",
     description: "",
@@ -39,6 +42,11 @@ const AddTask = () => {
   const handleCategoryClick = () => {
     setIsOpenTaskForm(false);
     setIsOpenCategory(true);
+  };
+  const handleCreateCategoryClick = () => {
+    setIsOpenTaskForm(false);
+    setIsOpenCategory(false);
+    setCreateCategory(true);
   };
   return (
     <PopOver isOpen={true} toggle={() => {}}>
@@ -108,7 +116,31 @@ const AddTask = () => {
           </div>
         </div>
       )}
-      {isOpenCategory && <div>Category</div>}
+      {isOpenCategory && (
+        <div className="flex flex-col gap-4 ">
+          <TaskCategory handleCreateCategoryClick={handleCreateCategoryClick} />
+          <div className="w-full  flex items-center justify-between  ">
+            <button className="text-primary h-12 px-5 w-full">Cancel</button>
+            <button
+              className="text-foreground h-12 px-5 w-full bg-primary rounded "
+              onClick={handleTimerClick}
+            >
+              Save
+            </button>
+          </div>
+        </div>
+      )}
+      {isOpenCreateCategory && (
+        <div className="flex flex-col gap-4 ">
+          <CreateCategory />
+          <div className="w-full flex items-center justify-between  ">
+            <button className="text-primary h-12 px-5 w-full">Cancel</button>
+            <button className="text-foreground h-12 px-5 w-full bg-primary rounded ">
+              Save
+            </button>
+          </div>
+        </div>
+      )}
     </PopOver>
   );
 };
