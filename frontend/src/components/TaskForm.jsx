@@ -1,6 +1,10 @@
+import { steps } from "@/constants";
 import { AlarmClockPlus, LucideFlag, SendHorizonal, Tag } from "lucide-react";
+import { useDispatch } from "react-redux";
 
-const TaskForm = ({handleStepChange ,steps}) => {
+const TaskForm = () => {
+  const dispatch = useDispatch();
+
   return (
     <div className="min-w-[80vw] flex flex-col gap-4 ">
       <h1>Add Task</h1>
@@ -16,9 +20,21 @@ const TaskForm = ({handleStepChange ,steps}) => {
       />
       <div className=" flex items-center justify-between  p-3">
         <div className="flex items-center justify-between gap-4">
-          <AlarmClockPlus  onClick={() => handleStepChange(steps.SCHEDULE)}/>
-          <Tag  onClick={() => handleStepChange(steps.CATEGORY)}/>
-          <LucideFlag onClick={() => handleStepChange(steps.PRIORITY)} />
+          <AlarmClockPlus
+            onClick={() =>
+              dispatch({ type: "SET_STEP", payload: steps.SCHEDULE })
+            }
+          />
+          <Tag
+            onClick={() =>
+              dispatch({ type: "SET_STEP", payload: steps.CATEGORY })
+            }
+          />
+          <LucideFlag
+            onClick={() =>
+              dispatch({ type: "SET_STEP", payload: steps.PRIORITY })
+            }
+          />
         </div>
         <SendHorizonal className="text-primary" />
       </div>
