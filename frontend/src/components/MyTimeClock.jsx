@@ -1,13 +1,11 @@
 import { StaticTimePicker } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { TimeClock } from "@mui/x-date-pickers/TimeClock";
 import dayjs from "dayjs";
 import { useState } from "react";
 
 export default function MyTimeClock() {
   const [value, setValue] = useState(dayjs());
-
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <StaticTimePicker
@@ -46,7 +44,6 @@ export default function MyTimeClock() {
               },
             },
           },
-          
         }}
         sx={{
           "& .MuiClock-clock": {

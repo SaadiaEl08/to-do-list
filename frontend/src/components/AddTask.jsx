@@ -3,6 +3,7 @@ import PopOver from "./PopOver";
 import { useState } from "react";
 import DateCalendarViews from "./DateCalendarViews";
 import MyTimeClock from "./MyTimeClock";
+import TaskPriority from "./TaskPriority";
 
 const AddTask = () => {
   const [date, setDate] = useState(new Date());
@@ -93,7 +94,20 @@ const AddTask = () => {
           </div>
         </div>
       )}
-      {isOpenPriority && <div>Priority</div>}
+      {isOpenPriority && (
+        <div className="flex flex-col gap-4 ">
+          <TaskPriority />
+          <div className="w-full  flex items-center justify-between  ">
+            <button className="text-primary h-12 px-5 w-full">Cancel</button>
+            <button
+              className="text-foreground h-12 px-5 w-full bg-primary rounded "
+              onClick={handleTimerClick}
+            >
+              Save
+            </button>
+          </div>
+        </div>
+      )}
       {isOpenCategory && <div>Category</div>}
     </PopOver>
   );
