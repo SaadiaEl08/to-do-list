@@ -1,12 +1,14 @@
+import dayjs from "dayjs";
+
 const initialState = {
       currentStep: "",
       isOpenAddTask: false,
       taskInfo: {
             title: "",
             description: "",
-            date: "",
+            date: dayjs(),
             priority: "",
-            time: "",
+            time: dayjs().add(1, "minute"),
             category: "",
       },
 };

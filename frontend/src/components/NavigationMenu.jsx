@@ -52,7 +52,7 @@ const NavigationMenu = () => {
       </nav>
       <div className="rounded-full absolute bg-primary w-16 h-16 flex items-center justify-center -top-8 left-1/2 -translate-x-1/2 ">
         <Plus
-          className="w-8 h-8"
+          className="w-8 h-8 cursor-pointer"
           onClick={() => {
             handleAddTaskClick();
           }}
