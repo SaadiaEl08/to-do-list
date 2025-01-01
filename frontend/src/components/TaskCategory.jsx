@@ -1,74 +1,24 @@
-import {
-  BookOpenTextIcon,
-  BriefcaseBusiness,
-  Dumbbell,
-  Film,
-  Heart,
-  Home,
-  Music,
-  PenTool,
-  PlusCircle,
-  ShoppingCart,
-  Users,
-} from "lucide-react";
-import { useState } from "react";
+import { PlusCircle } from "lucide-react";
+import { useEffect, useState } from "react";
 import ActionBar from "./ActionBar";
+import { useDispatch, useSelector } from "react-redux";
+import { category, steps } from "@/constants";
 
-const TaskCategory = ({ handleCreateCategoryClick }) => {
-  const [selectedCategory, setSelectedCategory] = useState(null);
+const TaskCategory = () => {
+  const taskCategory = useSelector((state) => state.taskInfo.category);
+  const [selectedCategory, setSelectedCategory] = useState(taskCategory);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    if (selectedCategory) {
+      dispatch({
+        type: "UPDATE_TASK_INFO",
+        payload: {
+          category: selectedCategory,
+        },
+      });
+    }
+  }, [selectedCategory, dispatch]);
 
-  const category = [
-    {
-      name: "Grocery",
-      color: "#CCFF80",
-      icon: <ShoppingCart />,
-    },
-    {
-      name: "Work",
-      color: "#FF9680",
-      icon: <BriefcaseBusiness />,
-    },
-    {
-      name: "Sport",
-      color: "#80FFFF",
-      icon: <Dumbbell />,
-    },
-    {
-      name: "Design",
-      color: "#80FFD9",
-      icon: <PenTool />,
-    },
-    {
-      name: "University",
-      color: "#809CFF",
-      icon: <BookOpenTextIcon />,
-    },
-    {
-      name: "Social",
-      color: "#FF80EB",
-      icon: <Users />,
-    },
-    {
-      name: "Music",
-      color: "#FC80FF",
-      icon: <Music />,
-    },
-    {
-      name: "Health",
-      color: "#80FFA3",
-      icon: <Heart />,
-    },
-    {
-      name: "Movie",
-      color: "#80D1FF",
-      icon: <Film />,
-    },
-    {
-      name: "Home",
-      color: "#FFCC80",
-      icon: <Home />,
-    },
-  ];
   return (
     <div className="w-[80vw]">
       <h1 className="text-xl font-bold">Task Category</h1>
@@ -92,7 +42,7 @@ const TaskCategory = ({ handleCreateCategoryClick }) => {
         ))}
         <div
           className={`rounded flex flex-col items-center justify-center `}
-          onClick={() => handleCreateCategoryClick()}
+          onClick={() => dispatch({ type: "SET_STEP", payload: steps.CREATE_CATEGORY })}
         >
           <div className="border w-16 h-16 flex items-center justify-center rounded bg-[#80FFD1] text-black">
             <PlusCircle />
@@ -100,8 +50,7 @@ const TaskCategory = ({ handleCreateCategoryClick }) => {
           <p>Create New</p>
         </div>
       </div>
-      <ActionBar/>
-
+      <ActionBar />
     </div>
   );
 };
