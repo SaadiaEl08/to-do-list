@@ -3,6 +3,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import dayjs from "dayjs";
 import { useState } from "react";
+import ActionBar from "./ActionBar";
 
 export default function MyTimeClock() {
   const [value, setValue] = useState(dayjs());
@@ -60,6 +61,7 @@ export default function MyTimeClock() {
           },
         }}
       />
+      <ActionBar />
     </LocalizationProvider>
   );
 }

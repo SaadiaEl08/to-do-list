@@ -12,6 +12,7 @@ import {
   Users,
 } from "lucide-react";
 import { useState } from "react";
+import ActionBar from "./ActionBar";
 
 const TaskCategory = ({ handleCreateCategoryClick }) => {
   const [selectedCategory, setSelectedCategory] = useState(null);
@@ -99,6 +100,8 @@ const TaskCategory = ({ handleCreateCategoryClick }) => {
           <p>Create New</p>
         </div>
       </div>
+      <ActionBar/>
+
     </div>
   );
 };

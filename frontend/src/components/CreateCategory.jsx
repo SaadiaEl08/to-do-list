@@ -1,5 +1,6 @@
 import { Check } from "lucide-react";
 import { useState } from "react";
+import ActionBar from "./ActionBar";
 
 const CreateCategory = () => {
   const [selectedColor, setSelectedColor] = useState(null);
@@ -19,9 +20,7 @@ const CreateCategory = () => {
   ];
   const [category, setCategory] = useState({});
 
-  const handleCreateCategoryClick = () => {
-
-  };
+  const handleCreateCategoryClick = () => {};
   return (
     <div className="flex flex-col gap-3 p-2 min-w-[80vw] ">
       <h1 className="text-xl">Create new category</h1>
@@ -68,6 +67,7 @@ const CreateCategory = () => {
           ))}
         </div>
       </div>
+      <ActionBar />
     </div>
   );
 };

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import ActionBar from "./ActionBar";
 
 const TaskPriority = () => {
   const [selectedPriority, setSelectedPriority] = useState(null);
@@ -32,6 +33,7 @@ const TaskPriority = () => {
           </div>
         ))}
       </div>
+      <ActionBar/>
 
     </div>
   );

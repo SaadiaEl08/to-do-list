@@ -3,6 +3,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DateCalendar } from "@mui/x-date-pickers/DateCalendar";
 import { useState } from "react";
 import dayjs from "dayjs";
+import ActionBar from "./ActionBar";
 
 export default function DateCalendarViews() {
   const [date, setDate] = useState(dayjs());
@@ -54,6 +55,7 @@ export default function DateCalendarViews() {
           },
         }}
       />
+      <ActionBar/>
     </LocalizationProvider>
   );
 }
