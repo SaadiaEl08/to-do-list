@@ -1,146 +1,77 @@
-import { AlarmClockPlus, LucideFlag, SendHorizonal, Tag } from "lucide-react";
+import { useReducer } from "react";
 import PopOver from "./PopOver";
-import { useState } from "react";
 import DateCalendarViews from "./DateCalendarViews";
 import MyTimeClock from "./MyTimeClock";
 import TaskPriority from "./TaskPriority";
 import TaskCategory from "./TaskCategory";
 import CreateCategory from "./CreateCategory";
+import TaskForm from "./TaskForm";
 
-const AddTask = () => {
-  const [isOpenTaskForm, setIsOpenTaskForm] = useState(true);
-  const [isOpenSchedule, setIsOpenSchedule] = useState(false);
-  const [isOpenTimer, setIsOpenTimer] = useState(false);
-  const [isOpenPriority, setIsOpenPriority] = useState(false);
-  const [isOpenCategory, setIsOpenCategory] = useState(false);
-  const [isOpenCreateCategory, setCreateCategory] = useState(false);
+const steps = {
+  TASK_FORM: "taskForm",
+  SCHEDULE: "schedule",
+  TIMER: "timer",
+  PRIORITY: "priority",
+  CATEGORY: "category",
+  CREATE_CATEGORY: "createCategory",
+};
 
-  const [taskInfo, setTaskInfo] = useState({
+const reducer = (state, action) => {
+  switch (action.type) {
+    case "SET_STEP":
+      return { ...state, currentStep: action.payload };
+    case "UPDATE_TASK_INFO":
+      return { ...state, taskInfo: { ...state.taskInfo, ...action.payload } };
+    default:
+      return state;
+  }
+};
+
+const initialState = {
+  currentStep: steps.TASK_FORM,
+  taskInfo: {
     title: "",
     description: "",
     date: "",
     priority: "",
     time: "",
     category: "",
-  });
+  },
+};
 
-  const handleScheduleClick = () => {
-    setIsOpenTaskForm(false);
-    setIsOpenSchedule(true);
+const AddTask = () => {
+  const [state, dispatch] = useReducer(reducer, initialState);
+
+  const handleSave = () => {
+    // Perform save logic
+    console.log(state.taskInfo);
   };
-
-  const handleTimerClick = () => {
-    setIsOpenSchedule(false);
-    setIsOpenTimer(true);
-  };
-
-  const handlePriorityClick = () => {
-    setIsOpenTaskForm(false);
-    setIsOpenPriority(true);
+  const handleStepChange = (step) => {
+    dispatch({ type: "SET_STEP", payload: step });
   };
 
-  const handleCategoryClick = () => {
-    setIsOpenTaskForm(false);
-    setIsOpenCategory(true);
+  const renderStep = () => {
+    switch (state.currentStep) {
+      case steps.TASK_FORM:
+        return <TaskForm steps={steps}  handleStepChange={handleStepChange} />;
+      case steps.SCHEDULE:
+        return <DateCalendarViews />;
+      case steps.TIMER:
+        return <MyTimeClock />;
+      case steps.PRIORITY:
+        return <TaskPriority />;
+      case steps.CATEGORY:
+        return <TaskCategory />;
+      case steps.CREATE_CATEGORY:
+        return <CreateCategory />;
+      default:
+        return null;
+    }
   };
-  const handleCreateCategoryClick = () => {
-    setIsOpenTaskForm(false);
-    setIsOpenCategory(false);
-    setCreateCategory(true);
-  };
+
   return (
     <PopOver isOpen={true} toggle={() => {}}>
-      {" "}
-      {isOpenTaskForm && (
-        <div className="min-w-[80vw] flex flex-col gap-4 ">
-          <h1>Add Task</h1>
-          <input
-            type="text"
-            placeholder="Title"
-            className="bg-transparent h-10 rounded focus:p-3 focus:transition-all focus:duration-300 outline-none focus:border focus:border-muted-foreground w-full"
-          />
-          <input
-            type="text"
-            placeholder="Description"
-            className="bg-transparent h-10 rounded focus:p-3 focus:transition-all focus:duration-300 outline-none focus:border focus:border-muted-foreground w-full"
-          />
-          <div className=" flex items-center justify-between  p-3">
-            <div className="flex items-center justify-between gap-4">
-              <AlarmClockPlus onClick={handleScheduleClick} />
-              <Tag onClick={handleCategoryClick} />
-              <LucideFlag onClick={handlePriorityClick} />
-            </div>
-            <SendHorizonal className="text-primary" />
-          </div>
-        </div>
-      )}
-      {isOpenSchedule && (
-        <div className="flex flex-col gap-4 ">
-          <DateCalendarViews />
-          <div className="w-full  flex items-center justify-between  ">
-            <button className="text-primary h-12 px-5 w-full">Cancel</button>
-            <button
-              className="text-foreground h-12 px-5 w-full bg-primary rounded "
-              onClick={handleTimerClick}
-            >
-              Choose Time
-            </button>
-          </div>
-        </div>
-      )}
-      {isOpenTimer && (
-        <div className="flex flex-col gap-4 ">
-          <MyTimeClock />
-          <div className="w-full  flex items-center justify-between  ">
-            <button className="text-primary h-12 px-5 w-full">Cancel</button>
-            <button
-              className="text-foreground h-12 px-5 w-full bg-primary rounded "
-              onClick={handleTimerClick}
-            >
-              Save
-            </button>
-          </div>
-        </div>
-      )}
-      {isOpenPriority && (
-        <div className="flex flex-col gap-4 ">
-          <TaskPriority />
-          <div className="w-full  flex items-center justify-between  ">
-            <button className="text-primary h-12 px-5 w-full">Cancel</button>
-            <button
-              className="text-foreground h-12 px-5 w-full bg-primary rounded "
-              onClick={handleTimerClick}
-            >
-              Save
-            </button>
-          </div>
-        </div>
-      )}
-      {isOpenCategory && (
-        <div className="flex flex-col gap-4 ">
-          <TaskCategory handleCreateCategoryClick={handleCreateCategoryClick} />
-          <div className="w-full  flex items-center justify-between  ">
-            <button className="text-primary h-12 px-5 w-full">Cancel</button>
-            <button
-              className="text-foreground h-12 px-5 w-full bg-primary rounded "
-              onClick={handleTimerClick}
-            >
-              Save
-            </button>
-          </div>
-        </div>
-      )}
-      {isOpenCreateCategory && (
-        <div className="flex flex-col gap-4 ">
-          <CreateCategory />
-          <div className="w-full flex items-center justify-between  ">
-            <button className="text-primary h-12 px-5 w-full">Cancel</button>
-            <button className="text-foreground h-12 px-5 w-full bg-primary rounded ">
-              Save
-            </button>
-          </div>
-        </div>
-      )}
+      {renderStep()}
     </PopOver>
   );
 };
