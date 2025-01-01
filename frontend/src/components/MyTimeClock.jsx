@@ -2,20 +2,45 @@ import { StaticTimePicker } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import dayjs from "dayjs";
-import { useState } from "react";
 import ActionBar from "./ActionBar";
+import { useDispatch, useSelector } from "react-redux";
+import { ToastContainer, toast } from "react-toastify";
+import { steps } from "@/constants";
 
 export default function MyTimeClock() {
-  const [value, setValue] = useState(dayjs());
+  const dispatch = useDispatch();
+  const time = useSelector((state) => state.taskInfo.time);
+  const date = useSelector((state) => state.taskInfo.date);
+
+  const validateTime = (newTime) => {
+    const isValidTime = newTime.isAfter(dayjs());
+    if (!isValidTime) {
+      toast.dismiss();
+      toast.error("Time must be in the future", {
+        position: "top-center",
+        autoClose: 2000,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: false,
+        theme: "dark",
+      });
+    }else{
+      dispatch({ type: "SET_STEP", payload: steps.TASK_FORM });
+    }
+  };
+
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <StaticTimePicker
         views={["hours", "minutes"]}
         ampmInClock={false}
         ampm={false}
+        minTime={date.isBefore(dayjs()) ? dayjs().add(1, "minute") : false}
         displayStaticWrapperAs="mobile"
-        value={value}
-        onChange={(newValue) => setValue(newValue)}
+        value={time || dayjs().add(1, "minute")}
+        onChange={(newValue) =>
+          dispatch({ type: "UPDATE_TASK_INFO", payload: { time: newValue } })
+        }
         slotProps={{
           nextIconButton: {
             sx: {
@@ -61,7 +86,10 @@ export default function MyTimeClock() {
           },
         }}
       />
-      <ActionBar />
+      <ActionBar
+        nextActionFunction={() => validateTime(time)}
+      />
+      <ToastContainer />
     </LocalizationProvider>
   );
 }
