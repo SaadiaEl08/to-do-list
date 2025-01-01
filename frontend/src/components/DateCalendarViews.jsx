@@ -1,20 +1,22 @@
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DateCalendar } from "@mui/x-date-pickers/DateCalendar";
-import { useState } from "react";
 import dayjs from "dayjs";
 import ActionBar from "./ActionBar";
+import { useDispatch, useSelector } from "react-redux";
+import { steps } from "@/constants";
 
 export default function DateCalendarViews() {
-  const [date, setDate] = useState(dayjs());
+  const dispatch = useDispatch();
+  const taskDate = useSelector((state) => state.taskInfo.date);
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <DateCalendar
-        value={date}
+        value={taskDate || dayjs()}
         views={["year", "month", "day"]}
         onChange={(newValue) => {
-          setDate(newValue);
+          dispatch({ type: "UPDATE_TASK_INFO", payload: { date: newValue } });
         }}
         disablePast={true}
         showDaysOutsideCurrentMonth={true}
@@ -32,30 +34,28 @@ export default function DateCalendarViews() {
                 color: "var(--muted-foreground)",
               },
               "&.MuiPickersDay-today": {
-                border: "2px solid var(--primary)", 
+                border: "2px solid var(--primary)",
               },
             },
           },
-          leftArrowIcon: {
+          previousIconButton: {
             sx: {
-                color: "var(--foreground)",
-              
+              color: "var(--foreground)",
             },
           },
           nextIconButton: {
             sx: {
-                color: "var(--foreground)",
-              
+              color: "var(--foreground)",
             },
           },
           switchViewIcon: {
             sx: {
-                color: "var(--foreground)",
+              color: "var(--foreground)",
             },
           },
         }}
       />
-      <ActionBar/>
+      <ActionBar nextActionText="Choose Time" nextActionFunction={() => {dispatch({ type: "SET_STEP", payload: steps.TIMER })}}/>
     </LocalizationProvider>
   );
 }
