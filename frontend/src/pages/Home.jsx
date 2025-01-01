@@ -3,7 +3,7 @@ import { useState } from "react";
 const Home = () => {
   const [tasks, setTasks] = useState([]);
   return (
-    <div className="">
+    <div className="relative">
       {tasks.length === 0 ? (
         <div className="w-full h-5/6  text-foreground flex flex-col justify-center items-center">
           <img src="/homePic.svg" alt="home picture" />
@@ -13,6 +13,7 @@ const Home = () => {
       ) : (
         <p>tasks</p>
       )}
+
     </div>
   );
 };

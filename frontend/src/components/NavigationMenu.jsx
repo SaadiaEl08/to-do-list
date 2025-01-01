@@ -1,9 +1,15 @@
 import { CalendarDays, Clock, Home, Plus, User } from "lucide-react";
 import { Link, useLocation } from "react-router";
-import AddTask from "./AddTask";
+import { useDispatch } from "react-redux";
+import { steps } from "@/constants";
 
 const NavigationMenu = () => {
   const currentPath = useLocation().pathname;
+  const dispatch = useDispatch();
+  const handleAddTaskClick = () => {
+    dispatch({ type: "SET_IS_OPEN_ADD_TASK", payload: true });
+    dispatch({ type: "SET_STEP", payload: steps.TASK_FORM });
+  };
   const navigationItems = [
     { id: 1, name: "Home", icon: <Home />, link: "/home" },
     { id: 2, name: "Calendar", icon: <CalendarDays />, link: "/calendar" },
@@ -45,9 +51,13 @@ const NavigationMenu = () => {
         </ul>
       </nav>
       <div className="rounded-full absolute bg-primary w-16 h-16 flex items-center justify-center -top-8 left-1/2 -translate-x-1/2 ">
-        <Plus className="w-8 h-8" />
+        <Plus
+          className="w-8 h-8"
+          onClick={() => {
+            handleAddTaskClick();
+          }}
+        />
       </div>
-      <AddTask />
     </div>
   );
 };

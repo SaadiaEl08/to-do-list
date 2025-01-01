@@ -11,11 +11,11 @@ import { Provider } from "react-redux";
 const store = legacy_createStore(reducer);
 
 createRoot(document.getElementById("root")).render(
-  <StrictMode>
-    <Provider store={store}>
+  <Provider store={store}>
+    <StrictMode>
       <RouterProvider router={router}>
         <App />
       </RouterProvider>
-    </Provider>
-  </StrictMode>
+    </StrictMode>
+  </Provider>
 );
