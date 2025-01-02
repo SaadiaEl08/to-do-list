@@ -8,17 +8,6 @@ const TaskCategory = () => {
   const taskCategory = useSelector((state) => state.taskInfo.category);
   const [selectedCategory, setSelectedCategory] = useState(taskCategory);
   const dispatch = useDispatch();
-  useEffect(() => {
-    if (selectedCategory) {
-      dispatch({
-        type: "UPDATE_TASK_INFO",
-        payload: {
-          category: selectedCategory,
-        },
-      });
-    }
-  }, [selectedCategory, dispatch]);
-
   return (
     <div className="w-[80vw]">
       <h1 className="text-xl font-bold">Task Category</h1>
@@ -29,7 +18,11 @@ const TaskCategory = () => {
             className={` transition-all duration-100 rounded flex flex-col items-center justify-center ${
               selectedCategory === item.name ? "border-2 border-primary" : ""
             }`}
-            onClick={() => setSelectedCategory(item.name)}
+            onClick={() =>
+              selectedCategory !== item.name
+                ? setSelectedCategory(item.name)
+                : setSelectedCategory("")
+            }
           >
             <div
               className="w-16 h-16 flex items-center justify-center rounded  text-black"
@@ -42,7 +35,9 @@ const TaskCategory = () => {
         ))}
         <div
           className={`rounded flex flex-col items-center justify-center `}
-          onClick={() => dispatch({ type: "SET_STEP", payload: steps.CREATE_CATEGORY })}
+          onClick={() =>
+            dispatch({ type: "SET_STEP", payload: steps.CREATE_CATEGORY })
+          }
         >
           <div className="border w-16 h-16 flex items-center justify-center rounded bg-[#80FFD1] text-black">
             <PlusCircle />
@@ -50,7 +45,18 @@ const TaskCategory = () => {
           <p>Create New</p>
         </div>
       </div>
-      <ActionBar />
+      <ActionBar
+        nextActionFunction={() => {
+          dispatch({
+            type: "UPDATE_TASK_INFO",
+            payload: {
+              category: selectedCategory,
+            },
+          });
+          dispatch({ type: "SET_STEP", payload: steps.TASK_FORM });
+        }}
+       
+      />
     </div>
   );
 };
