@@ -35,7 +35,7 @@ export default function MyTimeClock() {
         views={["hours", "minutes"]}
         ampmInClock={false}
         ampm={false}
-        minTime={date.isBefore(dayjs()) ? dayjs().add(1, "minute") : false}
+        minTime={date.isBefore(dayjs()) ? dayjs().add(1, "minute") : {}}
         displayStaticWrapperAs="mobile"
         value={time || dayjs().add(1, "minute")}
         onChange={(newValue) =>
