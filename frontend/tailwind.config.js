@@ -35,6 +35,10 @@ export default {
           DEFAULT: 'var(--popover)',
           foreground: 'var(--popover-foreground)',
         },
+        dropDown: {
+          DEFAULT: 'var(--dropDown)',
+          foreground: 'var(--dropDown-foreground)',
+        },
         primary: {
           DEFAULT: 'var(--primary)',
           foreground: 'var(--primary-foreground)',

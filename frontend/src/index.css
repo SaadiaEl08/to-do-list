@@ -15,7 +15,8 @@
   --primary: #8875ff;
   --input: #1d1d1d;
   --popover: #363636;
-  --radius: 4px;
+  --radius: 8px;
+  --dropDown: #444444;
   --card: 0 0% 100%;
   --card-foreground: 0 0% 3.9%;
   --popover-foreground: 0 0% 3.9%;
