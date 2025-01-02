@@ -5,9 +5,9 @@ import { useDispatch, useSelector } from "react-redux";
 const TaskForm = () => {
   const dispatch = useDispatch();
   const taskInfo = useSelector((state) => state.taskInfo);
-  console.log(taskInfo)
   const handleSaveTask = () => {
     console.log("save task");
+    dispatch({ type: "SET_IS_OPEN_ADD_TASK", payload: false });
   };
 
   return (
@@ -44,14 +44,23 @@ const TaskForm = () => {
             onClick={() =>
               dispatch({ type: "SET_STEP", payload: steps.SCHEDULE })
             }
+            className={`cursor-pointer ${
+              taskInfo.date && taskInfo.time ? "text-primary" : ""
+            }`}
           />
           <Tag
+            className={`cursor-pointer ${
+              taskInfo.category ? "text-primary" : ""
+            }`}
             title="Add category"
             onClick={() =>
               dispatch({ type: "SET_STEP", payload: steps.CATEGORY })
             }
           />
           <LucideFlag
+            className={`cursor-pointer ${
+              taskInfo.priority ? "text-primary" : ""
+            }`}
             title="Set priority"
             onClick={() =>
               dispatch({ type: "SET_STEP", payload: steps.PRIORITY })
@@ -61,11 +70,10 @@ const TaskForm = () => {
         <SendHorizonal
           title="Save task"
           onClick={handleSaveTask}
-          disabled={!taskInfo.title || !taskInfo.description}
-          className={`text-primary cursor-not-allowed opacity-30 pointer-events-none ${
+          className={`text-primary  ${
             taskInfo.title && taskInfo.description
               ? "cursor-pointer opacity-100 pointer-events-auto"
-              : ""
+              : "cursor-not-allowed opacity-30 pointer-events-none"
           }`}
         />
       </div>
