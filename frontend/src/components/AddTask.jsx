@@ -7,6 +7,7 @@ import CreateCategory from "./CreateCategory";
 import TaskForm from "./TaskForm";
 import { useDispatch, useSelector } from "react-redux";
 import { steps } from "@/constants";
+import dayjs from "dayjs";
 
 const AddTask = () => {
   const currentStep = useSelector((state) => state.currentStep);
@@ -35,6 +36,17 @@ const AddTask = () => {
       isOpen={true}
       toggle={() => {
         dispatch({ type: "SET_IS_OPEN_ADD_TASK", payload: false });
+        dispatch({
+          type: "UPDATE_TASK_INFO",
+          payload: {
+            title: "",
+            description: "",
+            date: dayjs(),
+            priority: "",
+            time: dayjs().add(1, "minute"),
+            category: "",
+          },
+        });
       }}
     >
       {renderStep()}
