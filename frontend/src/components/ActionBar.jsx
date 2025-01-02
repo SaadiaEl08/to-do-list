@@ -15,7 +15,7 @@ const ActionBar = ({ nextActionText = "Save", nextActionFunction ,nextClassName=
       </button>
       <button
         className={"text-foreground h-12 px-5 w-full bg-primary rounded " + nextClassName}
-        onClick={nextActionFunction}
+        onClick={nextActionFunction?nextActionFunction :() => dispatch({ type: "SET_STEP", payload: steps.TASK_FORM })}
       >
         {nextActionText}
       </button>
