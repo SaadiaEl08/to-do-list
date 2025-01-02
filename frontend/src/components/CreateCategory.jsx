@@ -1,9 +1,8 @@
 import { Check } from "lucide-react";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import ActionBar from "./ActionBar";
 
 const CreateCategory = () => {
-  const [selectedColor, setSelectedColor] = useState(null);
   const colors = [
     { code: "#FF5733", name: "Vibrant Orange" },
     { code: "#33FF57", name: "Bright Green" },
@@ -18,25 +17,45 @@ const CreateCategory = () => {
     { code: "#7D3C98", name: "Amethyst" },
     { code: "#16A085", name: "Teal" },
   ];
-  const [category, setCategory] = useState({});
+  const pictureView = useRef();
+  const [category, setCategory] = useState({ name: "", color: "", icon: "" });
 
   const handleCreateCategoryClick = () => {};
+
+  const handleUploadedIcon = (e) => {
+    if (e.target.files.length === 0) return;
+    const file = e.target.files[0];
+    const reader = new FileReader();
+    reader.onload = () => {
+      const imageElement = document.createElement("img");
+      imageElement.src = reader.result;
+      imageElement.alt = "Uploaded icon";
+      imageElement.classList = "w-6 h-6 rounded ";
+      pictureView.current.innerHTML = "";
+      pictureView.current.classList.add("w-10", "h-10");
+      pictureView.current.appendChild(imageElement);
+    };
+    reader.readAsDataURL(file);
+    setCategory({ ...category, icon: file });
+  };
   return (
     <div className="flex flex-col gap-3 p-2 min-w-[80vw] ">
       <h1 className="text-xl">Create new category</h1>
       <div className="flex flex-col gap-2">
         <label htmlFor="category">Category name :</label>
         <input
+          onChange={(e) => setCategory({ ...category, name: e.target.value })}
           type="text"
           id="category"
           placeholder="Category name"
           className="border border-muted-foreground rounded p-3 bg-input placeholder:text-muted-foreground focus:outline-none focus:border-white"
         />
       </div>
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-2 ">
         <label htmlFor="categoryIcon">Category icon :</label>
         <div
-          className="rounded px-4 py-2 w-fit bg-slate-700"
+          ref={pictureView}
+          className="rounded px-4 py-2 w-fit bg-slate-500  flex items-center justify-center"
           onClick={() => document.getElementById("categoryIcon").click()}
         >
           Choose icon from library
@@ -47,6 +66,7 @@ const CreateCategory = () => {
           id="categoryIcon"
           placeholder="Choose icon from library"
           className="hidden"
+          onChange={handleUploadedIcon}
         />
       </div>
       <div className="flex flex-col gap-2 ">
@@ -58,16 +78,26 @@ const CreateCategory = () => {
               className="w-8 h-8 rounded-full border  flex item-center justify-center cursor-pointer"
               style={{ backgroundColor: color.code }}
               title={color.name}
-              onClick={() => setSelectedColor(color.code)}
+              onClick={() =>
+                category.color !== color.code
+                  ? setCategory({ ...category, color: color.code })
+                  : setCategory({ ...category, color: "" })
+              }
             >
-              {selectedColor === color.code && (
+              {category.color === color.code && (
                 <Check className="text-white w-full h-full" />
               )}
             </div>
           ))}
         </div>
       </div>
-      <ActionBar />
+      <ActionBar
+        nextClassName={`${
+          category.name && category.color && category.icon
+            ? "opacity-100 cursor-pointer pointer-events-auto"
+            : "opacity-50 cursor-not-allowed pointer-events-none"
+        }`}
+      />
     </div>
   );
 };
