@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import ActionBar from "./ActionBar";
 import { useDispatch, useSelector } from "react-redux";
 import { priorities, steps } from "@/constants";
@@ -41,7 +41,6 @@ const TaskPriority = () => {
           });
           dispatch({ type: "SET_STEP", payload: steps.TASK_FORM });
         }}
-        
       />
     </div>
   );

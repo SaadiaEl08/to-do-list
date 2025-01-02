@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 
 const Home = () => {
   const [tasks, setTasks] = useState([]);
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
     setTasks([
       {
@@ -39,10 +40,13 @@ const Home = () => {
         isCompleted: true,
       },
     ]);
+    setLoading(false);
   }, []);
   return (
     <div className="relative">
-      {tasks.length === 0 ? (
+      {loading ? (
+        <div className="loading text-foreground">Loading...</div>
+      ) : tasks.length === 0 ? (
         <div className="w-full h-5/6  text-foreground flex flex-col justify-center items-center">
           <img src="/homePic.svg" alt="home picture" />
           <h1 className="text-2xl opacity-80">What do you want to do today?</h1>
@@ -69,7 +73,7 @@ const Home = () => {
             />
           </div>
           <div className="border w-full">
-            <TaskPreview  task={tasks[0]}/>
+            <TaskPreview task={tasks[0]} />
           </div>
         </div>
       )}

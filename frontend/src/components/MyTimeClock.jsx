@@ -6,11 +6,13 @@ import ActionBar from "./ActionBar";
 import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
 import { steps } from "@/constants";
+import { useState } from "react";
 
 export default function MyTimeClock() {
   const dispatch = useDispatch();
   const time = useSelector((state) => state.taskInfo.time);
   const date = useSelector((state) => state.taskInfo.date);
+  const [selectedTime, setSelectedTime] = useState(time);
 
   const validateTime = (newTime) => {
     const isValidTime = newTime.isAfter(dayjs());
@@ -25,6 +27,7 @@ export default function MyTimeClock() {
         theme: "dark",
       });
     }else{
+      dispatch({ type: "UPDATE_TASK_INFO", payload: { time: selectedTime } })
       dispatch({ type: "SET_STEP", payload: steps.TASK_FORM });
     }
   };
@@ -35,11 +38,11 @@ export default function MyTimeClock() {
         views={["hours", "minutes"]}
         ampmInClock={false}
         ampm={false}
-        minTime={date.isBefore(dayjs()) ? dayjs().add(1, "minute") : {}}
+        minTime={date.isBefore(dayjs()) ? dayjs().add(1, "minute") : date}
         displayStaticWrapperAs="mobile"
-        value={time || dayjs().add(1, "minute")}
+        value={selectedTime || dayjs().add(1, "minute")}
         onChange={(newValue) =>
-          dispatch({ type: "UPDATE_TASK_INFO", payload: { time: newValue } })
+          setSelectedTime(newValue)
         }
         slotProps={{
           nextIconButton: {

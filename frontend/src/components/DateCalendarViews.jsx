@@ -5,18 +5,20 @@ import dayjs from "dayjs";
 import ActionBar from "./ActionBar";
 import { useDispatch, useSelector } from "react-redux";
 import { steps } from "@/constants";
+import { useState } from "react";
 
 export default function DateCalendarViews() {
   const dispatch = useDispatch();
   const taskDate = useSelector((state) => state.taskInfo.date);
+  const [selectedDate, setSelectedDate] = useState(taskDate);
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <DateCalendar
-        value={taskDate || dayjs()}
+        value={selectedDate || dayjs()}
         views={["year", "month", "day"]}
         onChange={(newValue) => {
-          dispatch({ type: "UPDATE_TASK_INFO", payload: { date: newValue } });
+          setSelectedDate(newValue);
         }}
         disablePast={true}
         showDaysOutsideCurrentMonth={true}
@@ -55,7 +57,18 @@ export default function DateCalendarViews() {
           },
         }}
       />
-      <ActionBar nextActionText="Choose Time" nextActionFunction={() => {dispatch({ type: "SET_STEP", payload: steps.TIMER })}}/>
+      <ActionBar
+        nextActionText="Choose Time"
+        nextActionFunction={() => {
+          dispatch({
+            type: "UPDATE_TASK_INFO",
+            payload: {
+              date: selectedDate,
+            },
+          });
+          dispatch({ type: "SET_STEP", payload: steps.TIMER });
+        }}
+      />
     </LocalizationProvider>
   );
 }
