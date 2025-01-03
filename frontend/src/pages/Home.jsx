@@ -53,7 +53,7 @@ const Home = () => {
           <p className="opacity-80">Tap + to add your tasks</p>
         </div>
       ) : (
-        <div className="border w-full h-full p-4 flex flex-col items-start  gap-4">
+        <div className="w-full h-full p-4 flex flex-col items-start  gap-4">
           <div className="search-container w-full h-fit flex items-center justify-center bg-input border-2 p-3 text-foreground rounded border-muted-foreground">
             <Search
               className="w-14 text-muted-foreground "
@@ -72,8 +72,10 @@ const Home = () => {
               items={["Today", "Tomorrow", "Upcoming", "Completed"]}
             />
           </div>
-          <div className="border w-full">
-            <TaskPreview task={tasks[0]} />
+          <div className="w-full flex flex-col gap-4">
+            {tasks.map((task, index) => {
+              return <TaskPreview task={task} key={index} />;
+            })}
           </div>
         </div>
       )}
