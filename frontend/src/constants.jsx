@@ -18,7 +18,7 @@ export const steps = {
   CATEGORY: "category",
   CREATE_CATEGORY: "createCategory",
 };
-export const category = [
+export const categories = [
   {
     name: "Grocery",
     color: "#CCFF80",

@@ -2,7 +2,7 @@ import { PlusCircle } from "lucide-react";
 import { useEffect, useState } from "react";
 import ActionBar from "./ActionBar";
 import { useDispatch, useSelector } from "react-redux";
-import { category, steps } from "@/constants";
+import { categories, steps } from "@/constants";
 
 const TaskCategory = () => {
   const taskCategory = useSelector((state) => state.taskInfo.category);
@@ -12,7 +12,7 @@ const TaskCategory = () => {
     <div className="w-[80vw]">
       <h1 className="text-xl font-bold">Task Category</h1>
       <div className="flex flex-wrap gap-4 items-center justify-evenly pt-4">
-        {category.map((item) => (
+        {categories.map((item) => (
           <div
             key={item.name}
             className={` transition-all duration-100 rounded flex flex-col items-center justify-center ${
@@ -50,7 +50,7 @@ const TaskCategory = () => {
           dispatch({
             type: "UPDATE_TASK_INFO",
             payload: {
-              category: selectedCategory,
+              categories: selectedCategory,
             },
           });
           dispatch({ type: "SET_STEP", payload: steps.TASK_FORM });
