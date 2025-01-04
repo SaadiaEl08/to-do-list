@@ -1,13 +1,15 @@
 import { categories, getDay, priorities } from "@/constants";
-import { Eye, Flag, Tag } from "lucide-react";
+import { Circle, Eye, Flag, Tag } from "lucide-react";
 import { cloneElement, useState } from "react";
 import TaskDetail from "./TaskDetail";
 import { useDispatch } from "react-redux";
+import ConfirmDialog from "./ConfirmDialog";
 
 const TaskPreview = ({ task }) => {
+  const dispatch = useDispatch();
   const { title, date, time, priority, category } = task;
   const [taskToShowDetail, setTaskToShowDetail] = useState(null);
-  const dispatch = useDispatch();
+  const [openConfirmDialog, setOpenConfirmDialog] = useState(false);
 
   // Get category and priority info
   const categoryInfo = categories.find((item) => item.name === category) || {
@@ -19,13 +21,11 @@ const TaskPreview = ({ task }) => {
     color: "#ccc",
     name: "No Priority",
   };
-
   // Formatted values
   const formattedTitle =
     title.length > 30 ? `${title.slice(0, 30)}... ` : title;
   const formattedTime = time.format("HH:mm");
   const formattedDate = getDay(date);
-
   // Handle showing task details
   const handleShowDetail = () => {
     const formattedTask = {
@@ -39,16 +39,39 @@ const TaskPreview = ({ task }) => {
     setTaskToShowDetail(formattedTask);
   };
 
+  const handleMarkAsCompleted = () => setOpenConfirmDialog(true);
+  const handleClose = () => setOpenConfirmDialog(false);
+
+  const handleConfirm = () => {
+    console.log("Confirmed!");
+    setOpenConfirmDialog(false);
+  };
+
   return (
     <div className="w-full text-foreground flex items-center justify-between bg-dropDown rounded-lg">
-      <Eye
+      <Circle
         className="w-10 cursor-pointer"
-        onClick={handleShowDetail}
-        aria-label="View task details"
+        onClick={handleMarkAsCompleted}
+        aria-label="mark as completed"
         role="button"
       />
+      <ConfirmDialog
+        open={openConfirmDialog}
+        onClose={handleClose}
+        onConfirm={handleConfirm}
+        title="Mark as Completed Task"
+        message="Are you sure you want to mark this task as completed?"
+      />
       <div className="w-full flex flex-col p-2 gap-3">
-        <h1 className="opacity-90">{formattedTitle}</h1>
+        <h1 className="opacity-90 flex items-center justify-between">
+          {formattedTitle}{" "}
+          <Eye
+            className="w-4 cursor-pointer"
+            onClick={handleShowDetail}
+            aria-label="View task details"
+            role="button"
+          />
+        </h1>
         <div className="w-full flex items-center justify-between gap-2">
           <div className="flex flex-wrap gap-1 w-full text-muted-foreground text-xs">
             <p>{formattedDate}</p>
