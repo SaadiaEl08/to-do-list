@@ -1,3 +1,4 @@
+import dayjs from "dayjs";
 import {
   BookOpenTextIcon,
   BriefcaseBusiness,
@@ -84,3 +85,9 @@ export let priorities = [
     color: "#3b82f6",
   },
 ];
+
+export const getDay = (date) => {
+  if (date === dayjs()) return "Today";
+  if (date === dayjs().add(1, "day")) return "Tomorrow";
+  return date.format("dddd, MMM DD");
+};
