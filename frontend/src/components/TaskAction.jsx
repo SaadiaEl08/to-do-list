@@ -9,7 +9,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { steps } from "@/constants";
 import dayjs from "dayjs";
 
-const AddTask = () => {
+
+// this component is used to add a new task or edit an existing task
+const TaskAction = () => {
   const currentStep = useSelector((state) => state.currentStep);
   const dispatch = useDispatch();
   const renderStep = () => {
@@ -54,4 +56,4 @@ const AddTask = () => {
   );
 };
 
-export default AddTask;
+export default TaskAction;

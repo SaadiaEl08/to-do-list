@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 const TaskForm = () => {
   const dispatch = useDispatch();
+  const mode = useSelector((state) => state.mode);
   const taskInfo = useSelector((state) => state.taskInfo);
   const handleSaveTask = () => {
     console.log("save task");
@@ -12,7 +13,7 @@ const TaskForm = () => {
 
   return (
     <div className="min-w-[80vw] flex flex-col gap-4 ">
-      <h1>Add Task</h1>
+      <h1>{mode === "create" ? "Add" : "Edit"} Task</h1>
       <input
         type="text"
         placeholder="Title"

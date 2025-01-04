@@ -1,7 +1,7 @@
 import { Outlet } from "react-router";
 import NavigationMenu from "./components/NavigationMenu";
 import TopSection from "./components/TopSection";
-import AddTask from "./components/AddTask";
+import TaskAction from "./components/TaskAction";
 import { useSelector } from "react-redux";
 
 const App = () => {
@@ -13,7 +13,7 @@ const App = () => {
         <Outlet />
       </div>
       <NavigationMenu />
-      {isOpenAddTask === true ? <AddTask /> : ""}
+      {isOpenAddTask === true ? <TaskAction /> : ""}
     </main>
   );
 };

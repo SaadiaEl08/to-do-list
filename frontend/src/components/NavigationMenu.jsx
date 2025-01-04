@@ -9,6 +9,7 @@ const NavigationMenu = () => {
   const handleAddTaskClick = () => {
     dispatch({ type: "SET_IS_OPEN_ADD_TASK", payload: true });
     dispatch({ type: "SET_STEP", payload: steps.TASK_FORM });
+    dispatch({ type: "SET_MODE", payload: "create" });
   };
   const navigationItems = [
     { id: 1, name: "Home", icon: <Home />, link: "/home" },

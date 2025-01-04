@@ -12,6 +12,7 @@ const initialState = {
             category: "",
       },
       tasks: [],
+      mode: "create"
 };
 const reducer = (state = initialState, action) => {
       switch (action.type) {
@@ -23,6 +24,8 @@ const reducer = (state = initialState, action) => {
                   return { ...state, isOpenAddTask: action.payload };
             case "SET_TASKS":
                   return { ...state, tasks: action.payload };
+            case "SET_MODE":
+                  return { ...state, mode: action.payload };
             default:
                   return state;
       }
