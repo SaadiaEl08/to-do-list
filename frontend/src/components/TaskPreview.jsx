@@ -2,10 +2,12 @@ import { categories, getDay, priorities } from "@/constants";
 import { Eye, Flag, Tag } from "lucide-react";
 import { cloneElement, useState } from "react";
 import TaskDetail from "./TaskDetail";
+import { useDispatch } from "react-redux";
 
 const TaskPreview = ({ task }) => {
   const { title, date, time, priority, category } = task;
   const [taskToShowDetail, setTaskToShowDetail] = useState(null);
+  const dispatch = useDispatch();
 
   // Get category and priority info
   const categoryInfo = categories.find((item) => item.name === category) || {
@@ -28,11 +30,12 @@ const TaskPreview = ({ task }) => {
   const handleShowDetail = () => {
     const formattedTask = {
       ...task,
-      category: categoryInfo,
-      priority: priorityInfo,
-      time: formattedTime,
-      date: formattedDate,
+      categoryInfo: categoryInfo,
+      priorityInfo: priorityInfo,
+      formattedTime: formattedTime,
+      formattedDate: formattedDate,
     };
+    dispatch({ type: "SET_TASK_INFO", payload: task });
     setTaskToShowDetail(formattedTask);
   };
 

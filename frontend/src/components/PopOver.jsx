@@ -1,7 +1,7 @@
 const PopOver = ({ isOpen, toggle, children }) => {
   return (
     <div
-      className={`fixed text-foreground top-0 left-0 w-full min-h-full bg-black bg-opacity-50 ${
+      className={`fixed text-foreground top-0 left-0 w-full min-h-full bg-black bg-opacity-50 z-30 ${
         isOpen ? "block" : "hidden"
       }`}
       onClick={toggle}
