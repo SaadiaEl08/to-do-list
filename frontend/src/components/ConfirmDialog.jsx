@@ -4,10 +4,16 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
-  Button,
 } from "@mui/material";
 
-const ConfirmDialog = ({ open, onClose, onConfirm, title, message }) => {
+const ConfirmDialog = ({
+  open,
+  onClose,
+  onConfirm,
+  title,
+  message,
+  className,
+}) => {
   return (
     <Dialog
       open={open}
@@ -43,7 +49,10 @@ const ConfirmDialog = ({ open, onClose, onConfirm, title, message }) => {
         </button>
         <button
           onClick={onConfirm}
-          className="text-foreground  bg-green-700 rounded px-2 py-1 hover:scale-105"
+          className={
+            "text-foreground  bg-green-700 rounded px-2 py-1 hover:scale-105 " +
+            className
+          }
         >
           Confirm
         </button>
