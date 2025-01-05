@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { categories, getDay, priorities } from "@/constants";
 import { Circle, Eye, Flag, Tag } from "lucide-react";
 import { cloneElement, useState } from "react";
