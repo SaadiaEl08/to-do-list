@@ -1,7 +1,8 @@
 import { Clock, Flag, PenLine, Tag, Trash2Icon, X } from "lucide-react";
-import { cloneElement } from "react";
+import { cloneElement, useState } from "react";
 import { useDispatch } from "react-redux";
 import { steps } from "@/constants";
+import ConfirmDialog from "./ConfirmDialog";
 
 const TaskDetail = ({ task = {}, setTaskToShowDetail }) => {
   const {
@@ -18,6 +19,16 @@ const TaskDetail = ({ task = {}, setTaskToShowDetail }) => {
     dispatch({ type: "SET_STEP", payload: steps.TASK_FORM });
     dispatch({ type: "SET_MODE", payload: "edit" });
     dispatch({ type: "UPDATE_TASK_INFO", payload: task });
+  };
+  const [openConfirmDialog, setOpenConfirmDialog] = useState(false);
+  const handleClose = () => setOpenConfirmDialog(false);
+  const handleConfirm = () => {
+    console.log("Confirmed!");
+    setOpenConfirmDialog(false);
+  };
+
+  const handleDeleteTask = () => {
+    setOpenConfirmDialog(true);
   };
   return (
     <div className="fixed w-full min-h-full h-screen overflow-scroll bg-black z-10 top-0 left-0 p-4 flex flex-col items-start gap-5">
@@ -71,10 +82,19 @@ const TaskDetail = ({ task = {}, setTaskToShowDetail }) => {
       <button
         className="  flex items-center gap-2 w-fit  text-red-600 h-12 px-5 border-2
        border-red-600 rounded hover:bg-red-600 hover:text-foreground hover:border-foreground"
+        onClick={handleDeleteTask}
       >
         <Trash2Icon />
         <span>Delete this task</span>
       </button>
+      <ConfirmDialog
+        open={openConfirmDialog}
+        onClose={handleClose}
+        onConfirm={handleConfirm}
+        title="Delete Task"
+        message="Are you sure you want to delete this task ?"
+        className={"bg-red-600"}
+      />
     </div>
   );
 };
