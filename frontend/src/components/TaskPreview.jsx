@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import { categories, getDay, priorities } from "@/constants";
-import { Circle, Eye, Flag, Tag } from "lucide-react";
+import { CheckCircle2, Circle, Eye, Flag, Tag } from "lucide-react";
 import { cloneElement, useState } from "react";
 import TaskDetail from "./TaskDetail";
 import { useDispatch } from "react-redux";
@@ -8,10 +8,14 @@ import ConfirmDialog from "./ConfirmDialog";
 
 const TaskPreview = ({ task }) => {
   const dispatch = useDispatch();
-  const { title, date, time, priority, category } = task;
+  const { title, date, time, priority, category, isCompleted } = task;
   const [taskToShowDetail, setTaskToShowDetail] = useState(null);
   const [openConfirmDialog, setOpenConfirmDialog] = useState(false);
-
+  const [confirmInfo, setConfirmInfo] = useState({
+    title: "",
+    message: "",
+    onConfirm: () => {},
+  });
   // Get category and priority info
   const categoryInfo = categories.find((item) => item.name === category) || {
     color: "#ccc",
@@ -40,7 +44,22 @@ const TaskPreview = ({ task }) => {
     setTaskToShowDetail(formattedTask);
   };
 
-  const handleMarkAsCompleted = () => setOpenConfirmDialog(true);
+  const handleMarkAsCompleted = () => {
+    setConfirmInfo({
+      title: "Mark as Completed",
+      message: "Are you sure you want to mark this task as completed?",
+      onConfirm: handleConfirm,
+    });
+    setOpenConfirmDialog(true);
+  };
+  const handleMarkAsUnCompleted = () => {
+    setConfirmInfo({
+      title: "Mark as Uncompleted",
+      message: "Are you sure you want to mark this task as uncompleted?",
+      onConfirm: handleConfirm,
+    });
+    setOpenConfirmDialog(true);
+  };
   const handleClose = () => setOpenConfirmDialog(false);
 
   const handleConfirm = () => {
@@ -50,18 +69,27 @@ const TaskPreview = ({ task }) => {
 
   return (
     <div className="w-full text-foreground flex items-center justify-between bg-dropDown rounded-lg">
-      <Circle
-        className="w-10 cursor-pointer"
-        onClick={handleMarkAsCompleted}
-        aria-label="mark as completed"
-        role="button"
-      />
+      {!isCompleted ? (
+        <Circle
+          className="w-10 cursor-pointer"
+          onClick={handleMarkAsCompleted}
+          aria-label="mark as completed"
+          role="button"
+        />
+      ) : (
+        <CheckCircle2
+          className="w-10 cursor-pointer text-green-500"
+          onClick={handleMarkAsUnCompleted}
+          aria-label="mark as uncompleted"
+          role="button"
+        />
+      )}
       <ConfirmDialog
         open={openConfirmDialog}
         onClose={handleClose}
-        onConfirm={handleConfirm}
-        title="Mark as Completed Task"
-        message="Are you sure you want to mark this task as completed?"
+        onConfirm={confirmInfo.onConfirm}
+        title={confirmInfo.title}
+        message={confirmInfo.message}
       />
       <div className="w-full flex flex-col p-2 gap-3">
         <h1 className="opacity-90 flex items-center justify-between">
