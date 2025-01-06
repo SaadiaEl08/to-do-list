@@ -1,6 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
 import App from "./App";
-import { Home, SignIn, SignUp, Calendar } from "./pages";
+import { Home, SignIn, SignUp, Calendar, Timer } from "./pages";
 import Intro from "./pages/Intro";
 import Welcome from "./pages/Welcome";
 const router = createBrowserRouter([
@@ -26,6 +26,7 @@ const router = createBrowserRouter([
     children: [
       { path: "home", element: <Home /> },
       { path: "calendar", element: <Calendar /> },
+      { path: "timer", element: <Timer /> },
     ],
   },
   { path: "*", element: <h1>Not found</h1> },
