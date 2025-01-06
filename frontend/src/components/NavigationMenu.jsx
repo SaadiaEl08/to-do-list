@@ -14,7 +14,7 @@ const NavigationMenu = () => {
   const navigationItems = [
     { id: 1, name: "Home", icon: <Home />, link: "/home" },
     { id: 2, name: "Calendar", icon: <CalendarDays />, link: "/calendar" },
-    { id: 3, name: "Focus", icon: <Clock />, link: "/focus" },
+    { id: 3, name: "Timer", icon: <Clock />, link: "/timer" },
     { id: 4, name: "Profile", icon: <User />, link: "/profile" },
   ];
   return (
