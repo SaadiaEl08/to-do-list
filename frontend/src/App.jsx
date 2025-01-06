@@ -78,7 +78,7 @@ const App = () => {
   }, [dispatch]);
   return (
     <main className="w-full  h-screen bg-background flex flex-col justify-end">
-      <div className="h-full overflow-scroll">
+      <div className="h-full overflow-y-scroll">
         <TopSection />
         <Outlet />
       </div>
