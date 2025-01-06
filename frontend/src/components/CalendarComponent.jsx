@@ -1,25 +1,18 @@
 /* eslint-disable react/prop-types */
-import React from "react";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DateCalendar } from "@mui/x-date-pickers/DateCalendar";
-import dayjs from "dayjs";
 import { useSelector } from "react-redux";
 import Badge from "@mui/material/Badge";
-import Box from "@mui/material/Box";
 import { PickersDay } from "@mui/x-date-pickers";
 
-export default function DateCalendarViews() {
+export default function DateCalendarViews({selectedDay, setSelectedDay}) {
   const tasks = useSelector((state) => state.tasks);
-  const highlightedDays =tasks.map((task) => task.date) || [];
-    console.log(tasks);
-
+  const highlightedDays =
+    tasks.map((task) => task.date.format("YYYY-MM-DD")) || [];
   const ServerDay = ({ ...props }) => {
     const { highlightedDays = [], day, outsideCurrentMonth, ...other } = props;
-    const isHighlighted = highlightedDays.includes(day);
-
-   
-
+    const isHighlighted = highlightedDays.includes(day.format("YYYY-MM-DD"));
     return (
       <Badge
         overlap="circular"
@@ -30,16 +23,15 @@ export default function DateCalendarViews() {
           {...other}
           outsideCurrentMonth={outsideCurrentMonth}
           day={day}
-        />
-        <Box {...props} />
+        />{" "}
       </Badge>
     );
   };
-
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <DateCalendar
-        value={dayjs()}
+        value={selectedDay}
+        onChange={(newValue) => setSelectedDay(newValue)}
         views={["year", "month", "day"]}
         showDaysOutsideCurrentMonth={true}
         style={{
@@ -56,6 +48,7 @@ export default function DateCalendarViews() {
             sx: {
               "&.Mui-selected": {
                 backgroundColor: "var(--primary)",
+                color: "var(--foreground)",
               },
               "&.MuiPickersDay-dayWithMargin": {
                 color: "var(--foreground)",
