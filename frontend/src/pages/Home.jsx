@@ -1,56 +1,19 @@
 import DropDownMenu from "@/components/DropDownMenu";
 import Loading from "@/components/Loading";
 import TaskPreview from "@/components/TaskPreview";
-import dayjs from "dayjs";
 import { Search } from "lucide-react";
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import {  useSelector } from "react-redux";
 
 const Home = () => {
-  const dispatch = useDispatch();
   const tasks = useSelector((state) => state.tasks);
   const [filteredTasks, setFilteredTasks] = useState([]);
 
   const [loading, setLoading] = useState(true);
   useEffect(() => {
-    const tasksFromApi = [
-      {
-        id: 1,
-        title:
-          "Task 1Task 1Task 1Task 1Task 1Task 1Task 1Task 1Task 1Task 1Task 1Task 1Task 1Task 1Task 1Task 1Task 1Task 1Task 1Task 1Task 1Task 1Task 1Task 1Task 1Task 1",
-        description:
-          "Description 1 Task 1Task 1Task 1Task 1Task 1Task 1Task 1Task 1Task 1Task 1Task 1Task 1Task 1Task 1Task 1Task 1Task 1Task 1Task 1Task 1Task 1Task 1Task 1Task 1Task 1Task 1Task 1Task 1Task 1",
-        date: dayjs().add(1, "day"),
-        time: dayjs().add(1, "hour"),
-        priority: "High",
-        category: "Work",
-        isCompleted: false,
-      },
-      {
-        id: 2,
-        title: "Task 2",
-        description: "Description 2",
-        date: dayjs().add(1, "day"),
-        time: dayjs().add(1, "hour"),
-        priority: "Medium",
-        category: "Home",
-        isCompleted: false,
-      },
-      {
-        id: 3,
-        title: "Task 3",
-        description: "Description 3",
-        date: dayjs().add(1, "day"),
-        time: dayjs().add(1, "hour"),
-        priority: "Low",
-        category: "Grocery",
-        isCompleted: true,
-      },
-    ];
-    dispatch({ type: "SET_TASKS", payload: tasksFromApi });
     setLoading(false);
-    setFilteredTasks(tasksFromApi);
-  }, [dispatch]);
+    setFilteredTasks(tasks);
+  }, [tasks]);
   return (
     <div className="relative">
       {loading ? (
