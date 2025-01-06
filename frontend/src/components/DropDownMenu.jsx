@@ -13,11 +13,11 @@ const DropDownMenu = ({ items = [] }) => {
         <span>{selected}</span> <ChevronDown />
       </MenuButton>
       {items.length > 0 && (
-        <Menu className="text-foreground bg-dropDown px-2 py-1 rounded-lg ms-1 mt-1 min-w-[150px]">
+        <Menu className="text-foreground bg-dropDown px-2 py-1 rounded-lg ms-1 mt-1 min-w-[150px] ">
           {items.map((item, index) => (
             <MenuItem
               key={index}
-              className={`"hover:bg-primary rounded px-2 py-1" ${
+              className={`hover:bg-primary rounded px-2 py-1 cursor-pointer my-2  ${
                 selected === item ? "bg-primary" : ""
               }`}
               onClick={() => setSelected(item)}
