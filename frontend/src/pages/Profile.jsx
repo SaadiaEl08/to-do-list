@@ -5,11 +5,12 @@ import {
   Info,
   KeyRound,
   Lightbulb,
+  LogOut,
   LucideHandshake,
   Settings,
   User,
 } from "lucide-react";
-import { useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router";
 
 const Profile = () => {
   const nav = useNavigate();
@@ -88,15 +89,13 @@ const Profile = () => {
       </div>
       <div className="w-full flex flex-col gap-6 ">
         {listItems.map((item) => (
-          <div
-            key={item.title}
-            className=" w-full flex flex-col gap-4 px-4 "
-          >
-            <h3>{item.title}</h3>
+          <div key={item.title} className=" w-full flex flex-col gap-4 px-4  ">
+            <h3 className="text-[#AFAFAF]">{item.title}</h3>
             {item.sections.map((section) => (
               <div
                 key={section.title}
-                className="flex items-center justify-between gap-2 w-full "
+                className="flex items-center justify-between gap-2 w-full cursor-pointer hover:bg-popover rounded-lg p-2"
+                onClick={section.onClick}
               >
                 <div className="flex items-center gap-2 w-full ">
                   <section.icon />
@@ -107,6 +106,12 @@ const Profile = () => {
             ))}
           </div>
         ))}
+      </div>
+      <div className="w-full p-4 pb-6 flex  ">
+        <Link to="/logout" className="text-red-500  flex items-center justify-between ">
+          <LogOut className="mr-2  w-6 h-6" />
+          <span>Log out</span>
+        </Link>
       </div>
     </div>
   );
