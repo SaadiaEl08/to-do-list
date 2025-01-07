@@ -2,6 +2,7 @@ import { motion } from "motion/react";
 const Loading = ({ className, ...props }) => {
   return (
     <div
+    style={{zIndex: "1000"}}
       className={
         `fixed top-0 left-0  w-full min-h-screen h-screen flex flex-col gap-2 justify-center items-center bg-background text-foreground ` +
         className
