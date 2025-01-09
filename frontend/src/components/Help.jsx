@@ -54,16 +54,16 @@ const Help = ({ close }) => {
 
               <label
                 htmlFor={field.name}
-                className="absolute bg-popover left-4 top-2 text-gray-500 
+                className="absolute bg-popover left-4 -top-4  px-2 
                   transform transition-all duration-200
-                  peer-placeholder-shown:-top-3 peer-placeholder-shown:text-gray-400
-                  peer-focus:-top-3 peer-focus:text-primary peer-focus:text-sm peer-focus:px-2
+                  peer-placeholder-shown:top-2 
+                  peer-placeholder-shown:text-gray-500 
+                  peer-focus:-top-4 peer-focus:text-primary
                   peer:not(:placeholder-shown):-top-3 peer:not(:placeholder-shown):text-sm
                   "
               >
                 {field.label}
               </label>
-             
             </div>
           ))}
         </div>
