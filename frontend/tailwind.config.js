@@ -39,6 +39,10 @@ export default {
           DEFAULT: 'var(--dropDown)',
           foreground: 'var(--dropDown-foreground)',
         },
+        textBackground: {
+          DEFAULT: 'var(--text-background)',
+          foreground: 'var(--text-background-foreground)',
+        },
         primary: {
           DEFAULT: 'var(--primary)',
           foreground: 'var(--primary-foreground)',
