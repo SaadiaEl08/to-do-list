@@ -2,6 +2,7 @@ import About from "./About";
 import FAQ from "./FAQ";
 import PopOver from "./PopOver";
 import Help from "./Help";
+import Support from "./Support";
 
 const AppInfo = ({ appInfos, setAppInfos }) => {
   return (
@@ -10,6 +11,7 @@ const AppInfo = ({ appInfos, setAppInfos }) => {
         {appInfos === "about" && <About close={() => setAppInfos(null)} />}
         {appInfos === "faq" && <FAQ close={() => setAppInfos(null)} />}
         {appInfos === "help" && <Help close={() => setAppInfos(null)} />}
+        {appInfos === "support" && <Support close={() => setAppInfos(null)} />}
       </div>
     </PopOver>
   );
