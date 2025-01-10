@@ -26,7 +26,7 @@ const NavigationMenu = () => {
               <Link
                 to={`${item.link}`}
                 className={`flex flex-col items-center justify-evenly ${
-                  currentPath === item.link ? "border-b-2  border-primary" : ""
+                  currentPath === item.link ? "border-b-2  border-primary text-primary" : ""
                 }`}
               >
                 {item.icon}
@@ -41,7 +41,7 @@ const NavigationMenu = () => {
               <Link
                 to={`${item.link}`}
                 className={`flex flex-col items-center justify-evenly ${
-                  currentPath === item.link ? "border-b-2  border-primary" : ""
+                  currentPath === item.link ? "border-b-2  border-primary text-primary" : ""
                 }`}
               >
                 {item.icon}
