@@ -4,4 +4,5 @@ import SignIn from './SignIn';
 import Calendar from './Calendar';
 import Timer from './Timer';
 import Profile from './Profile';
-export { Home, SignUp, SignIn, Calendar, Timer, Profile };
+import Setting from './Setting';
+export { Home, SignUp, SignIn, Calendar, Timer, Profile ,Setting};

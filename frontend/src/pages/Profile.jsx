@@ -4,7 +4,6 @@ import ChangeAccountImage from "@/components/ChangeAccountImage";
 
 import {
   Camera,
-  ChevronRight,
   HelpCircle,
   Info,
   KeyRound,
@@ -17,6 +16,7 @@ import {
 import { useState } from "react";
 import { Link, useNavigate } from "react-router";
 import AppInfo from "@/components/AppInfo";
+import ListItem from "@/components/listItem";
 
 const Profile = () => {
   const [changeAccount, setChangeAccount] = useState(null);
@@ -97,23 +97,8 @@ const Profile = () => {
         </div>
       </div>
       <div className="w-full flex flex-col gap-6 ">
-        {listItems.map((item) => (
-          <div key={item.title} className=" w-full flex flex-col gap-4 px-4  ">
-            <h3 className="text-[#AFAFAF]">{item.title}</h3>
-            {item.sections.map((section) => (
-              <div
-                key={section.title}
-                className="flex items-center justify-between gap-2 w-full cursor-pointer hover:bg-popover rounded-lg p-2"
-                onClick={section.onClick}
-              >
-                <div className="flex items-center gap-2 w-full ">
-                  <section.icon />
-                  <span>{section.title}</span>
-                </div>
-                <ChevronRight />
-              </div>
-            ))}
-          </div>
+        {listItems.map((item, index) => (
+          <ListItem item={item} key={index} />
         ))}
       </div>
       <div className="w-full p-4 pb-6 flex  ">
@@ -134,7 +119,7 @@ const Profile = () => {
       {changeAccount === "image" && (
         <ChangeAccountImage setChangeAccount={setChangeAccount} />
       )}
-      {appInfos  && <AppInfo appInfos={appInfos} setAppInfos={setAppInfos} />}
+      {appInfos && <AppInfo appInfos={appInfos} setAppInfos={setAppInfos} />}
     </div>
   );
 };
