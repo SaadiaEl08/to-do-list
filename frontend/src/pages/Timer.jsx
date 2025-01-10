@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useMemo } from "react";
 import BigTimerClock from "@/components/BigTimerClock";
 import SelectTime from "@/components/SelectTime";
 import { Pause, Play, RotateCcw } from "lucide-react";
@@ -13,7 +13,7 @@ const Timer = () => {
   });
 
   const intervalRef = useRef(null); // Ref to store the interval ID
-  const audio = new Audio("/clockSoundEffect.mp3");
+  const audio = useMemo(() => new Audio("/clockSoundEffect.mp3"), []);
 
   const scrollToTime = (unit, value) => {
     const container = document.querySelector(`.time-${unit}-container`);
@@ -45,9 +45,8 @@ const Timer = () => {
     if (intervalRef.current) return;
     intervalRef.current = setInterval(() => {
       audio.loop = false; // Ensure it doesn't loop automatically
-      // Play sound for 1.5 second
       audio.pause();
-      audio.currentTime = 1.5;
+      audio.currentTime = 1.4;
       audio.play();
       setSelectedTime((prevTime) => {
         const { hours, minutes, seconds } = prevTime;
@@ -71,9 +70,8 @@ const Timer = () => {
 
   const stopCounting = () => {
     if (audio) {
-      audio.pause(); // Pause the audio
-      console.log("Audio paused:", audio.paused); // Check if audio is paused
-      console.log("Audio currentTime:", audio.currentTime); // Check playback position
+      audio.pause(); // Explicitly pause the audio
+      audio.currentTime = 0; // Reset the audio to the beginning
     }
     setIsCounting(false);
     if (intervalRef.current) {
@@ -86,7 +84,10 @@ const Timer = () => {
     <div className="container flex flex-col justify-center items-center pt-3 gap-4">
       <BigTimerClock selectedTime={selectedTime} />
       {/* Mini Clocks */}
-      <SmallClocks setSelectedTime={setSelectedTime} scrollToTime={scrollToTime} />
+      <SmallClocks
+        setSelectedTime={setSelectedTime}
+        scrollToTime={scrollToTime}
+      />
       {!isCounting && (
         <SelectTime
           selectedTime={selectedTime}
