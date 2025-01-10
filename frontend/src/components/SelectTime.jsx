@@ -1,94 +1,63 @@
 /* eslint-disable react/prop-types */
-import { useEffect, useRef, useState } from "react";
-
-const SelectTime = ({
-  selectedTime,
-  setSelectedTime,
-  simulateScrollToTime,
-}) => {
-  const [scrollDone, setScrollDone] = useState(false);
+import { useRef, useCallback, useMemo } from "react";
+const SelectTime = ({ selectedTime, setSelectedTime }) => {
   const itemHeight = 36;
-  const timeUnits = ["hours", "minutes", "seconds"];
-
+  const timeUnits = useMemo(() => ["hours", "minutes", "seconds"], []);
   // Create numbers for each unit
   const createNumbers = (count) => Array.from({ length: count }, (_, i) => i);
 
   // Refs for each time unit
-  const refs = timeUnits.reduce((acc, unit) => {
-    acc[unit] = useRef(null);
-    return acc;
-  }, {});
+  const hoursRef = useRef(null);
+  const minutesRef = useRef(null);
+  const secondsRef = useRef(null);
+  const refs = useMemo(
+    () => ({
+      hours: hoursRef,
+      minutes: minutesRef,
+      seconds: secondsRef,
+    }),
+    []
+  );
 
-  // Get selected time from the visible item in the container
-  const getSelectedTimeFromVisibleItem = (unit) => {
-    const container = refs[unit].current;
-    const children = Array.from(container.children);
-    const visibleChild = children.filter((child) => {
-      const rect = child.getBoundingClientRect();
-      return (
-        rect.top >= container.getBoundingClientRect().top &&
-        rect.bottom <= container.getBoundingClientRect().bottom
-      );
-    })[1];
-    return visibleChild ? visibleChild.innerText : null;
-  };
+  function debounce(func, delay) {
+    let timeoutId;
+    return function (...args) {
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
+      timeoutId = setTimeout(() => {
+        func(...args);
+      }, delay);
+    };
+  }
 
-  // Handle scrolling logic
-  const handleScroll = (unit, e) => {
-    const container = refs[unit].current;
-    const firstChild = container.firstElementChild;
-    const lastChild = container.lastElementChild;
-
-    if (e.target.scrollTop <= itemHeight) {
-      // Scroll up
-      lastChild && container.prepend(container.removeChild(lastChild));
-    } else if (
-      e.target.scrollTop + e.target.clientHeight >=
-      e.target.scrollHeight
-    ) {
-      // Scroll down
-      firstChild && container.append(container.removeChild(firstChild));
-    }
-
-    setScrollDone(true);
-  };
-
-  // Programmatically simulate a scroll event
-  const scrollToTime = (unit, value) => {
-    const container = refs[unit].current;
-    if (container) {
-      const scrollPosition = value * itemHeight;
-      container.scrollTo({
-        top: scrollPosition,
-        behavior: "smooth",
-      });
-    }
-  };
-
-  // Expose scrollToTime for external use
-  useEffect(() => {
-    if (simulateScrollToTime) {
-      simulateScrollToTime({
-        hours: (value) => scrollToTime("hours", value),
-        minutes: (value) => scrollToTime("minutes", value),
-        seconds: (value) => scrollToTime("seconds", value),
-      });
-    }
-  }, [simulateScrollToTime]);
-
-  // Update selected time when scrolling is done
-  useEffect(() => {
-    if (scrollDone) {
-      const updatedTime = timeUnits.reduce((acc, unit) => {
-        const value = getSelectedTimeFromVisibleItem(unit);
-        if (value) acc[unit] = parseInt(value, 10);
-        return acc;
-      }, {});
-
-      setSelectedTime(updatedTime);
-      setScrollDone(false);
-    }
-  }, [scrollDone, setSelectedTime]);
+  const handleScroll = useCallback(() => {
+    const getSelectedTimeFromVisibleItem = (unit) => {
+      const container = refs[unit].current;
+      const children = Array.from(container.children);
+      const visibleChild = children.filter((child) => {
+        const rect = child.getBoundingClientRect();
+        return (
+          rect.top >= container.getBoundingClientRect().top &&
+          rect.bottom <= container.getBoundingClientRect().bottom
+        );
+      })[1];
+      return visibleChild ? Number(visibleChild.innerText) : 0;
+    };
+    timeUnits.forEach((unit) => {
+      const newValue = getSelectedTimeFromVisibleItem(unit);
+      if (newValue) {
+        setSelectedTime((prevSelectedTime) => ({
+          ...prevSelectedTime,
+          [unit]: newValue,
+        }));
+      }
+    });
+  }, [refs, setSelectedTime, timeUnits]);
+  const debouncedHandleScroll = useMemo(
+    () => debounce(handleScroll, 100),
+    [handleScroll]
+  );
 
   return (
     <div className="relative time-selector w-full flex justify-evenly items-center gap-4 text-foreground text-3xl overflow-hidden">
@@ -97,20 +66,32 @@ const SelectTime = ({
           key={unit}
           ref={refs[unit]}
           style={{ height: `${itemHeight * 3}px` }}
-          className="time-unit-container hide-scrollbar overflow-auto flex flex-col w-[60px] items-center snap-y snap-mandatory scroll-smooth"
-          onScroll={(e) => handleScroll(unit, e)}
+          onScroll={debouncedHandleScroll}
+          className={`time-${unit}-container hide-scrollbar overflow-auto flex flex-col w-[60px] items-center snap-y snap-mandatory scroll-smooth`}
         >
+          <div
+            className="w-full text-transparent "
+            style={{ height: `${itemHeight}px` }}
+          >
+            j
+          </div>
           {createNumbers(unit === "hours" ? 24 : 60).map((num) => (
             <div
               key={`${unit}-${num}`}
               style={{ height: `${itemHeight}px` }}
               className={`time-unit snap-center flex justify-center items-center z-10 w-full cursor-pointer ${
-                selectedTime[unit] === num ? "text-primary font-bold" : ""
+                selectedTime[unit] == num ? "text-primary font-bold" : ""
               }`}
             >
               {String(num).padStart(2, "0")}
             </div>
           ))}
+          <div
+            className="w-full text-transparent "
+            style={{ height: `${itemHeight}px` }}
+          >
+            j
+          </div>
         </div>
       ))}
       <div
