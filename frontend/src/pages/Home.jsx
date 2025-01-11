@@ -3,17 +3,61 @@ import Loading from "@/components/Loading";
 import TaskPreview from "@/components/TaskPreview";
 import { Search } from "lucide-react";
 import { useEffect, useState } from "react";
-import {  useSelector } from "react-redux";
+import { useSelector } from "react-redux";
+import {
+  DndContext,
+  DragOverlay,
+  KeyboardSensor,
+  MouseSensor,
+  TouchSensor,
+  closestCorners,
+  useSensor,
+  useSensors,
+} from "@dnd-kit/core";
+import {
+  arrayMove,
+  rectSortingStrategy,
+  SortableContext,
+  sortableKeyboardCoordinates,
+} from "@dnd-kit/sortable";
 
 const Home = () => {
   const tasks = useSelector((state) => state.tasks);
   const [filteredTasks, setFilteredTasks] = useState([]);
-
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     setLoading(false);
     setFilteredTasks(tasks);
   }, [tasks]);
+  const handleDragEnd = (e) => {
+    const { active, over } = e;
+    if (!over || active.id === over.id) return;
+
+    const originalIndex = filteredTasks.findIndex(
+      (task) => task.id === active.id
+    );
+    const newIndex = filteredTasks.findIndex((task) => task.id === over.id);
+
+    const updatedTasks = arrayMove(filteredTasks, originalIndex, newIndex);
+    setFilteredTasks(updatedTasks); // Update the state
+  };
+
+  const sensors = useSensors(
+    useSensor(TouchSensor, {
+      activationConstraint: {
+        distance: 8,
+        delay: 1000,
+      },
+    }),
+    useSensor(MouseSensor, {
+      activationConstraint: {
+        distance: 8,
+        delay: 1000,
+      },
+    }),
+    useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates })
+  );
+
   return (
     <div className="relative">
       {loading ? (
@@ -44,16 +88,21 @@ const Home = () => {
               items={["Today", "Tomorrow", "Upcoming", "Completed"]}
             />
           </div>
-          <div className="w-full flex flex-col gap-4">
-            {tasks.map((task, index) => {
-              return (
-                <TaskPreview
-                  task={task}
-                  key={index}
-                  index={index} />
-              );
-            })}
-          </div>
+          <DndContext
+            sensors={sensors}
+            collisionDetection={closestCorners}
+            onDragEnd={handleDragEnd}
+          >
+            <SortableContext
+              items={filteredTasks}
+              strategy={rectSortingStrategy}
+            >
+              {filteredTasks.map((task, index) => {
+                return <TaskPreview task={task} key={index} index={index} />;
+              })}
+            </SortableContext>
+            <DragOverlay></DragOverlay>
+          </DndContext>
         </div>
       )}
     </div>
