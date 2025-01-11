@@ -5,9 +5,18 @@ import { cloneElement, useState } from "react";
 import TaskDetail from "./TaskDetail";
 import { useDispatch } from "react-redux";
 import ConfirmDialog from "./ConfirmDialog";
+import { useSortable } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
 
-const TaskPreview = ({ task, index }) => {
-  const tasks = useSelector((state) => state.tasks);
+const TaskPreview = ({ task }) => {
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({ id: task.id });
   const dispatch = useDispatch();
   const { title, date, time, priority, category, isCompleted } = task;
   const [taskToShowDetail, setTaskToShowDetail] = useState(null);
@@ -17,6 +26,7 @@ const TaskPreview = ({ task, index }) => {
     message: "",
     onConfirm: () => {},
   });
+
   // Get category and priority info
   const categoryInfo = categories.find((item) => item.name === category) || {
     color: "#ccc",
@@ -27,13 +37,16 @@ const TaskPreview = ({ task, index }) => {
     color: "#ccc",
     name: "No Priority",
   };
+
   // Formatted values
   const formattedTitle =
     title.length > 30 ? `${title.slice(0, 30)}... ` : title;
   const formattedTime = time.format("HH:mm");
   const formattedDate = getDay(date);
+
   // Handle showing task details
-  const handleShowDetail = () => {
+  const handleShowDetail = (e) => {
+    console.log("Clicked Task:", task.id);
     const formattedTask = {
       ...task,
       categoryInfo: categoryInfo,
@@ -53,6 +66,7 @@ const TaskPreview = ({ task, index }) => {
     });
     setOpenConfirmDialog(true);
   };
+
   const handleMarkAsUnCompleted = () => {
     setConfirmInfo({
       title: "Mark as Uncompleted",
@@ -61,19 +75,34 @@ const TaskPreview = ({ task, index }) => {
     });
     setOpenConfirmDialog(true);
   };
+
   const handleClose = () => setOpenConfirmDialog(false);
 
   const handleConfirm = () => {
     console.log("Confirmed!");
     setOpenConfirmDialog(false);
   };
+  const style = {
+    transform: CSS.Transform.toString({
+      ...transform,
+      x: 0, 
+    }),
+    transition,
+    PointerEvents: "none",
+    zIndex: isDragging ? 2 : "auto",
+    opacity: isDragging ? 0.5 : 1,
+  };
 
   return (
-    <div className="w-full text-foreground flex items-center justify-between bg-dropDown rounded-lg">
-       <div className="ps-2 w-5 h-4 flex flex-col justify-evenly hover:cursor-move">
-        <div className="border w-full"></div>
-        <div className="border w-full"></div>
-      </div>
+    <div
+      ref={setNodeRef}
+      {...attributes}
+      {...listeners}
+      onClick={(e) => e.stopPropagation()}
+      style={style}
+      className={`task-item w-full text-foreground flex items-center justify-between bg-dropDown rounded-lg pointer-events-auto }`}
+    >
+      {" "}
       {!isCompleted ? (
         <Circle
           className="w-10 cursor-pointer"
