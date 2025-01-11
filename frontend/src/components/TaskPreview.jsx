@@ -6,7 +6,8 @@ import TaskDetail from "./TaskDetail";
 import { useDispatch } from "react-redux";
 import ConfirmDialog from "./ConfirmDialog";
 
-const TaskPreview = ({ task }) => {
+const TaskPreview = ({ task, index }) => {
+  const tasks = useSelector((state) => state.tasks);
   const dispatch = useDispatch();
   const { title, date, time, priority, category, isCompleted } = task;
   const [taskToShowDetail, setTaskToShowDetail] = useState(null);
@@ -69,6 +70,10 @@ const TaskPreview = ({ task }) => {
 
   return (
     <div className="w-full text-foreground flex items-center justify-between bg-dropDown rounded-lg">
+       <div className="ps-2 w-5 h-4 flex flex-col justify-evenly hover:cursor-move">
+        <div className="border w-full"></div>
+        <div className="border w-full"></div>
+      </div>
       {!isCompleted ? (
         <Circle
           className="w-10 cursor-pointer"

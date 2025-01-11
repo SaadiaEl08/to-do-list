@@ -46,7 +46,12 @@ const Home = () => {
           </div>
           <div className="w-full flex flex-col gap-4">
             {tasks.map((task, index) => {
-              return <TaskPreview task={task} key={index} />;
+              return (
+                <TaskPreview
+                  task={task}
+                  key={index}
+                  index={index} />
+              );
             })}
           </div>
         </div>
