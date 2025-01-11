@@ -10,6 +10,7 @@ const initialState = {
             priority: "",
             time: dayjs().add(1, "minute"),
             category: "",
+            order: 0,
       },
       tasks: [],
       mode: "create"

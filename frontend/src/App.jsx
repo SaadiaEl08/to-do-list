@@ -22,6 +22,7 @@ const App = () => {
         priority: "High",
         category: "Work",
         isCompleted: false,
+        order: 1,
       },
       {
         id: 2,
@@ -32,6 +33,7 @@ const App = () => {
         priority: "Medium",
         category: "Home",
         isCompleted: false,
+        order: 2,
       },
       {
         id: 3,
@@ -42,6 +44,7 @@ const App = () => {
         priority: "Low",
         category: "Grocery",
         isCompleted: true,
+        order: 3,
       },
       {
         id: 4,
@@ -52,6 +55,7 @@ const App = () => {
         priority: "Low",
         category: "Grocery",
         isCompleted: true,
+        order: 4,
       },
       {
         id: 5,
@@ -62,6 +66,7 @@ const App = () => {
         priority: "Low",
         category: "Grocery",
         isCompleted: true,
+        order: 5,
       },
       {
         id: 6,
@@ -72,6 +77,7 @@ const App = () => {
         priority: "Low",
         category: "Grocery",
         isCompleted: true,
+        order: 6,
       },
     ];
     dispatch({ type: "SET_TASKS", payload: tasksFromApi });
