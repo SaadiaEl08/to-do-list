@@ -46,7 +46,6 @@ const TaskPreview = ({ task }) => {
 
   // Handle showing task details
   const handleShowDetail = (e) => {
-    console.log("Clicked Task:", task.id);
     const formattedTask = {
       ...task,
       categoryInfo: categoryInfo,
@@ -79,13 +78,11 @@ const TaskPreview = ({ task }) => {
   const handleClose = () => setOpenConfirmDialog(false);
 
   const handleConfirm = () => {
-    console.log("Confirmed!");
     setOpenConfirmDialog(false);
   };
   const style = {
     transform: CSS.Transform.toString({
-      ...transform,
-      x: 0, 
+      ...transform 
     }),
     transition,
     PointerEvents: "none",
@@ -100,7 +97,7 @@ const TaskPreview = ({ task }) => {
       {...listeners}
       onClick={(e) => e.stopPropagation()}
       style={style}
-      className={`task-item w-full text-foreground flex items-center justify-between bg-dropDown rounded-lg pointer-events-auto }`}
+      className={`task-item w-full text-foreground flex items-center justify-between bg-dropDown rounded-lg pointer-events-auto md:w-[48%] cursor-grab active:cursor-grabbing`}
     >
       {" "}
       {!isCompleted ? (
