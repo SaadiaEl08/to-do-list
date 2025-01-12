@@ -19,36 +19,36 @@ const NavigationMenu = () => {
     { id: 4, name: "Profile", icon: <User />, link: "/profile" },
   ];
   return (
-    <div className="relative text-foreground w-full">
-      <nav className="w-full bg-muted list-none flex items-center justify-between">
-        <ul className="flex items-center justify-between w-full">
-          <div className="flex items-center justify-evenly  w-2/4   ">
+    <div className="bg-muted relative text-foreground w-full flex flex-col items-center justify-center xl:w-[4%]  xl:absolute xl:p-4 xl:rounded-md xl:top-1/2 xl:-translate-y-1/2">
+      <div className="rounded-full absolute bg-primary w-16 aspect-square flex items-center justify-center -top-8 left-1/2 -translate-x-1/2  md:w-20  xl:static xl:top-0 xl:translate-x-0 xl:translate-y-0 xl:w-10">
+        <Plus
+          className="w-8 cursor-pointer md:w-12 xl:w-8 aspect-square"
+          onClick={() => {
+            handleAddTaskClick();
+          }}
+        />
+      </div>
+      <nav className="w-full bg-muted list-none flex items-center justify-between  h-full ">
+        <ul className="flex items-center justify-start w-full xl:flex-col  h-full">
+          <div className="flex items-center justify-evenly  w-2/4  xl:flex-col xl:gap-8 xl:pt-8 ">
             {navigationItems.slice(0, 2).map((item) => (
               <Li key={item.id} item={item} currentPath={currentPath} />
             ))}
           </div>
-          <div className="flex items-center justify-evenly  w-2/4 ">
+          <div className="flex items-center justify-evenly  w-2/4 xl:flex-col xl:gap-8 xl:pt-8">
             {navigationItems.slice(2, 4).map((item) => (
               <Li key={item.id} item={item} currentPath={currentPath} />
             ))}
           </div>
         </ul>
       </nav>
-      <div className="rounded-full absolute bg-primary w-16 h-16 flex items-center justify-center -top-8 left-1/2 -translate-x-1/2  md:w-20 md:h-20">
-        <Plus
-          className="w-8 h-8 cursor-pointer md:w-12 md:h-12"
-          onClick={() => {
-            handleAddTaskClick();
-          }}
-        />
-      </div>
     </div>
   );
 };
 export default NavigationMenu;
 const Li = ({ item, currentPath }) => {
   return (
-    <li className={` p-2 rounded  md:text-2xl`}>
+    <li className={`p-2 rounded  md:text-2xl xl:text-[12px] `}>
       <Link
         to={`${item.link}`}
         className={`flex flex-col items-center justify-evenly ${
@@ -58,9 +58,9 @@ const Li = ({ item, currentPath }) => {
         }`}
       >
         {cloneElement(item.icon, {
-          className: "md:w-8 md:h-8",
+          className: "md:w-8 md:h-8 xl:w-6 xl:h-6",
         })}
-        <span className="opacity-80">{item.name}</span>
+        <span className="opacity-80 ">{item.name}</span>
       </Link>
     </li>
   );
