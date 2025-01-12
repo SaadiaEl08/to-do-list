@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import { useRef, useCallback, useMemo } from "react";
-import useMediaQuery from "./useMediaQuery";
+import useMediaQuery from "../hooks/useMediaQuery";
 
 const SelectTime = ({ selectedTime, setSelectedTime }) => {
   const isMdScreen = useMediaQuery("(min-width: 768px)");
