@@ -9,11 +9,11 @@ const DropDownMenu = ({ items = [] }) => {
   const [selected, setSelected] = useState(items[0]);
   return (
     <Dropdown>
-      <MenuButton className="text-foreground bg-dropDown px-2 py-1 rounded-lg flex justify-between items-center gap-2">
+      <MenuButton className="text-foreground bg-dropDown px-2 py-1 rounded-lg flex justify-between items-center gap-2 text-xl md:text-2xl">
         <span>{selected}</span> <ChevronDown />
       </MenuButton>
       {items.length > 0 && (
-        <Menu className="text-foreground bg-dropDown px-2 py-1 rounded-lg ms-1 mt-1 min-w-[150px] ">
+        <Menu className="text-foreground bg-dropDown px-2 py-1 rounded-lg ms-1 mt-1 min-w-[150px] text-xl md:text-2xl">
           {items.map((item, index) => (
             <MenuItem
               key={index}

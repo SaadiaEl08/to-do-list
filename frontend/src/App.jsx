@@ -83,8 +83,8 @@ const App = () => {
     dispatch({ type: "SET_TASKS", payload: tasksFromApi });
   }, [dispatch]);
   return (
-    <main className="w-full  h-screen bg-background flex flex-col justify-end">
-      <div className="h-full overflow-y-scroll">
+    <main className="w-full h-screen bg-background flex flex-col justify-end relative">
+      <div className="h-full overflow-y-scroll xl:ms-[4%] ">
         <TopSection />
         <Outlet />
       </div>
