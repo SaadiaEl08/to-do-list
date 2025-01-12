@@ -88,7 +88,7 @@ const Home = () => {
               items={["Today", "Tomorrow", "Upcoming", "Completed"]}
             />
           </div>
-          <div className="w-full h-full flex flex-col items-center justify-center gap-4 md:flex-wrap md:flex-row border ">
+          <div className="w-full h-full flex flex-col items-center justify-center gap-4 md:flex-wrap md:flex-row  ">
           <DndContext
             sensors={sensors}
             collisionDetection={closestCorners}
