@@ -1,4 +1,4 @@
-import { useState, useRef, useMemo } from "react";
+import { useState, useRef, useMemo, useEffect } from "react";
 import BigTimerClock from "@/components/BigTimerClock";
 import SelectTime from "@/components/SelectTime";
 import { Pause, Play, RotateCcw } from "lucide-react";
@@ -46,7 +46,7 @@ const Timer = () => {
     intervalRef.current = setInterval(() => {
       audio.loop = false; // Ensure it doesn't loop automatically
       audio.pause();
-      audio.currentTime = 1.4;
+      audio.currentTime = 1.5;
       audio.play();
       setSelectedTime((prevTime) => {
         const { hours, minutes, seconds } = prevTime;
@@ -81,13 +81,15 @@ const Timer = () => {
   };
 
   return (
-    <div className="container flex flex-col justify-center items-center pt-3 gap-4">
-      <BigTimerClock selectedTime={selectedTime} />
-      {/* Mini Clocks */}
-      <SmallClocks
-        setSelectedTime={setSelectedTime}
-        scrollToTime={scrollToTime}
-      />
+    <div className="container flex flex-col justify-center items-center p-3 gap-6 md:gap-10">
+      <div className=" flex flex-col justify-center items-center  w-full md:flex-row gap-y-4 ">
+        <BigTimerClock selectedTime={selectedTime} />
+        {/* Mini Clocks */}
+        <SmallClocks
+          setSelectedTime={setSelectedTime}
+          scrollToTime={scrollToTime}
+        />
+      </div>
       {!isCounting && (
         <SelectTime
           selectedTime={selectedTime}
@@ -98,13 +100,13 @@ const Timer = () => {
       {/* Timer Controls */}
       <div className="flex justify-evenly items-center w-full text-primary">
         <RotateCcw
-          className="w-8 h-8 cursor-pointer hover:animate-spin"
+          className="w-8 h-8 cursor-pointer md:w-12 md:h-12"
           onClick={handleResetTime}
         />
         {isCounting ? (
-          <Pause onClick={stopCounting} className="w-8 h-8 cursor-pointer" />
+          <Pause onClick={stopCounting} className="w-8 h-8 cursor-pointer md:w-12 md:h-12" />
         ) : (
-          <Play onClick={startCounting} className="w-8 h-8 cursor-pointer" />
+          <Play onClick={startCounting} className="w-8 h-8 cursor-pointer md:w-12 md:h-12" />
         )}
       </div>
     </div>

@@ -17,12 +17,14 @@ const Calendar = () => {
   }, [selectedDay, tasks]);
 
   return (
-    <div className="p-4 flex flex-col gap-4">
-      <CalendarComponent
-        selectedDay={selectedDay}
-        setSelectedDay={setSelectedDay}
-      />
-      <div className="flex flex-col gap-4">
+    <div className="p-4 flex flex-col gap-4 items-center">
+      <div className="md:w-3/4">
+        <CalendarComponent
+          selectedDay={selectedDay}
+          setSelectedDay={setSelectedDay}
+        />
+      </div>
+      <div className="flex flex-col gap-4 w-full">
         {filteredTasks.length > 0 ? (
           filteredTasks.map((task) => <TaskPreview key={task.id} task={task} />)
         ) : (
