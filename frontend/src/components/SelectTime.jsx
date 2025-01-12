@@ -1,7 +1,10 @@
 /* eslint-disable react/prop-types */
 import { useRef, useCallback, useMemo } from "react";
+import useMediaQuery from "./useMediaQuery";
+
 const SelectTime = ({ selectedTime, setSelectedTime }) => {
-  const itemHeight = 36;
+  const isMdScreen = useMediaQuery("(min-width: 768px)");
+  const itemHeight = isMdScreen ? 60 : 36;
   const timeUnits = useMemo(() => ["hours", "minutes", "seconds"], []);
   // Create numbers for each unit
   const createNumbers = (count) => Array.from({ length: count }, (_, i) => i);
@@ -46,7 +49,7 @@ const SelectTime = ({ selectedTime, setSelectedTime }) => {
     };
     timeUnits.forEach((unit) => {
       const newValue = getSelectedTimeFromVisibleItem(unit);
-      if (newValue) {
+      if (newValue != null) {
         setSelectedTime((prevSelectedTime) => ({
           ...prevSelectedTime,
           [unit]: newValue,
@@ -60,17 +63,17 @@ const SelectTime = ({ selectedTime, setSelectedTime }) => {
   );
 
   return (
-    <div className="relative time-selector w-full flex justify-evenly items-center gap-4 text-foreground text-3xl overflow-hidden">
+    <div className=" relative time-selector w-full flex justify-evenly items-center gap-4  text-foreground text-3xl overflow-hidden">
       {timeUnits.map((unit) => (
         <div
           key={unit}
           ref={refs[unit]}
           style={{ height: `${itemHeight * 3}px` }}
           onScroll={debouncedHandleScroll}
-          className={`time-${unit}-container hide-scrollbar overflow-auto flex flex-col w-[60px] items-center snap-y snap-mandatory scroll-smooth`}
+          className={`time-${unit}-container hide-scrollbar overflow-auto flex flex-col w-[60px] items-center snap-y snap-mandatory scroll-smooth w-fit`}
         >
           <div
-            className="w-full text-transparent "
+            className="w-full text-transparent md:text-6xl "
             style={{ height: `${itemHeight}px` }}
           >
             j
@@ -79,7 +82,7 @@ const SelectTime = ({ selectedTime, setSelectedTime }) => {
             <div
               key={`${unit}-${num}`}
               style={{ height: `${itemHeight}px` }}
-              className={`time-unit snap-center flex justify-center items-center z-10 w-full cursor-pointer ${
+              className={`time-unit  snap-center flex justify-center items-center z-10 w-full cursor-pointer md:text-6xl ${
                 selectedTime[unit] == num ? "text-primary font-bold" : ""
               }`}
             >
@@ -87,7 +90,7 @@ const SelectTime = ({ selectedTime, setSelectedTime }) => {
             </div>
           ))}
           <div
-            className="w-full text-transparent "
+            className="w-full text-transparent md:text-6xl"
             style={{ height: `${itemHeight}px` }}
           >
             j
@@ -98,7 +101,7 @@ const SelectTime = ({ selectedTime, setSelectedTime }) => {
         style={{
           height: `${itemHeight}px`,
         }}
-        className="w-[350px] absolute rounded-full bg-slate-500 z-0 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+        className="w-[calc(100%-50px)] absolute rounded-full bg-slate-500 z-0 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
       ></div>
     </div>
   );
