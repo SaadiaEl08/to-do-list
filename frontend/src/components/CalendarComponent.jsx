@@ -30,6 +30,7 @@ export default function DateCalendarViews({selectedDay, setSelectedDay}) {
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <DateCalendar
+      className="calendar"
         value={selectedDay}
         onChange={(newValue) => setSelectedDay(newValue)}
         views={["year", "month", "day"]}
