@@ -8,7 +8,7 @@ const TaskPriority = () => {
   const taskPriority = useSelector((state) => state.taskInfo.priority);
   const [selectedPriority, setSelectedPriority] = useState(taskPriority);
   return (
-    <div className=" w-[80vw] ">
+    <div className=" w-[80vw] sm:w-[50vw] lg:w-[40vw]">
       <h1 className="text-xl font-bold">Task Priority</h1>
       <div className="flex gap-4 p-2  ">
         {priorities.map((item) => (

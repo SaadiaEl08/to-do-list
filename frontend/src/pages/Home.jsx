@@ -59,7 +59,7 @@ const Home = () => {
   );
 
   return (
-    <div className="relative">
+    <div className="relative w-full">
       {loading ? (
         <Loading />
       ) : filteredTasks.length === 0 ? (
@@ -69,7 +69,7 @@ const Home = () => {
           <p className="opacity-80">Tap + to add your tasks</p>
         </div>
       ) : (
-        <div className="w-full h-full p-4 flex flex-col items-start  gap-4">
+        <div className="w-full h-full p-4 flex flex-col items-start gap-4 ">
           <div className="search-container w-full h-fit flex items-center justify-center bg-input border-2 p-3 text-foreground rounded border-muted-foreground">
             <Search
               className="w-14 text-muted-foreground "
@@ -99,7 +99,7 @@ const Home = () => {
               strategy={rectSortingStrategy}
             >
               {filteredTasks.map((task, index) => {
-                return <TaskPreview task={task} key={index} index={index} />;
+                return <TaskPreview task={task} key={index} index={index} className={"cursor-grab active:cursor-grabbing"} />;
               })}
             </SortableContext>
             <DragOverlay></DragOverlay>

@@ -17,18 +17,18 @@ const Calendar = () => {
   }, [selectedDay, tasks]);
 
   return (
-    <div className="p-4 flex flex-col gap-4 items-center border">
-      <div className="border">
+    <div className="p-4 flex flex-col gap-4 items-center border w-full">
+      <div >
         <CalendarComponent
           selectedDay={selectedDay}
           setSelectedDay={setSelectedDay}
         />
       </div>
-      <div className="flex flex-col gap-4 w-full border md:flex-row flex-wrap">
+      <div className="flex flex-col gap-4 w-full  md:flex-row justify-center flex-wrap border ">
         {filteredTasks.length > 0 ? (
           filteredTasks.map((task) => <TaskPreview key={task.id} task={task} />)
         ) : (
-          <p className="text-foreground text-center m-auto ">No tasks for today</p>
+          <p className="text-foreground text-center m-auto ">No tasks for the selected day</p>
         )}
       </div>
     </div>

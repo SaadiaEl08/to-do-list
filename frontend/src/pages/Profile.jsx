@@ -81,7 +81,7 @@ const Profile = () => {
     },
   ];
   return (
-    <div className=" w-full text-foreground flex flex-col items-center gap-4">
+    <div className=" w-full text-foreground flex flex-col items-center gap-4 md:w-[86%]  ">
       <img
         src="/logo.svg"
         alt="profile photo"
