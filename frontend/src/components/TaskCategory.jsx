@@ -9,9 +9,9 @@ const TaskCategory = () => {
   const [selectedCategory, setSelectedCategory] = useState(taskCategory);
   const dispatch = useDispatch();
   return (
-    <div className="w-[80vw]">
+    <div className="w-[80vw] sm:w-[50vw]  ">
       <h1 className="text-xl font-bold">Task Category</h1>
-      <div className="flex flex-wrap gap-4 items-center justify-evenly pt-4">
+      <div className="flex flex-wrap gap-4 items-center justify-evenly py-4">
         {categories.map((item) => (
           <div
             key={item.name}

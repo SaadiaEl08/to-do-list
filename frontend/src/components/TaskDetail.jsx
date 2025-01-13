@@ -31,61 +31,68 @@ const TaskDetail = ({ task = {}, setTaskToShowDetail }) => {
     setOpenConfirmDialog(true);
   };
   return (
-    <div className="fixed w-full min-h-full h-screen overflow-scroll bg-black z-10 top-0 left-0 p-4 flex flex-col items-start gap-5">
+    <div className="fixed w-full min-h-full h-screen  bg-black z-10 top-0 left-0 p-4 flex flex-col items-start gap-5 lg:p-20  xl:p-10 ">
       <div>
-        <X onClick={() => setTaskToShowDetail(null)} />
+        <X
+          className="w-6 h-6 sm:w-8 sm:h-8 lg:w-10 lg:h-10 "
+          onClick={() => setTaskToShowDetail(null)}
+        />
       </div>
       <div className="w-full flex  justify-between items-start">
         <div className=" w-10/12 flex flex-col justify-between">
-          <h1 className="text-xl font-normal">{title}</h1>
-          <p className="text-base text-muted-foreground">{description}</p>
+          <h1 className="text-xl font-normal sm:text-2xl lg:text-3xl">{title}</h1>
+          <p className="text-base text-muted-foreground sm:text-lg lg:text-xl ">
+            {description}
+          </p>
         </div>
         <div>
-          <PenLine onClick={handleEditTask} />
+          <PenLine className="w-6 h-6 sm:w-8 sm:h-8 lg:w-10 lg:h-10" onClick={handleEditTask} />
         </div>
       </div>
       <div className=" w-full flex flex-col gap-5 ">
         <div className=" flex items-center justify-between">
           <div className=" flex items-center  gap-3">
-            <Clock />
-            <span>Task Time :</span>
+            <Clock className="w-6 h-6 sm:w-8 sm:h-8 lg:w-10 lg:h-10 " />
+            <span className="sm:text-lg lg:text-xl">Task Time :</span>
           </div>
-          <div className="rounded-md px-4 py-2 bg-dropDown">
-            {formattedDate} At {formattedTime}
+          <div className="rounded-md px-4 py-2 bg-dropDown ">
+            <span className="sm:text-lg lg:text-xl">
+              {formattedDate} At {formattedTime}
+            </span>
           </div>
         </div>
         <div className=" flex items-center justify-between ">
           <div className=" flex items-center  gap-3 ">
-            <Tag />
-            <span>Task Category :</span>
+            <Tag className="w-6 h-6 sm:w-8 sm:h-8 lg:w-10 lg:h-10" />
+            <span className="sm:text-lg lg:text-xl">Task Category :</span>
           </div>
           <div className="flex items-center gap-3 rounded-md px-4 py-2 bg-dropDown ">
             {cloneElement(categoryInfo.icon, {
-              className: "w-6 h-6",
+              className: "w-6 h-6 sm:w-8 sm:h-8 lg:w-10 lg:h-10", 
               style: { color: categoryInfo.color },
             })}
-            {categoryInfo.name}
+            <span className="sm:text-lg lg:text-xl"> {categoryInfo.name}</span>
           </div>
         </div>
         <div className=" flex items-center justify-between ">
           <div className=" flex items-center  gap-3 ">
-            <Flag />
-            <span>Task Priority :</span>
+            <Flag className="w-6 h-6 sm:w-8 sm:h-8 lg:w-10 lg:h-10" />
+            <span className="sm:text-lg lg:text-xl">Task Priority :</span>
           </div>
           <div className="flex items-center gap-3 rounded-md px-4 py-2 bg-dropDown ">
-            <span style={{ color: priorityInfo.color }}>
+            <span style={{ color: priorityInfo.color }} className="sm:text-lg lg:text-xl">
               {priorityInfo.name}
             </span>
           </div>
         </div>
       </div>
       <button
-        className="  flex items-center gap-2 w-fit  text-red-600 h-12 px-5 border-2
+        className="  flex items-center gap-2 w-fit  text-red-600 h-12 px-5 py-8 border-2
        border-red-600 rounded hover:bg-red-600 hover:text-foreground hover:border-foreground"
         onClick={handleDeleteTask}
       >
-        <Trash2Icon />
-        <span>Delete this task</span>
+        <Trash2Icon className="w-6 h-6 sm:w-8 sm:h-8 lg:w-10 lg:h-10" />
+        <span className="sm:text-lg lg:text-xl">Delete this task</span>
       </button>
       <ConfirmDialog
         open={openConfirmDialog}
@@ -93,7 +100,7 @@ const TaskDetail = ({ task = {}, setTaskToShowDetail }) => {
         onConfirm={handleConfirm}
         title="Delete Task"
         message="Are you sure you want to delete this task ?"
-        className={"bg-red-600"}
+        className={"bg-red-600 "}
       />
     </div>
   );
