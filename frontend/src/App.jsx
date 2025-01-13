@@ -84,7 +84,7 @@ const App = () => {
   }, [dispatch]);
   return (
     <main className="w-full h-screen bg-background flex flex-col justify-end relative">
-      <div className="h-full overflow-y-scroll xl:ms-[4%] ">
+      <div className="h-full xl:ms-[4%] flex flex-col items-center overflow-y-auto ">
         <TopSection />
         <Outlet />
       </div>

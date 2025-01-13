@@ -32,6 +32,7 @@ const ConfirmDialog = ({
       </DialogTitle>
       <DialogContent>
         <DialogContentText
+        className="sm:text-2xl "
           id="confirm-dialog-description"
           sx={{
             color: "var(--foreground)",
@@ -50,7 +51,7 @@ const ConfirmDialog = ({
         <button
           onClick={onConfirm}
           className={
-            "text-foreground  bg-green-700 rounded px-2 py-1 hover:scale-105 " +
+            "text-foreground  bg-green-700 rounded px-2 py-1 hover:scale-105 sm:text-xl " +
             className
           }
         >
