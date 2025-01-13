@@ -3,8 +3,8 @@ import { X } from "lucide-react";
 const About = ({ close }) => {
   return (
     <div className="flex flex-col items-start gap-2  w-full">
-      <div className="w-full flex justify-between items-center p-2">
-        <h3 className="text-2xl mb-3 ">
+      <div className="w-full flex justify-between items-center p-2  ">
+        <h3 className="text-2xl ">
           About <span className="text-primary font-bold">U</span>p
           <span className="text-primary font-bold">T</span>odo
         </h3>{" "}  

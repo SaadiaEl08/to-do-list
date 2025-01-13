@@ -23,9 +23,9 @@ const Help = ({ close }) => {
     <div className="flex flex-col items-start gap-2 w-full">
       {/* Header Section */}
       <header className="w-full flex justify-between items-center p-2">
-        <h3 className="text-2xl mb-3">Help & Feedback</h3>
+        <h3 className="text-2xl ">Help & Feedback</h3>
         <X
-          className="hover:cursor-pointer hover:text-red-600"
+          className="hover:cursor-pointer hover:text-red-600 "
           onClick={() => close()}
         />
       </header>

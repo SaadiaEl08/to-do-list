@@ -7,7 +7,7 @@ import Support from "./Support";
 const AppInfo = ({ appInfos, setAppInfos }) => {
   return (
     <PopOver isOpen={true} toggle={() => setAppInfos(null)}>
-      <div className=" flex flex-col items-center gap-4  w-[80vw]">
+      <div className=" flex flex-col items-center gap-4 w-[80vw] md:w-[60vw] lg:w-[40vw]">
         {appInfos === "about" && <About close={() => setAppInfos(null)} />}
         {appInfos === "faq" && <FAQ close={() => setAppInfos(null)} />}
         {appInfos === "help" && <Help close={() => setAppInfos(null)} />}

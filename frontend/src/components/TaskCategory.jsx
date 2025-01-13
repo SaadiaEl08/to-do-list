@@ -15,7 +15,7 @@ const TaskCategory = () => {
         {categories.map((item) => (
           <div
             key={item.name}
-            className={` transition-all duration-100 rounded flex flex-col items-center justify-center ${
+            className={` transition-all duration-100 rounded flex flex-col items-center justify-center cursor-pointer ${
               selectedCategory === item.name ? "border-2 border-primary" : ""
             }`}
             onClick={() =>
@@ -34,7 +34,7 @@ const TaskCategory = () => {
           </div>
         ))}
         <div
-          className={`rounded flex flex-col items-center justify-center `}
+          className={`rounded flex flex-col items-center justify-center cursor-pointer`}
           onClick={() =>
             dispatch({ type: "SET_STEP", payload: steps.CREATE_CATEGORY })
           }
@@ -50,7 +50,7 @@ const TaskCategory = () => {
           dispatch({
             type: "UPDATE_TASK_INFO",
             payload: {
-              categories: selectedCategory,
+              category: selectedCategory,
             },
           });
           dispatch({ type: "SET_STEP", payload: steps.TASK_FORM });

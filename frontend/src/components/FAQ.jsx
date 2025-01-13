@@ -71,7 +71,7 @@ const FAQ = ({ close }) => {
   return (
     <div className="faqContainer">
       <div className="flex justify-between items-center p-2">
-        <h3 className="text-2xl mb-3 ">FAQ</h3>
+        <h3 className="text-2xl ">FAQ</h3>
         <X
           className="hover:cursor-pointer hover:text-red-600"
           onClick={() => close()}

@@ -39,7 +39,7 @@ const CreateCategory = () => {
     setCategory({ ...category, icon: file });
   };
   return (
-    <div className="flex flex-col gap-3 p-2 min-w-[80vw] ">
+    <div className="flex flex-col gap-3 p-2 min-w-[80vw] sm:min-w-[50vw] ">
       <h1 className="text-xl">Create new category</h1>
       <div className="flex flex-col gap-2">
         <label htmlFor="category">Category name :</label>
@@ -55,7 +55,8 @@ const CreateCategory = () => {
         <label htmlFor="categoryIcon">Category icon :</label>
         <div
           ref={pictureView}
-          className="rounded px-4 py-2 w-fit bg-slate-500  flex items-center justify-center"
+          className="rounded px-4 py-2 w-fit bg-slate-500  flex items-center justify-center cursor-pointer"
+          title="upload icon"
           onClick={() => document.getElementById("categoryIcon").click()}
         >
           Choose icon from library
@@ -93,7 +94,7 @@ const CreateCategory = () => {
       </div>
       <ActionBar
         nextClassName={`${
-          category.name && category.color && category.icon
+          category.name && category.color 
             ? "opacity-100 cursor-pointer pointer-events-auto"
             : "opacity-50 cursor-not-allowed pointer-events-none"
         }`}

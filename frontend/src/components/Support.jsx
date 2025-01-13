@@ -17,7 +17,7 @@ const Support = ({ close }) => {
   return (
     <div className="flex flex-col items-start gap-2 w-full p-6 ">
       <header className="w-full flex justify-between items-center p-2">
-        <h3 className="text-2xl mb-3">Support Us</h3>
+        <h3 className="text-2xl">Support Us</h3>
         <X
           className="hover:cursor-pointer hover:text-red-600"
           onClick={() => close()}
