@@ -8,7 +8,7 @@ import ConfirmDialog from "./ConfirmDialog";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 
-const TaskPreview = ({ task }) => {
+const TaskPreview = ({ task ,className}) => {
   const {
     attributes,
     listeners,
@@ -97,7 +97,7 @@ const TaskPreview = ({ task }) => {
       {...listeners}
       onClick={(e) => e.stopPropagation()}
       style={style}
-      className={`task-item w-full text-foreground flex items-center justify-between bg-dropDown rounded-lg pointer-events-auto md:w-[48%] cursor-grab active:cursor-grabbing`}
+      className={`task-item w-full text-foreground flex items-center justify-between bg-dropDown rounded-lg pointer-events-auto md:w-[48%]  ${className}`}
     >
       {" "}
       {!isCompleted ? (
@@ -123,7 +123,7 @@ const TaskPreview = ({ task }) => {
         message={confirmInfo.message}
       />
       <div className="w-full flex flex-col p-2 gap-3 lg:text-xl">
-        <h1 className="opacity-90 flex items-center justify-between sm:text-lg  lg:text-2xl">
+        <h1 className="opacity-90 flex items-center justify-between sm:text-lg  lg:text-xl">
           {formattedTitle}{" "}
           <Eye
             className="w-4 md:w-6 cursor-pointer"

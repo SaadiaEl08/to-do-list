@@ -12,7 +12,7 @@ const TaskForm = () => {
   };
 
   return (
-    <div className="min-w-[80vw] flex flex-col gap-4 ">
+    <div className="w-[80vw] flex flex-col gap-4 sm:w-[50vw] lg:w-[40vw]">
       <h1>{mode === "create" ? "Add" : "Edit"} Task</h1>
       <input
         type="text"
