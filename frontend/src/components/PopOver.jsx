@@ -7,7 +7,7 @@ const PopOver = ({ isOpen, toggle, children }) => {
       onClick={toggle} 
     >
       <div
-        className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-popover rounded-xl  p-4 z-20 max-h-[90vh]  overflow-y-auto  border  hide-scrollbar"
+        className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-popover rounded-xl  p-4 z-20 max-h-[90vh]  overflow-y-auto  border  hide-scrollbar sm:w-fit "
         onClick={(e) => e.stopPropagation()} 
       >
         {children}

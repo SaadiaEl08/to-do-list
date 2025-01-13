@@ -26,8 +26,8 @@ export default function MyTimeClock() {
         draggable: false,
         theme: "dark",
       });
-    }else{
-      dispatch({ type: "UPDATE_TASK_INFO", payload: { time: selectedTime } })
+    } else {
+      dispatch({ type: "UPDATE_TASK_INFO", payload: { time: selectedTime } });
       dispatch({ type: "SET_STEP", payload: steps.TASK_FORM });
     }
   };
@@ -41,9 +41,7 @@ export default function MyTimeClock() {
         minTime={date.isBefore(dayjs()) ? dayjs().add(1, "minute") : date}
         displayStaticWrapperAs="mobile"
         value={selectedTime || dayjs().add(1, "minute")}
-        onChange={(newValue) =>
-          setSelectedTime(newValue)
-        }
+        onChange={(newValue) => setSelectedTime(newValue)}
         slotProps={{
           nextIconButton: {
             sx: {
@@ -69,7 +67,7 @@ export default function MyTimeClock() {
                 color: "var(--foreground)",
               },
               "& .Mui-selected": {
-                color: "var(--primary)",
+                color: "var(--primary) !important",
               },
             },
           },
@@ -83,15 +81,9 @@ export default function MyTimeClock() {
             backgroundColor: "transparent",
             border: "none",
           },
-          "&.MuiPickersArrowSwitcher-nextIconButton": {
-            color: "red",
-            border: "none",
-          },
         }}
       />
-      <ActionBar
-        nextActionFunction={() => validateTime(time)}
-      />
+      <ActionBar nextActionFunction={() => validateTime(time)} />
       <ToastContainer />
     </LocalizationProvider>
   );
