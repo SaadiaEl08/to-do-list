@@ -81,8 +81,8 @@ const Timer = () => {
   };
 
   return (
-    <div className="container flex flex-col justify-center items-center p-3 gap-6 md:gap-10">
-      <div className=" flex flex-col justify-center items-center  w-full md:flex-row gap-y-4 ">
+    <div className="container flex flex-col justify-center items-center p-3  gap-6 h-[80%] sm:gap-10 xl:flex-row xl:flex-wrap xl:gap-0">
+      <div className="flex flex-col justify-center items-center w-full gap-y-4  md:flex-row  xl:w-[55%] ">
         <BigTimerClock selectedTime={selectedTime} />
         {/* Mini Clocks */}
         <SmallClocks
@@ -90,24 +90,32 @@ const Timer = () => {
           scrollToTime={scrollToTime}
         />
       </div>
-      {!isCounting && (
-        <SelectTime
-          selectedTime={selectedTime}
-          setSelectedTime={setSelectedTime}
-        />
-      )}
-
-      {/* Timer Controls */}
-      <div className="flex justify-evenly items-center w-full text-primary">
-        <RotateCcw
-          className="w-8 h-8 cursor-pointer md:w-12 md:h-12"
-          onClick={handleResetTime}
-        />
-        {isCounting ? (
-          <Pause onClick={stopCounting} className="w-8 h-8 cursor-pointer md:w-12 md:h-12" />
-        ) : (
-          <Play onClick={startCounting} className="w-8 h-8 cursor-pointer md:w-12 md:h-12" />
+      <div className="w-full flex flex-col items-center justify-center gap-4 xl:w-[40%]">
+        {!isCounting && (
+          <SelectTime
+            selectedTime={selectedTime}
+            setSelectedTime={setSelectedTime}
+          />
         )}
+
+        {/* Timer Controls */}
+        <div className="flex justify-evenly items-center w-full text-primary">
+          <RotateCcw
+            className="w-8 h-8 cursor-pointer sm:w-12 sm:h-12 xl:w-10 xl:h-10"  
+            onClick={handleResetTime}
+          />
+          {isCounting ? (
+            <Pause
+              onClick={stopCounting}
+              className="w-8 h-8 cursor-pointer sm:w-12 sm:h-12 xl:w-10 xl:h-10"
+            />
+          ) : (
+            <Play
+              onClick={startCounting}
+              className="w-8 h-8 cursor-pointer sm:w-12 sm:h-12 xl:w-10 xl:h-10"
+            />
+          )}
+        </div>
       </div>
     </div>
   );
