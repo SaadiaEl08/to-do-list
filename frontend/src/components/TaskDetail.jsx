@@ -20,7 +20,7 @@ const TaskDetail = ({ task = {}, setTaskToShowDetail }) => {
     dispatch({ type: "SET_STEP", payload: steps.TASK_FORM });
     dispatch({ type: "SET_MODE", payload: "edit" });
     dispatch({ type: "UPDATE_TASK_INFO", payload: task });
-    setTaskToShowDetail(null)
+    setTaskToShowDetail(null);
   };
   const [openConfirmDialog, setOpenConfirmDialog] = useState(false);
   const handleClose = () => setOpenConfirmDialog(false);
@@ -69,38 +69,46 @@ const TaskDetail = ({ task = {}, setTaskToShowDetail }) => {
             </span>
           </div>
         </div>
-        <div className=" flex items-center justify-between ">
-          <div className=" flex items-center  gap-3 ">
-            <Tag className="w-6 h-6 sm:w-8 sm:h-8 lg:w-10 lg:h-10" />
-            <span className="sm:text-lg lg:text-xl">Task Category :</span>
-          </div>
-          <div
-            className="flex items-center gap-3 rounded-md px-4 py-2 bg-dropDown "
-            style={{ backgroundColor: categoryInfo.color + 50 }}
-          >
-            {cloneElement(categoryInfo.icon, {
-              className: "w-6 h-6 sm:w-8 sm:h-8 lg:w-10 lg:h-10",
-            })}
-            <span className="sm:text-lg lg:text-xl"> {categoryInfo.name}</span>
-          </div>
-        </div>
-        <div className=" flex items-center justify-between ">
-          <div className=" flex items-center  gap-3 ">
-            <Flag className="w-6 h-6 sm:w-8 sm:h-8 lg:w-10 lg:h-10" />
-            <span className="sm:text-lg lg:text-xl">Task Priority :</span>
-          </div>
-          <div
-            className="flex items-center gap-3 rounded-md px-4 py-2 bg-dropDown "
-            style={{ backgroundColor: priorityInfo.color + 50 }}
-          >
-            <span
-              style={{ color: priorityInfo.color }}
-              className="sm:text-lg lg:text-xl font-bold"
+        {categoryInfo && (
+          <div className=" flex items-center justify-between ">
+            <div className=" flex items-center  gap-3 ">
+              <Tag className="w-6 h-6 sm:w-8 sm:h-8 lg:w-10 lg:h-10" />
+              <span className="sm:text-lg lg:text-xl">Task Category :</span>
+            </div>
+            <div
+              className="flex items-center gap-3 rounded-md px-4 py-2 bg-dropDown "
+              style={{ backgroundColor: categoryInfo.color + 50 }}
             >
-              {priorityInfo.name}
-            </span>
+              {cloneElement(categoryInfo.icon, {
+                className: "w-6 h-6 sm:w-8 sm:h-8 lg:w-10 lg:h-10",
+              })}
+              <span className="sm:text-lg lg:text-xl">
+                {" "}
+                {categoryInfo.name}
+              </span>
+            </div>
           </div>
-        </div>
+        )}
+
+        {priorityInfo && (
+          <div className=" flex items-center justify-between ">
+            <div className=" flex items-center  gap-3 ">
+              <Flag className="w-6 h-6 sm:w-8 sm:h-8 lg:w-10 lg:h-10" />
+              <span className="sm:text-lg lg:text-xl">Task Priority :</span>
+            </div>
+            <div
+              className="flex items-center gap-3 rounded-md px-4 py-2 bg-dropDown "
+              style={{ backgroundColor: priorityInfo.color + 50 }}
+            >
+              <span
+                style={{ color: priorityInfo.color }}
+                className="sm:text-lg lg:text-xl font-bold"
+              >
+                {priorityInfo.name}
+              </span>
+            </div>
+          </div>
+        )}
       </div>
       <button
         className="  flex items-center gap-2 w-fit  text-red-600 h-12 px-5 py-8 border-2
