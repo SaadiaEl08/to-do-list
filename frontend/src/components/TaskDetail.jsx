@@ -20,6 +20,7 @@ const TaskDetail = ({ task = {}, setTaskToShowDetail }) => {
     dispatch({ type: "SET_STEP", payload: steps.TASK_FORM });
     dispatch({ type: "SET_MODE", payload: "edit" });
     dispatch({ type: "UPDATE_TASK_INFO", payload: task });
+    setTaskToShowDetail(null)
   };
   const [openConfirmDialog, setOpenConfirmDialog] = useState(false);
   const handleClose = () => setOpenConfirmDialog(false);

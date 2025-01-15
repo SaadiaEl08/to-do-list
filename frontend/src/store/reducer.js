@@ -4,6 +4,7 @@ const initialState = {
       currentStep: "",
       isOpenAddTask: false,
       taskInfo: {
+            id: 0,
             title: "",
             description: "",
             date: dayjs(),
@@ -27,6 +28,10 @@ const reducer = (state = initialState, action) => {
                   return { ...state, tasks: action.payload };
             case "DELETE_TASK":
                   return { ...state, tasks: state.tasks.filter((task) => task.id !== action.payload) };
+            case "UPDATE_TASK":
+                  return { ...state, tasks: state.tasks.map((task) => task.id === state.taskInfo.id ? state.taskInfo : task) };
+            case "CREATE_TASK":
+                  return { ...state, tasks: [...state.tasks, state.taskInfo] };
             case "MARK_TASK_AS_COMPLETED":
                   return { ...state, tasks: state.tasks.map((task) => task.id === action.payload ? { ...task, isCompleted: !task.isCompleted } : task) };
             case "SET_TASKS_ORDER":
