@@ -3,7 +3,7 @@ import { categories, getDay, priorities } from "@/constants";
 import { CheckCircle2, Circle, Eye, Flag, Tag } from "lucide-react";
 import { cloneElement, useState } from "react";
 import TaskDetail from "./TaskDetail";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import ConfirmDialog from "./ConfirmDialog";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
@@ -18,7 +18,7 @@ const TaskPreview = ({ task, className }) => {
     isDragging,
   } = useSortable({ id: task.id });
   const dispatch = useDispatch();
-  const { title, date, time, priority, category, isCompleted } = task;
+  const {id,title, date, time, priority, category, isCompleted } = task;
   const [taskToShowDetail, setTaskToShowDetail] = useState(null);
   const [openConfirmDialog, setOpenConfirmDialog] = useState(false);
   const [confirmInfo, setConfirmInfo] = useState({
@@ -64,7 +64,7 @@ const TaskPreview = ({ task, className }) => {
       onConfirm: handleConfirm,
     });
     setOpenConfirmDialog(true);
-  };
+  }; 
 
   const handleMarkAsUnCompleted = () => {
     setConfirmInfo({
@@ -78,6 +78,7 @@ const TaskPreview = ({ task, className }) => {
   const handleClose = () => setOpenConfirmDialog(false);
 
   const handleConfirm = () => {
+    dispatch({ type: "MARK_TASK_AS_COMPLETED", payload: id });
     setOpenConfirmDialog(false);
   };
   const style = {
