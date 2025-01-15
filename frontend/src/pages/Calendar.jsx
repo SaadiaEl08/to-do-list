@@ -24,7 +24,7 @@ const Calendar = () => {
           setSelectedDay={setSelectedDay}
         />
       </div>
-      <div className="flex flex-col gap-4 w-full  md:flex-row justify-center flex-wrap  ">
+      <div className="flex flex-col gap-4 w-full  md:flex-row justify-center flex-wrap  md:justify-start ">
         {filteredTasks.length > 0 ? (
           filteredTasks.map((task) => <TaskPreview key={task.id} task={task} />)
         ) : (
