@@ -1,6 +1,6 @@
 const BigTimerClock = ({selectedTime}) => {
   return (
-    <div className="time-circle flex flex-col justify-center items-center border-[12px] border-slate-600 bg-primary rounded-full w-3/5 aspect-square lg:w-1/2 xl:w-2/5">
+    <div className="time-circle flex flex-col justify-center items-center border-[12px] border-muted bg-primary rounded-full w-3/5 aspect-square lg:w-1/2 xl:w-2/5">
       <span className="text-4xl text-foreground sm:text-6xl  xl:text-4xl ">
         {`${String(selectedTime.hours).padStart(2, "0")}:${String(
           selectedTime.minutes

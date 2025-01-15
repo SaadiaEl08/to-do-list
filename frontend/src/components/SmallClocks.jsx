@@ -16,7 +16,7 @@ const SmallClocks = ({setSelectedTime,scrollToTime}) => {
       {proposalsTimers.map((item) => (
         <div
           key={item.id}
-          className="time-circle flex flex-col justify-center items-center border-4 border-slate-600 bg-slate-800 rounded-full w-1/5 aspect-square cursor-pointer md:w-2/4 xl:w-1/3"
+          className="time-circle flex flex-col justify-center items-center border-4 border-primary bg-muted rounded-full w-1/5 aspect-square cursor-pointer md:w-2/4 xl:w-1/3"
           onClick={() => handleMiniClockClick(item.time)}
         >
           <span className="text-xl text-foreground sm:text-3xl xl:text-xl">{item.time}</span>

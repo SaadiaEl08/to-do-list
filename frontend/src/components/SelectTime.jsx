@@ -102,7 +102,7 @@ const SelectTime = ({ selectedTime, setSelectedTime }) => {
         style={{
           height: `${itemHeight}px`,
         }}
-        className="w-[calc(100%-50px)] absolute rounded-full bg-slate-500 z-0 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+        className="w-[calc(100%-50px)] absolute rounded-full bg-muted z-0 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
       ></div>
     </div>
   );
