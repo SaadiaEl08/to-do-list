@@ -8,7 +8,7 @@ import ConfirmDialog from "./ConfirmDialog";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 
-const TaskPreview = ({ task ,className}) => {
+const TaskPreview = ({ task, className }) => {
   const {
     attributes,
     listeners,
@@ -91,75 +91,72 @@ const TaskPreview = ({ task ,className}) => {
   };
 
   return (
-    <div
-      ref={setNodeRef}
-      {...attributes}
-      {...listeners}
-      onClick={(e) => e.stopPropagation()}
-      style={style}
-      className={`task-item w-full text-foreground flex items-center justify-between bg-dropDown rounded-lg pointer-events-auto md:w-[48%]  ${className}`}
-    >
-      {" "}
-      {!isCompleted ? (
-        <Circle
-          className="w-10 cursor-pointer"
-          onClick={handleMarkAsCompleted}
-          aria-label="mark as completed"
-          role="button"
-        />
-      ) : (
-        <CheckCircle2
-          className="w-10 cursor-pointer text-green-500"
-          onClick={handleMarkAsUnCompleted}
-          aria-label="mark as uncompleted"
-          role="button"
-        />
-      )}
-      <ConfirmDialog
-        open={openConfirmDialog}
-        onClose={handleClose}
-        onConfirm={confirmInfo.onConfirm}
-        title={confirmInfo.title}
-        message={confirmInfo.message}
-      />
-      <div className="w-full flex flex-col p-2 gap-3 lg:text-xl">
-        <h1 className="opacity-90 flex items-center justify-between sm:text-lg  lg:text-xl">
-          {formattedTitle}{" "}
-          <Eye
-            className="w-4 md:w-6 cursor-pointer"
-            onClick={handleShowDetail}
-            aria-label="View task details"
+    <>
+      <div
+        ref={setNodeRef}
+        {...attributes}
+        {...listeners}
+        onClick={(e) => e.stopPropagation()}
+        style={style}
+        className={`task-item w-full text-foreground flex items-center justify-between bg-dropDown rounded-lg pointer-events-auto md:w-[48%]  ${className}`}
+      >
+        {" "}
+        {!isCompleted ? (
+          <Circle
+            className="w-10 cursor-pointer"
+            onClick={handleMarkAsCompleted}
+            aria-label="mark as completed"
             role="button"
           />
-        </h1>
-        <div className="w-full flex items-center justify-between gap-2 ">
-          <div className="flex flex-wrap gap-1 w-full text-muted-foreground ">
-            <p className="text-xs sm:text-sm  lg:text-base">
-              {formattedDate} {" "}
-              At {" "}
-              {formattedTime}
-            </p>
-          </div>
-          <div className="flex items-center justify-end gap-2">
-            <div
-              className="flex items-center gap-2 rounded px-3 py-2 text-sm"
-              style={{ backgroundColor: `${categoryInfo.color}99` }}
-            >
-              {cloneElement(categoryInfo.icon, {
-                className: "w-4 h-4 font-bold  lg:w-6 lg:h-6",  
-                stroke: categoryInfo.color,
-                strokeWidth: 3,
-              })}
-              <span className="lg:text-base">{categoryInfo.name}</span> 
+        ) : (
+          <CheckCircle2
+            className="w-10 cursor-pointer text-green-500"
+            onClick={handleMarkAsUnCompleted}
+            aria-label="mark as uncompleted"
+            role="button"
+          />
+        )}
+        <ConfirmDialog
+          open={openConfirmDialog}
+          onClose={handleClose}
+          onConfirm={confirmInfo.onConfirm}
+          title={confirmInfo.title}
+          message={confirmInfo.message}
+        />
+        <div className="w-full flex flex-col p-2 gap-3 lg:text-xl">
+          <h1 className="opacity-90 flex items-center justify-between sm:text-lg  lg:text-xl">
+            {formattedTitle}{" "}
+            <Eye
+              className="w-4 md:w-6 cursor-pointer"
+              onClick={handleShowDetail}
+              aria-label="View task details"
+              role="button"
+            />
+          </h1>
+          <div className="w-full flex items-center justify-between gap-2 ">
+            <div className="flex flex-wrap gap-1 w-full text-muted-foreground ">
+              <p className="text-xs sm:text-sm  lg:text-base">
+                {formattedDate} At {formattedTime}
+              </p>
             </div>
-            <div
-              className="flex items-center gap-2 rounded px-3 py-2 text-sm"
-              style={{ backgroundColor: `${priorityInfo.color}99` }}
-            >
-              <Flag className="w-4 h-4 lg:w-6 lg:h-6" />
-              <span className="lg:text-base">{priorityInfo.name}</span> 
-
-              
+            <div className="flex items-center justify-end gap-2">
+              <div
+                className="flex items-center gap-2 rounded px-3 py-2 text-sm"
+                style={{ backgroundColor: `${categoryInfo.color}99` }}
+              >
+                {cloneElement(categoryInfo.icon, {
+                  className: "w-4 h-4 font-bold lg:w-6 lg:h-6",
+                  strokeWidth: 3,
+                })}
+                <span className="lg:text-base">{categoryInfo.name}</span>
+              </div>
+              <div
+                className="flex items-center gap-2 rounded px-3 py-2 text-sm"
+                style={{ backgroundColor: `${priorityInfo.color}99` }}
+              >
+                <Flag className="w-4 h-4 lg:w-6 lg:h-6" />
+                <span className="lg:text-base">{priorityInfo.name}</span>
+              </div>
             </div>
           </div>
         </div>
@@ -170,7 +167,7 @@ const TaskPreview = ({ task ,className}) => {
           setTaskToShowDetail={setTaskToShowDetail}
         />
       )}
-    </div>
+    </>
   );
 };
 

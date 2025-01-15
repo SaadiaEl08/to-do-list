@@ -31,7 +31,7 @@ const TaskDetail = ({ task = {}, setTaskToShowDetail }) => {
     setOpenConfirmDialog(true);
   };
   return (
-    <div className="fixed w-full min-h-full h-screen  bg-black z-10 top-0 left-0 p-4 flex flex-col items-start gap-5 lg:p-20  xl:p-10 ">
+    <div className="text-foreground absolute w-full min-h-full h-fit  bg-background z-10 top-0 left-0 p-4 flex flex-col items-start gap-5 lg:p-20  xl:p-10 ">
       <div>
         <X
           className="w-6 h-6 sm:w-8 sm:h-8 lg:w-10 lg:h-10 "
@@ -40,13 +40,18 @@ const TaskDetail = ({ task = {}, setTaskToShowDetail }) => {
       </div>
       <div className="w-full flex  justify-between items-start">
         <div className=" w-10/12 flex flex-col justify-between">
-          <h1 className="text-xl font-normal sm:text-2xl lg:text-3xl">{title}</h1>
+          <h1 className="text-xl font-normal sm:text-2xl lg:text-3xl">
+            {title}
+          </h1>
           <p className="text-base text-muted-foreground sm:text-lg lg:text-xl ">
             {description}
           </p>
         </div>
         <div>
-          <PenLine className="w-6 h-6 sm:w-8 sm:h-8 lg:w-10 lg:h-10" onClick={handleEditTask} />
+          <PenLine
+            className="w-6 h-6 sm:w-8 sm:h-8 lg:w-10 lg:h-10"
+            onClick={handleEditTask}
+          />
         </div>
       </div>
       <div className=" w-full flex flex-col gap-5 ">
@@ -66,10 +71,12 @@ const TaskDetail = ({ task = {}, setTaskToShowDetail }) => {
             <Tag className="w-6 h-6 sm:w-8 sm:h-8 lg:w-10 lg:h-10" />
             <span className="sm:text-lg lg:text-xl">Task Category :</span>
           </div>
-          <div className="flex items-center gap-3 rounded-md px-4 py-2 bg-dropDown ">
+          <div
+            className="flex items-center gap-3 rounded-md px-4 py-2 bg-dropDown "
+            style={{ backgroundColor: categoryInfo.color }}
+          >
             {cloneElement(categoryInfo.icon, {
-              className: "w-6 h-6 sm:w-8 sm:h-8 lg:w-10 lg:h-10", 
-              style: { color: categoryInfo.color },
+              className: "w-6 h-6 sm:w-8 sm:h-8 lg:w-10 lg:h-10",
             })}
             <span className="sm:text-lg lg:text-xl"> {categoryInfo.name}</span>
           </div>
@@ -79,8 +86,14 @@ const TaskDetail = ({ task = {}, setTaskToShowDetail }) => {
             <Flag className="w-6 h-6 sm:w-8 sm:h-8 lg:w-10 lg:h-10" />
             <span className="sm:text-lg lg:text-xl">Task Priority :</span>
           </div>
-          <div className="flex items-center gap-3 rounded-md px-4 py-2 bg-dropDown ">
-            <span style={{ color: priorityInfo.color }} className="sm:text-lg lg:text-xl">
+          <div
+            className="flex items-center gap-3 rounded-md px-4 py-2 bg-dropDown "
+            style={{ backgroundColor: priorityInfo.color + 50 }}
+          >
+            <span
+              style={{ color: priorityInfo.color }}
+              className="sm:text-lg lg:text-xl font-bold"
+            >
               {priorityInfo.name}
             </span>
           </div>
@@ -88,7 +101,7 @@ const TaskDetail = ({ task = {}, setTaskToShowDetail }) => {
       </div>
       <button
         className="  flex items-center gap-2 w-fit  text-red-600 h-12 px-5 py-8 border-2
-       border-red-600 rounded hover:bg-red-600 hover:text-foreground hover:border-foreground"
+       border-red-600 rounded hover:bg-red-600 hover:text-white hover:border-red-600  transition-all "
         onClick={handleDeleteTask}
       >
         <Trash2Icon className="w-6 h-6 sm:w-8 sm:h-8 lg:w-10 lg:h-10" />
