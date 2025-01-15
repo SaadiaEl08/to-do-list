@@ -1,12 +1,12 @@
 import { Clock, Flag, PenLine, Tag, Trash2Icon, X } from "lucide-react";
 import { cloneElement, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { steps } from "@/constants";
 import ConfirmDialog from "./ConfirmDialog";
 
 const TaskDetail = ({ task = {}, setTaskToShowDetail }) => {
-  const tasks = useSelector((state) => state.tasks);
   const {
+    id,
     title,
     description,
     formattedDate,
@@ -24,8 +24,7 @@ const TaskDetail = ({ task = {}, setTaskToShowDetail }) => {
   const [openConfirmDialog, setOpenConfirmDialog] = useState(false);
   const handleClose = () => setOpenConfirmDialog(false);
   const handleConfirm = () => {
-    const newTasks = tasks.filter((item) => item.id !== task.id);
-    dispatch({ type: "SET_TASKS", payload: newTasks });
+    dispatch({ type: "DELETE_TASK", payload: id });
     handleClose();
     setTaskToShowDetail(null);
   };
