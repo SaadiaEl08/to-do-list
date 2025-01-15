@@ -18,7 +18,7 @@ const TaskPreview = ({ task, className }) => {
     isDragging,
   } = useSortable({ id: task.id });
   const dispatch = useDispatch();
-  const {id,title, date, time, priority, category, isCompleted } = task;
+  const { id, title, date, time, priority, category, isCompleted } = task;
   const [taskToShowDetail, setTaskToShowDetail] = useState(null);
   const [openConfirmDialog, setOpenConfirmDialog] = useState(false);
   const [confirmInfo, setConfirmInfo] = useState({
@@ -28,15 +28,10 @@ const TaskPreview = ({ task, className }) => {
   });
 
   // Get category and priority info
-  const categoryInfo = categories.find((item) => item.name === category) || {
-    color: "#ccc",
-    icon: <Tag />,
-    name: "Unknown Category",
-  };
-  const priorityInfo = priorities.find((item) => item.name === priority) || {
-    color: "#ccc",
-    name: "No Priority",
-  };
+  const categoryInfo =
+    categories.find((item) => item.name === category) || null;
+  const priorityInfo =
+    priorities.find((item) => item.name === priority) || null;
 
   // Formatted values
   const formattedTitle =
@@ -64,7 +59,7 @@ const TaskPreview = ({ task, className }) => {
       onConfirm: handleConfirm,
     });
     setOpenConfirmDialog(true);
-  }; 
+  };
 
   const handleMarkAsUnCompleted = () => {
     setConfirmInfo({
@@ -141,23 +136,28 @@ const TaskPreview = ({ task, className }) => {
               </p>
             </div>
             <div className="flex items-center justify-end gap-2">
-              <div
-                className="flex items-center gap-2 rounded px-3 py-2 text-sm"
-                style={{ backgroundColor: `${categoryInfo.color}99` }}
-              >
-                {cloneElement(categoryInfo.icon, {
-                  className: "w-4 h-4 font-bold lg:w-6 lg:h-6",
-                  strokeWidth: 3,
-                })}
-                <span className="lg:text-base">{categoryInfo.name}</span>
-              </div>
-              <div
-                className="flex items-center gap-2 rounded px-3 py-2 text-sm"
-                style={{ backgroundColor: `${priorityInfo.color}99` }}
-              >
-                <Flag className="w-4 h-4 lg:w-6 lg:h-6" />
-                <span className="lg:text-base">{priorityInfo.name}</span>
-              </div>
+              {categoryInfo && (
+                <div
+                  className="flex items-center gap-2 rounded px-3 py-2 text-sm"
+                  style={{ backgroundColor: `${categoryInfo.color}99` }}
+                >
+                  {cloneElement(categoryInfo.icon, {
+                    className: "w-4 h-4 font-bold lg:w-6 lg:h-6",
+                    strokeWidth: 3,
+                  })}
+                  <span className="lg:text-base">{categoryInfo.name}</span>
+                </div>
+              )}
+
+              {priorityInfo && (
+                <div
+                  className="flex items-center gap-2 rounded px-3 py-2 text-sm"
+                  style={{ backgroundColor: `${priorityInfo.color}99` }}
+                >
+                  <Flag className="w-4 h-4 lg:w-6 lg:h-6" />
+                  <span className="lg:text-base">{priorityInfo.name}</span>
+                </div>
+              )}
             </div>
           </div>
         </div>

@@ -7,7 +7,8 @@ const TaskForm = () => {
   const mode = useSelector((state) => state.mode);
   const taskInfo = useSelector((state) => state.taskInfo);
   const handleSaveTask = () => {
-    console.log("save task");
+    console.log(taskInfo);
+    mode === "create"? dispatch({ type: "CREATE_TASK", payload: taskInfo }) : dispatch({ type: "UPDATE_TASK", payload: taskInfo });
     dispatch({ type: "SET_IS_OPEN_ADD_TASK", payload: false });
   };
 
