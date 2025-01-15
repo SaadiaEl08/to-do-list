@@ -21,7 +21,6 @@ import {
   sortableKeyboardCoordinates,
 } from "@dnd-kit/sortable";
 import dayjs from "dayjs";
-import useDebounce from "@/hooks/useDebounce";
 
 const Home = () => {
   const tasks = useSelector((state) => state.tasks);
@@ -32,9 +31,37 @@ const Home = () => {
     isCompleted: "",
   });
   const [loading, setLoading] = useState(true);
+  // load tasks
   useEffect(() => {
     setLoading(false);
   }, [tasks]);
+ 
+  // handle drag and drop section
+  const handleDragEnd = (e) => {
+    const { active, over } = e;
+    if (!over || active.id === over.id) return;
+    const originalIndex = tasks.findIndex((task) => task.id === active.id);
+    const newIndex = tasks.findIndex((task) => task.id === over.id);
+    const reorderedTasks = arrayMove(tasks, originalIndex, newIndex);
+    dispatch({ type: "SET_TASKS_ORDER", payload: reorderedTasks });
+  };
+  const sensors = useSensors(
+    useSensor(TouchSensor, {
+      activationConstraint: {
+        distance: 8,
+        delay: 1000,
+      },
+    }),
+    useSensor(MouseSensor, {
+      activationConstraint: {
+        distance: 8,
+        delay: 1000,
+      },
+    }),
+    useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates })
+  );
+
+  // handle filter section
   const HandleSearchDate = useCallback(
     (tasksToFilter) => {
       switch (search.date) {
@@ -56,16 +83,6 @@ const Home = () => {
     },
     [search.date]
   );
-  const handleDragEnd = (e) => {
-    const { active, over } = e;
-    if (!over || active.id === over.id) return;
-    const originalIndex = tasks.findIndex(
-      (task) => task.id === active.id
-    );
-    const newIndex = tasks.findIndex((task) => task.id === over.id);
-    const updatedTasks = arrayMove(tasks, originalIndex, newIndex);
-    setFilteredTasks(updatedTasks); 
-  };
   const HandleIsComplete = useCallback(
     (tasksToFilter) => {
       switch (search.isCompleted) {
@@ -79,39 +96,19 @@ const Home = () => {
     },
     [search.isCompleted]
   );
-
-  const sensors = useSensors(
-    useSensor(TouchSensor, {
-      activationConstraint: {
-        distance: 8,
-        delay: 1000,
-      },
-    }),
-    useSensor(MouseSensor, {
-      activationConstraint: {
-        distance: 8,
-        delay: 1000,
-      },
-    }),
-    useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates })
-  );
   const filteredTasks = useMemo(() => {
     let result = tasks;
-
     if (search.title) {
       result = result.filter((task) =>
         task.title.toLowerCase().includes(search.title.toLowerCase())
       );
     }
-
     if (search.date) {
       result = HandleSearchDate(result);
     }
-
     if (search.isCompleted) {
       result = HandleIsComplete(result);
     }
-
     return result;
   }, [
     HandleIsComplete,
@@ -122,9 +119,6 @@ const Home = () => {
     tasks,
   ]);
 
-  const handleSearchTitle = useDebounce((value) => {
-    setSearch((prev) => ({ ...prev, title: value }));
-  }, 300);
   return (
     <div className="relative w-full">
       {loading ? (
@@ -148,7 +142,9 @@ const Home = () => {
               id="search"
               placeholder="Search for your task..."
               className="w-full   placeholder:text-muted-foreground placeholder:opacity-50  border-0  bg-inherit outline-none"
-              onChange={(e) => handleSearchTitle(e.target.value)}
+              onChange={(e) =>
+                setSearch((prev) => ({ ...prev, title: e.target.value }))
+              }
               value={search.title}
             />
           </div>
@@ -171,7 +167,7 @@ const Home = () => {
               }
             />
           </div>
-          <div className="w-full h-full flex flex-col items-center justify-center gap-4 md:flex-wrap md:flex-row  ">
+          <div className="w-full h-full flex flex-col items-center justify-center gap-4 md:flex-wrap md:flex-row md:justify-start  ">
             <DndContext
               sensors={sensors}
               collisionDetection={closestCorners}
