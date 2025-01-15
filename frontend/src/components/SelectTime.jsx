@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 import { useRef, useCallback, useMemo } from "react";
 import useMediaQuery from "../hooks/useMediaQuery";
+import useDebounce from "@/hooks/useDebounce";
 
 const SelectTime = ({ selectedTime, setSelectedTime }) => {
   const isMdScreen = useMediaQuery("(min-width: 768px)");
@@ -32,17 +33,7 @@ const SelectTime = ({ selectedTime, setSelectedTime }) => {
     []
   );
 
-  function debounce(func, delay) {
-    let timeoutId;
-    return function (...args) {
-      if (timeoutId) {
-        clearTimeout(timeoutId);
-      }
-      timeoutId = setTimeout(() => {
-        func(...args);
-      }, delay);
-    };
-  }
+ 
 
   const handleScroll = useCallback(() => {
     const getSelectedTimeFromVisibleItem = (unit) => {
@@ -68,7 +59,7 @@ const SelectTime = ({ selectedTime, setSelectedTime }) => {
     });
   }, [refs, setSelectedTime, timeUnits]);
   const debouncedHandleScroll = useMemo(
-    () => debounce(handleScroll, 100),
+    () => useDebounce(handleScroll, 100),
     [handleScroll]
   );
 
