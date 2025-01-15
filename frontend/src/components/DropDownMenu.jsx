@@ -5,7 +5,7 @@ import { MenuItem } from "@mui/base/MenuItem";
 import { ChevronDown } from "lucide-react";
 import { useState } from "react";
 
-const DropDownMenu = ({ items = [] }) => {
+const DropDownMenu = ({ items = [], onChange }) => {
   const [selected, setSelected] = useState(items[0]);
   return (
     <Dropdown>
@@ -20,7 +20,10 @@ const DropDownMenu = ({ items = [] }) => {
               className={`hover:bg-primary rounded px-2 py-1 cursor-pointer my-2  ${
                 selected === item ? "bg-primary" : ""
               }`}
-              onClick={() => setSelected(item)}
+              onClick={() => {
+                setSelected(item);
+                onChange(item);
+              }}
             >
               {item}
             </MenuItem>
