@@ -1,10 +1,11 @@
 import { Clock, Flag, PenLine, Tag, Trash2Icon, X } from "lucide-react";
 import { cloneElement, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { steps } from "@/constants";
 import ConfirmDialog from "./ConfirmDialog";
 
 const TaskDetail = ({ task = {}, setTaskToShowDetail }) => {
+  const tasks = useSelector((state) => state.tasks);
   const {
     title,
     description,
@@ -23,8 +24,10 @@ const TaskDetail = ({ task = {}, setTaskToShowDetail }) => {
   const [openConfirmDialog, setOpenConfirmDialog] = useState(false);
   const handleClose = () => setOpenConfirmDialog(false);
   const handleConfirm = () => {
-    console.log("Confirmed!");
-    setOpenConfirmDialog(false);
+    const newTasks = tasks.filter((item) => item.id !== task.id);
+    dispatch({ type: "SET_TASKS", payload: newTasks });
+    handleClose();
+    setTaskToShowDetail(null);
   };
 
   const handleDeleteTask = () => {
@@ -73,7 +76,7 @@ const TaskDetail = ({ task = {}, setTaskToShowDetail }) => {
           </div>
           <div
             className="flex items-center gap-3 rounded-md px-4 py-2 bg-dropDown "
-            style={{ backgroundColor: categoryInfo.color }}
+            style={{ backgroundColor: categoryInfo.color + 50 }}
           >
             {cloneElement(categoryInfo.icon, {
               className: "w-6 h-6 sm:w-8 sm:h-8 lg:w-10 lg:h-10",
