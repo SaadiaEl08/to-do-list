@@ -1,21 +1,21 @@
-import { motion } from "motion/react";
 const Loading = ({ className, ...props }) => {
   return (
     <div
-    style={{zIndex: "1000"}}
+      style={{ zIndex: "1000" }}
       className={
         `fixed top-0 left-0  w-full min-h-screen h-screen flex flex-col gap-2 justify-center items-center bg-background text-foreground ` +
         className
       }
       {...props}
     >
-      <div
-        className="logo"
-        
-      >
+      <div className="logo">
         <img src="/logo.svg" />
       </div>
-      <span className="text-4xl font-bold">UpTodo</span>
+      <p className="logo-text text-4xl font-bold ">
+        {["U", "p", "t", "o", "d", "o"].map((letter,index) => (
+          <span key={letter} style={{ animationDelay: `${index * 0.2}s` }} className="inline-block">{letter}</span>
+        ))}
+      </p>
     </div>
   );
 };

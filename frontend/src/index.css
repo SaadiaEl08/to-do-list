@@ -98,3 +98,21 @@
 .hide-scrollbar::-webkit-scrollbar {
   display: none; /* For Chrome, Safari, and Opera */
 }
+
+.logo-text span{
+  animation: bounce 1.5s ease-in-out infinite alternate;
+}
+.logo-text span:nth-child(1) , .logo-text span:nth-child(3) {
+  color: var(--primary);
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+
