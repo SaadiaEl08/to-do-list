@@ -37,34 +37,34 @@ const TaskDetail = ({ task = {}, setTaskToShowDetail }) => {
     <div className="text-foreground absolute w-full min-h-full h-fit  bg-background z-10 top-0 left-0 p-4 flex flex-col items-start gap-5 lg:p-20  xl:p-10 ">
       <div>
         <X
-          className="w-6 h-6 sm:w-8 sm:h-8 lg:w-10 lg:h-10 "
+          className="w-6 h-6  "
           onClick={() => setTaskToShowDetail(null)}
         />
       </div>
       <div className="w-full flex  justify-between items-start">
         <div className=" w-10/12 flex flex-col justify-between">
-          <h1 className="text-xl font-normal sm:text-2xl lg:text-3xl">
+          <h1 className="text-xl font-normal ">
             {title}
           </h1>
-          <p className="text-base text-muted-foreground sm:text-lg lg:text-xl ">
+          <p className="text-base text-muted-foreground  ">
             {description}
           </p>
         </div>
         <div>
           <PenLine
-            className="w-6 h-6 sm:w-8 sm:h-8 lg:w-10 lg:h-10"
+            className="w-6 h-6 "
             onClick={handleEditTask}
           />
         </div>
       </div>
       <div className=" w-full flex flex-col gap-5 ">
         <div className=" flex items-center justify-between">
-          <div className=" flex items-center  gap-3">
-            <Clock className="w-6 h-6 sm:w-8 sm:h-8 lg:w-10 lg:h-10 " />
-            <span className="sm:text-lg lg:text-xl">Task Time :</span>
+          <div className=" flex items-center gap-3">
+            <Clock className="w-6 h-6 " />
+            <span >Task Time :</span>
           </div>
           <div className="rounded-md px-4 py-2 bg-dropDown ">
-            <span className="sm:text-lg lg:text-xl">
+            <span >
               {formattedDate} At {formattedTime}
             </span>
           </div>
@@ -72,17 +72,17 @@ const TaskDetail = ({ task = {}, setTaskToShowDetail }) => {
         {categoryInfo && (
           <div className=" flex items-center justify-between ">
             <div className=" flex items-center  gap-3 ">
-              <Tag className="w-6 h-6 sm:w-8 sm:h-8 lg:w-10 lg:h-10" />
-              <span className="sm:text-lg lg:text-xl">Task Category :</span>
+              <Tag className="w-6 h-6 " />
+              <span >Task Category :</span>
             </div>
             <div
               className="flex items-center gap-3 rounded-md px-4 py-2 bg-dropDown "
               style={{ backgroundColor: categoryInfo.color + 50 }}
             >
               {cloneElement(categoryInfo.icon, {
-                className: "w-6 h-6 sm:w-8 sm:h-8 lg:w-10 lg:h-10",
+                className: "w-6 h-6",
               })}
-              <span className="sm:text-lg lg:text-xl">
+              <span>
                 {" "}
                 {categoryInfo.name}
               </span>
@@ -93,8 +93,8 @@ const TaskDetail = ({ task = {}, setTaskToShowDetail }) => {
         {priorityInfo && (
           <div className=" flex items-center justify-between ">
             <div className=" flex items-center  gap-3 ">
-              <Flag className="w-6 h-6 sm:w-8 sm:h-8 lg:w-10 lg:h-10" />
-              <span className="sm:text-lg lg:text-xl">Task Priority :</span>
+              <Flag className="w-6 h-6" />
+              <span>Task Priority :</span>
             </div>
             <div
               className="flex items-center gap-3 rounded-md px-4 py-2 bg-dropDown "
@@ -102,7 +102,7 @@ const TaskDetail = ({ task = {}, setTaskToShowDetail }) => {
             >
               <span
                 style={{ color: priorityInfo.color }}
-                className="sm:text-lg lg:text-xl font-bold"
+                className="font-bold"
               >
                 {priorityInfo.name}
               </span>
@@ -111,12 +111,12 @@ const TaskDetail = ({ task = {}, setTaskToShowDetail }) => {
         )}
       </div>
       <button
-        className="  flex items-center gap-2 w-fit  text-red-600 h-12 px-5 py-8 border-2
+        className="flex items-center gap-2 w-fit  text-red-600  px-5 py-2 border-2
        border-red-600 rounded hover:bg-red-600 hover:text-white hover:border-red-600  transition-all "
         onClick={handleDeleteTask}
       >
-        <Trash2Icon className="w-6 h-6 sm:w-8 sm:h-8 lg:w-10 lg:h-10" />
-        <span className="sm:text-lg lg:text-xl">Delete this task</span>
+        <Trash2Icon className="w-6 h-6 " />
+        <span>Delete this task</span>
       </button>
       <ConfirmDialog
         open={openConfirmDialog}

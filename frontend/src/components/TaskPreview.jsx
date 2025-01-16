@@ -3,7 +3,7 @@ import { categories, getDay, priorities } from "@/constants";
 import { CheckCircle2, Circle, Eye, Flag, Tag } from "lucide-react";
 import { cloneElement, useState } from "react";
 import TaskDetail from "./TaskDetail";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch} from "react-redux";
 import ConfirmDialog from "./ConfirmDialog";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
@@ -94,7 +94,7 @@ const TaskPreview = ({ task, className }) => {
         {...listeners}
         onClick={(e) => e.stopPropagation()}
         style={style}
-        className={`task-item w-full text-foreground flex items-center justify-between bg-dropDown rounded-lg pointer-events-auto md:w-[48%]  ${className}`}
+        className={`task-item w-full text-foreground flex items-center justify-between bg-dropDown rounded-lg pointer-events-auto md:w-[48%]   ${className}`}
       >
         {" "}
         {!isCompleted ? (
@@ -119,8 +119,8 @@ const TaskPreview = ({ task, className }) => {
           title={confirmInfo.title}
           message={confirmInfo.message}
         />
-        <div className="w-full flex flex-col p-2 gap-3 lg:text-xl">
-          <h1 className="opacity-90 flex items-center justify-between sm:text-lg  lg:text-xl">
+        <div className="w-full flex flex-col p-2 gap-3">
+          <h1 className="opacity-90 flex items-center justify-between ">
             {formattedTitle}{" "}
             <Eye
               className="w-4 md:w-6 cursor-pointer"
@@ -142,7 +142,7 @@ const TaskPreview = ({ task, className }) => {
                   style={{ backgroundColor: `${categoryInfo.color}99` }}
                 >
                   {cloneElement(categoryInfo.icon, {
-                    className: "w-4 h-4 font-bold lg:w-6 lg:h-6",
+                    className: "w-4 h-4 font-bold ",
                     strokeWidth: 3,
                   })}
                   <span className="lg:text-base">{categoryInfo.name}</span>
@@ -154,7 +154,7 @@ const TaskPreview = ({ task, className }) => {
                   className="flex items-center gap-2 rounded px-3 py-2 text-sm"
                   style={{ backgroundColor: `${priorityInfo.color}99` }}
                 >
-                  <Flag className="w-4 h-4 lg:w-6 lg:h-6" />
+                  <Flag className="w-4 h-4 " />
                   <span className="lg:text-base">{priorityInfo.name}</span>
                 </div>
               )}
