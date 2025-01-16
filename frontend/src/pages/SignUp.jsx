@@ -1,8 +1,17 @@
-import { ChevronLeft, EyeClosed } from "lucide-react";
+import { ChevronLeft, Eye, EyeClosed } from "lucide-react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router";
 
 const SignUp = () => {
   const navigate = useNavigate();
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmedPassword, setConfirmedPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmedPassword, setShowConfirmedPassword] = useState(false);
+  const handleRegister = () => {
+    navigate("/home");
+  };
   return (
     <main className="w-full min-h-screen h-screen bg-background text-foreground flex flex-col justify-evenly items-start p-4">
       <div className="w-full h-full flex flex-col justify-evenly items-start md:w-1/2  m-auto">
@@ -12,11 +21,13 @@ const SignUp = () => {
         <h1 className="text-3xl font-bold">Register</h1>
         <div className="w-full flex flex-col gap-4 justify-start items-start">
           <div className="w-full flex flex-col gap-2 justify-start items-start">
-            <label htmlFor="username">Username</label>
+            <label htmlFor="username">Username, Email or Phone Number</label>
             <input
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
               type="text"
               id="username"
-              placeholder="Enter your Username"
+              placeholder="Enter your Username, Email or Phone Number"
               className="w-full p-2 placeholder:text-muted-foreground placeholder:opacity-50  border-2 border-muted-foreground bg-input rounded outline-none"
             />
           </div>
@@ -24,30 +35,59 @@ const SignUp = () => {
             <label htmlFor="password">Password</label>
             <div className="w-full flex items-center">
               <input
-                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                type={showPassword ? "text" : "password"}
                 id="password"
                 placeholder="Enter your Password"
                 className="w-full  p-2 placeholder:text-muted-foreground placeholder:opacity-50  border-y-2 border-s-2 border-muted-foreground bg-input rounded-s outline-none"
               />
-              <EyeClosed className="border-y-2 border-e-2 border-muted-foreground bg-input rounded-e w-12 h-full  text-center pe-3 " />
+              {showPassword ? (
+                <Eye
+                  className="border-y-2 border-e-2 border-muted-foreground bg-input rounded-e w-12 h-full  text-center pe-3 "
+                  onClick={() => setShowPassword(false)}
+                />
+              ) : (
+                <EyeClosed
+                  className="border-y-2 border-e-2 border-muted-foreground bg-input rounded-e w-12 h-full  text-center pe-3 "
+                  onClick={() => setShowPassword(true)}
+                />
+              )}
             </div>
           </div>
           <div className="w-full flex flex-col gap-2 justify-start items-start">
             <label htmlFor="confirmPassword">Confirm Password</label>
             <div className="w-full flex items-center">
               <input
-                type="password"
+                value={confirmedPassword}
+                onChange={(e) => setConfirmedPassword(e.target.value)}
+                type={showConfirmedPassword ? "text" : "password"}
                 id="confirmPassword"
                 placeholder="re-enter your Password"
                 className="w-full  p-2 placeholder:text-muted-foreground placeholder:opacity-50  border-y-2 border-s-2 border-muted-foreground bg-input rounded-s outline-none"
               />
-              <EyeClosed className="border-y-2 border-e-2 border-muted-foreground bg-input rounded-e w-12 h-full  text-center pe-3 " />
+              {showConfirmedPassword ? (
+                <Eye
+                  className="border-y-2 border-e-2 border-muted-foreground bg-input rounded-e w-12 h-full  text-center pe-3 "
+                  onClick={() => setShowConfirmedPassword(false)}
+                />
+              ) : (
+                <EyeClosed
+                  className="border-y-2 border-e-2 border-muted-foreground bg-input rounded-e w-12 h-full  text-center pe-3 "
+                  onClick={() => setShowConfirmedPassword(true)}
+                />
+              )}
             </div>
           </div>
         </div>
         <button
           className="w-full p-2 bg-primary rounded disabled:opacity-50 disabled:cursor-not-allowed"
-          disabled
+          disabled={
+            username != "" && password != "" && confirmedPassword === password
+              ? false
+              : true
+          }
+          onClick={handleRegister}
         >
           Register
         </button>
