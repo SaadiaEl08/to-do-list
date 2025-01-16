@@ -43,13 +43,13 @@ const Intro = () => {
       {showLoading ? (
         <Loading />
       ) : (
-        <main>
+        <main className="bg-background">
           {listOfIntroPagesData.map(
             (page, index) =>
               page.id === introPageIndex && (
                 <div
                   key={index}
-                  className="w-full min-h-screen h-screen flex flex-col justify-between items-center bg-background text-foreground p-4 pb-10"
+                  className="w-full min-h-screen h-screen flex flex-col justify-between items-center bg-background text-foreground p-4 pb-10 md:w-1/2 m-auto"
                 >
                   <div className="w-full">
                     <span

@@ -4,13 +4,13 @@ import { Link, useNavigate } from "react-router";
 const Welcome = () => {
   const navigate = useNavigate();
   return (
-    <div className="w-full min-h-screen h-screen flex flex-col justify-start items-center bg-background text-foreground p-4 pb-10">
-      <div className="w-full pt-5">
+    <div className="w-full min-h-screen h-screen flex flex-col justify-start items-center bg-background text-foreground p-4 pb-10 ">
+      <div className="w-full pt-5 md:w-1/2">
         <ChevronLeft
           onClick={() => navigate("/")}
         />
       </div>
-      <div className=" w-full h-full flex flex-col justify-between items-center">
+      <div className=" w-full h-full flex flex-col justify-between items-center md:w-1/2 ">
         <div className="w-full h-[50%] flex flex-col justify-center items-center gap-6">
           <h1 className="title text-3xl font-bold">Welcome to UpTodo</h1>
           <p className="text w-full text-center text-foreground opacity-80">

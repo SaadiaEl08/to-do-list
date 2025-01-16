@@ -35,9 +35,9 @@ const TaskDetail = ({ task = {}, setTaskToShowDetail }) => {
   };
   return (
     <div className="text-foreground absolute w-full min-h-full h-fit  bg-background z-10 top-0 left-0 p-4 flex flex-col items-start gap-5 lg:p-20  xl:p-10 ">
-      <div>
+      <div className="w-full flex justify-end">
         <X
-          className="w-6 h-6  "
+          className="w-6 h-6 cursor-pointer"
           onClick={() => setTaskToShowDetail(null)}
         />
       </div>
