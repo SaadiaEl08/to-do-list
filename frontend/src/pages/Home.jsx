@@ -35,7 +35,7 @@ const Home = () => {
   useEffect(() => {
     setLoading(false);
   }, [tasks]);
- 
+
   // handle drag and drop section
   const handleDragEnd = (e) => {
     const { active, over } = e;
@@ -177,16 +177,22 @@ const Home = () => {
                 items={filteredTasks}
                 strategy={rectSortingStrategy}
               >
-                {filteredTasks.map((task, index) => {
-                  return (
-                    <TaskPreview
-                      task={task}
-                      key={index}
-                      index={index}
-                      className={"cursor-grab active:cursor-grabbing"}
-                    />
-                  );
-                })}
+                {filteredTasks.length === 0 ? (
+                  <p className="text-foreground text-center m-auto ">
+                    No tasks for the applied filters
+                  </p>
+                ) : (
+                  filteredTasks.map((task, index) => {
+                    return (
+                      <TaskPreview
+                        task={task}
+                        key={index}
+                        index={index}
+                        className={"cursor-grab active:cursor-grabbing"}
+                      />
+                    );
+                  })
+                )}
               </SortableContext>
               <DragOverlay></DragOverlay>
             </DndContext>
