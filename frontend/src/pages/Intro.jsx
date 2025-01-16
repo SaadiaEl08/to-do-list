@@ -53,7 +53,7 @@ const Intro = () => {
                 >
                   <div className="w-full">
                     <span
-                      className="text-muted-foreground"
+                      className="text-muted-foreground cursor-pointer"
                       onClick={() => navigate("/welcome")}
                     >
                       Skip
