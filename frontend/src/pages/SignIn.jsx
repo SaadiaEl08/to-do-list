@@ -36,7 +36,7 @@ const SignIn = () => {
         <h1 className="text-3xl font-bold">Login</h1>
         <div className="w-full flex flex-col gap-4 justify-start items-start">
           <div className="w-full flex flex-col gap-2 justify-start items-start">
-            <label htmlFor="username">Username, email or phone number</label>
+            <label htmlFor="username">Username, Email or Phone Number</label>
             <input
               type="text"
               id="username"
