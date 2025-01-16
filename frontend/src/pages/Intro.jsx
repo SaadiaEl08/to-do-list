@@ -26,9 +26,12 @@ const Intro = () => {
       text: "You can organize your daily tasks by adding your tasks into separate categories",
     },
   ];
+  const [swipeDirection, setSwipeDirection] = useState("direction-alternate");
   const handleNextClick = () => {
-    introPageIndex < listOfIntroPagesData.length ?
-      setIntroPageIndex(introPageIndex + 1)
+    setSwipeDirection("direction-alternate")
+
+    introPageIndex < listOfIntroPagesData.length
+      ? setIntroPageIndex(introPageIndex + 1)
       : navigate("/welcome");
   };
   useEffect(() => {
@@ -59,7 +62,9 @@ const Intro = () => {
                       Skip
                     </span>
                   </div>
-                  <div className="w-full h-[50%] flex justify-center items-center">
+                  <div
+                    className={`swipe-animation w-full h-[50%] flex justify-center items-center ${swipeDirection} `}
+                  >
                     <img src={page.Image} />
                   </div>
                   <div className="step flex justify-evenly items-center w-[50%] mx-auto gap-4 ">
@@ -67,7 +72,7 @@ const Intro = () => {
                       (_, index) => (
                         <div
                           key={index}
-                          className={`w-full border-2 ${
+                          className={`w-full border-2  ${
                             index + 1 === page.id
                               ? "border-foreground"
                               : "border-muted-foreground "
@@ -84,7 +89,9 @@ const Intro = () => {
                     <button
                       className="text-muted-foreground disabled:cursor-not-allowed"
                       disabled={introPageIndex === 1}
-                      onClick={() => setIntroPageIndex(introPageIndex - 1)}
+                      onClick={() => {setIntroPageIndex(introPageIndex - 1)
+                        setSwipeDirection("direction-alternate-reverse")
+                      }}
                     >
                       BACK
                     </button>

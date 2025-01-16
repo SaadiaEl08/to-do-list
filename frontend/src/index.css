@@ -19,7 +19,6 @@
   --dropDown: #444444;
   --text-background: #1d1d1d;
 
-
   --card: 0 0% 100%;
   --card-foreground: 0 0% 3.9%;
   --popover-foreground: 0 0% 3.9%;
@@ -47,16 +46,16 @@
   --sidebar-ring: 217.2 91.2% 59.8%;
 }
 .dark {
-  --background: #e0e0e0; 
-  --muted: #d0d0d0; 
-  --foreground: #121212; 
+  --background: #e0e0e0;
+  --muted: #d0d0d0;
+  --foreground: #121212;
   --muted-foreground: #00000085;
   --primary: #8875ff;
-  --input: #f0f0f0; 
-  --popover: #f9f9f9; 
-  --radius: 8px; 
-  --dropDown: #d0d0d0; 
-  --text-background: #ebebeb; 
+  --input: #f0f0f0;
+  --popover: #f9f9f9;
+  --radius: 8px;
+  --dropDown: #d0d0d0;
+  --text-background: #ebebeb;
 
   --card: 0 0% 3.9%;
   --card-foreground: 0 0% 98%;
@@ -99,15 +98,17 @@
   display: none; /* For Chrome, Safari, and Opera */
 }
 
-.logo-text span{
+.logo-text span {
   animation: bounce 1.5s ease-in-out infinite alternate;
 }
-.logo-text span:nth-child(1) , .logo-text span:nth-child(3) {
+.logo-text span:nth-child(1),
+.logo-text span:nth-child(3) {
   color: var(--primary);
 }
 
 @keyframes bounce {
-  0%, 100% {
+  0%,
+  100% {
     transform: translateY(0);
   }
   50% {
@@ -115,4 +116,18 @@
   }
 }
 
+.swipe-animation{
+  animation: swipe 1s ease-in-out ;
+}
 
+@keyframes swipe {
+  0% {
+    transform: translateX(200px);
+  }
+  50% {
+    transform: translateX(0px);
+  }
+  100% {
+    transform: translateX(0px);
+  }
+}
