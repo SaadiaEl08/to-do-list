@@ -2,7 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
-* {
+*,
+*::before,
+*::after {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -113,21 +115,5 @@
   }
   50% {
     transform: translateY(-10px);
-  }
-}
-
-.swipe-animation{
-  animation: swipe 1s ease-in-out ;
-}
-
-@keyframes swipe {
-  0% {
-    transform: translateX(200px);
-  }
-  50% {
-    transform: translateX(0px);
-  }
-  100% {
-    transform: translateX(0px);
   }
 }
