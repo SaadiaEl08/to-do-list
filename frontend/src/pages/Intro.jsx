@@ -26,10 +26,7 @@ const Intro = () => {
       text: "You can organize your daily tasks by adding your tasks into separate categories",
     },
   ];
-  const [swipeDirection, setSwipeDirection] = useState("direction-alternate");
   const handleNextClick = () => {
-    setSwipeDirection("direction-alternate")
-
     introPageIndex < listOfIntroPagesData.length
       ? setIntroPageIndex(introPageIndex + 1)
       : navigate("/welcome");
@@ -63,7 +60,7 @@ const Intro = () => {
                     </span>
                   </div>
                   <div
-                    className={`swipe-animation w-full h-[50%] flex justify-center items-center ${swipeDirection} `}
+                    className={`w-full h-[50%] flex justify-center items-center`}
                   >
                     <img src={page.Image} />
                   </div>
@@ -89,8 +86,8 @@ const Intro = () => {
                     <button
                       className="text-muted-foreground disabled:cursor-not-allowed"
                       disabled={introPageIndex === 1}
-                      onClick={() => {setIntroPageIndex(introPageIndex - 1)
-                        setSwipeDirection("direction-alternate-reverse")
+                      onClick={() => {
+                        setIntroPageIndex(introPageIndex - 1);
                       }}
                     >
                       BACK
