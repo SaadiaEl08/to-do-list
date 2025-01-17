@@ -12,8 +12,14 @@ const Loading = ({ className, ...props }) => {
         <img src="/logo.svg" />
       </div>
       <p className="logo-text text-4xl font-bold ">
-        {["U", "p", "t", "o", "d", "o"].map((letter,index) => (
-          <span key={letter} style={{ animationDelay: `${index * 0.2}s` }} className="inline-block">{letter}</span>
+        {["U", "p", "t", "o", "d", "o"].map((letter, index) => (
+          <span
+            key={letter + index}
+            style={{ animationDelay: `${index * 0.2}s` }}
+            className="inline-block"
+          >
+            {letter}
+          </span>
         ))}
       </p>
     </div>
