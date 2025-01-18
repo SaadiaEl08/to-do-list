@@ -10,6 +10,46 @@
   box-sizing: border-box;
 }
 :root {
+  --background: #e0e0e0;
+  --muted: #d0d0d0;
+  --foreground: #121212;
+  --muted-foreground: #00000085;
+  --primary: #8875ff;
+  --input: #f0f0f0;
+  --popover: #f9f9f9;
+  --radius: 8px;
+  --dropDown: #d0d0d0;
+  --text-background: #ebebeb;
+  --timeUnitHeight: 36px;
+
+
+  --card: 0 0% 3.9%;
+  --card-foreground: 0 0% 98%;
+  --popover-foreground: 0 0% 98%;
+  --primary-foreground: 0 0% 9%;
+  --secondary: 0 0% 14.9%;
+  --secondary-foreground: 0 0% 98%;
+  --accent: 0 0% 14.9%;
+  --accent-foreground: 0 0% 98%;
+  --destructive: 0 62.8% 30.6%;
+  --destructive-foreground: 0 0% 98%;
+  --border: 0 0% 14.9%;
+  --ring: 0 0% 83.1%;
+  --chart-1: 220 70% 50%;
+  --chart-2: 160 60% 45%;
+  --chart-3: 30 80% 55%;
+  --chart-4: 280 65% 60%;
+  --chart-5: 340 75% 55%;
+  --sidebar-background: 240 5.9% 10%;
+  --sidebar-foreground: 240 4.8% 95.9%;
+  --sidebar-primary: 224.3 76.3% 48%;
+  --sidebar-primary-foreground: 0 0% 100%;
+  --sidebar-accent: 240 3.7% 15.9%;
+  --sidebar-accent-foreground: 240 4.8% 95.9%;
+  --sidebar-border: 240 3.7% 15.9%;
+  --sidebar-ring: 217.2 91.2% 59.8%;
+}
+.dark {
   --background: #121212;
   --muted: #363636;
   --foreground: #ffffff;
@@ -48,44 +88,7 @@
   --sidebar-border: 220 13% 91%;
   --sidebar-ring: 217.2 91.2% 59.8%;
 }
-.dark {
-  --background: #e0e0e0;
-  --muted: #d0d0d0;
-  --foreground: #121212;
-  --muted-foreground: #00000085;
-  --primary: #8875ff;
-  --input: #f0f0f0;
-  --popover: #f9f9f9;
-  --radius: 8px;
-  --dropDown: #d0d0d0;
-  --text-background: #ebebeb;
 
-  --card: 0 0% 3.9%;
-  --card-foreground: 0 0% 98%;
-  --popover-foreground: 0 0% 98%;
-  --primary-foreground: 0 0% 9%;
-  --secondary: 0 0% 14.9%;
-  --secondary-foreground: 0 0% 98%;
-  --accent: 0 0% 14.9%;
-  --accent-foreground: 0 0% 98%;
-  --destructive: 0 62.8% 30.6%;
-  --destructive-foreground: 0 0% 98%;
-  --border: 0 0% 14.9%;
-  --ring: 0 0% 83.1%;
-  --chart-1: 220 70% 50%;
-  --chart-2: 160 60% 45%;
-  --chart-3: 30 80% 55%;
-  --chart-4: 280 65% 60%;
-  --chart-5: 340 75% 55%;
-  --sidebar-background: 240 5.9% 10%;
-  --sidebar-foreground: 240 4.8% 95.9%;
-  --sidebar-primary: 224.3 76.3% 48%;
-  --sidebar-primary-foreground: 0 0% 100%;
-  --sidebar-accent: 240 3.7% 15.9%;
-  --sidebar-accent-foreground: 240 4.8% 95.9%;
-  --sidebar-border: 240 3.7% 15.9%;
-  --sidebar-ring: 217.2 91.2% 59.8%;
-}
 .MuiDayCalendar-root .MuiDayCalendar-weekDayLabel {
   color: var(--foreground);
   font-size: 16px;
