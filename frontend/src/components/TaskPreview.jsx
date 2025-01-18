@@ -94,7 +94,7 @@ const TaskPreview = ({ task, className }) => {
         {...listeners}
         onClick={(e) => e.stopPropagation()}
         style={style}
-        className={`task-item w-full text-foreground flex items-center justify-between bg-dropDown rounded-lg pointer-events-auto md:w-[48%]  min-h-24  ${className}`}
+        className={`show-task-animation show-task-animation task-item w-full text-foreground flex items-center justify-between bg-dropDown rounded-lg pointer-events-auto md:w-[48%]  min-h-24  ${className}`}
       >
         {" "}
         {!isCompleted ? (

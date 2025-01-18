@@ -81,7 +81,7 @@ const Timer = () => {
   };
 
   return (
-    <div className="container flex flex-col justify-center items-center p-3  gap-6 h-[80%] sm:gap-10 xl:flex-row xl:flex-wrap xl:gap-0">
+    <div className="container flex flex-col justify-center items-center p-3  gap-6 xl:h-[80%] sm:gap-10 xl:flex-row xl:flex-wrap xl:gap-0">
       <div className="flex flex-col justify-center items-center w-full gap-y-4  md:flex-row  xl:w-[55%] ">
         <BigTimerClock selectedTime={selectedTime} />
         {/* Mini Clocks */}
