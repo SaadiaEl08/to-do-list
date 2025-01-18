@@ -1,5 +1,5 @@
 import { Clock, Flag, PenLine, Tag, Trash2Icon, X } from "lucide-react";
-import { cloneElement, useState } from "react";
+import { cloneElement, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { steps } from "@/constants";
 import ConfirmDialog from "./ConfirmDialog";
@@ -33,8 +33,19 @@ const TaskDetail = ({ task = {}, setTaskToShowDetail }) => {
   const handleDeleteTask = () => {
     setOpenConfirmDialog(true);
   };
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      if (event.key === "Escape") {
+        setTaskToShowDetail(null);
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, []);
   return (
-    <div className="text-foreground absolute w-full min-h-full h-fit  bg-background z-10 top-0 left-0 p-4 flex flex-col items-start gap-5 lg:p-20  xl:p-10 ">
+    <div className="text-foreground fixed w-full min-h-full h-fit  bg-background z-10 top-0 left-0 p-4 flex flex-col items-start gap-5 lg:p-20  xl:p-10 ">
       <div className="w-full flex justify-end">
         <X
           className="w-6 h-6 cursor-pointer"
@@ -52,7 +63,7 @@ const TaskDetail = ({ task = {}, setTaskToShowDetail }) => {
         </div>
         <div>
           <PenLine
-            className="w-6 h-6 "
+            className="w-6 h-6 cursor-pointer"
             onClick={handleEditTask}
           />
         </div>
