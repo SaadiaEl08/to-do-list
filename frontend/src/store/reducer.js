@@ -14,7 +14,10 @@ const initialState = {
             order: 0,
       },
       tasks: [],
-      mode: "create"
+      mode: "create",
+      accountInfo: {
+            name: JSON.parse(localStorage.getItem("accountInfo"))?.name || "User",
+      }
 };
 const reducer = (state = initialState, action) => {
       switch (action.type) {
@@ -43,6 +46,8 @@ const reducer = (state = initialState, action) => {
                   };
             case "SET_MODE":
                   return { ...state, mode: action.payload };
+            case "SET_ACCOUNT_INFO":
+                  return { ...state, accountInfo: { ...state.accountInfo, ...action.payload } };
             default:
                   return state;
       }
