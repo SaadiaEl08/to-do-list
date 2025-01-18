@@ -117,3 +117,50 @@
     transform: translateY(-10px);
   }
 }
+
+.rotate-border-container {
+  position: relative;
+  padding: 2px;
+}
+
+.rotate-border-element {
+  position: relative;
+  z-index: 1;
+}
+@property --angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+.rotate-border-container::before {
+  content: "";
+  position: absolute;
+  height: 100%; 
+  width: 100%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: inherit;
+  background-image: conic-gradient(
+    from var(--angle),
+    var(--primary) 25%,
+    transparent 75%
+  );
+  
+  animation: rotate 2.7s linear infinite;
+  z-index: 0;
+}
+
+@keyframes rotate {
+  0% {
+    --angle: 0deg;
+  }
+
+  50% {
+    --angle: 180deg;
+  }
+
+  100% {
+    --angle: 360deg;
+  }
+}
