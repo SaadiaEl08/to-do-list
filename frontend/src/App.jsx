@@ -8,7 +8,7 @@ import dayjs from "dayjs";
 import { ThemeContext } from "./contexts/ThemeContext";
 
 const App = () => {
-  const { theme, toggleTheme } = useContext(ThemeContext);
+  const { theme } = useContext(ThemeContext);
   const isOpenAddTask = useSelector((state) => state.isOpenAddTask);
   const dispatch = useDispatch();
   useEffect(() => {
@@ -88,7 +88,6 @@ const App = () => {
   return (
     <main
       className={`w-full h-screen bg-background flex flex-col justify-end relative ${theme}`}
-      // onClick={toggleTheme}
     >
       <div className="h-full xl:ms-[4%] flex flex-col items-center overflow-y-auto ">
         <TopSection />
