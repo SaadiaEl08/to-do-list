@@ -17,10 +17,12 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router";
 import AppInfo from "@/components/AppInfo";
 import ListItem from "@/components/listItem";
+import { useSelector } from "react-redux";
 
 const Profile = () => {
   const [changeAccount, setChangeAccount] = useState(null);
   const [appInfos, setAppInfos] = useState(null);
+  const name =useSelector((state) => state.accountInfo.name);
 
   const nav = useNavigate();
   const listItems = [
@@ -87,7 +89,7 @@ const Profile = () => {
         alt="profile photo"
         className="rounded-full w-20 h-20  object-fill "
       />
-      <span className="capitalize">User name</span>
+      <span className="capitalize">{name}</span>
       <div className=" w-full flex flex-wrap justify-evenly items-center px-4 py-2">
         <div className="text-center px-9 py-4 bg-popover rounded-lg">
           Task left

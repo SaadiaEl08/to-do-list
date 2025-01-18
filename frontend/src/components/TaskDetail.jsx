@@ -45,7 +45,7 @@ const TaskDetail = ({ task = {}, setTaskToShowDetail }) => {
     };
   }, []);
   return (
-    <div className="text-foreground fixed w-full min-h-full h-fit  bg-background z-10 top-0 left-0 p-4 flex flex-col items-start gap-5 lg:p-20  xl:p-10 ">
+    <div className="text-foreground fixed w-full min-h-full h-fit  bg-background z-20 top-0 left-0 p-4 flex flex-col items-start gap-5 lg:p-20  xl:p-10 ">
       <div className="w-full flex justify-end">
         <X
           className="w-6 h-6 cursor-pointer"
