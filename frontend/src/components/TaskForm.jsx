@@ -1,16 +1,34 @@
 import { steps } from "@/constants";
 import { AlarmClockPlus, LucideFlag, SendHorizonal, Tag } from "lucide-react";
+import { useEffect,useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 const TaskForm = () => {
   const dispatch = useDispatch();
   const mode = useSelector((state) => state.mode);
   const taskInfo = useSelector((state) => state.taskInfo);
-  const handleSaveTask = () => {
-    console.log(taskInfo);
-    mode === "create"? dispatch({ type: "CREATE_TASK", payload: taskInfo }) : dispatch({ type: "UPDATE_TASK", payload: taskInfo });
-    dispatch({ type: "SET_IS_OPEN_ADD_TASK", payload: false });
-  };
+
+  const handleSaveTask = useCallback(() => {
+    if (taskInfo.title && taskInfo.description) {
+      mode === "create"
+        ? dispatch({ type: "CREATE_TASK", payload: taskInfo })
+        : dispatch({ type: "UPDATE_TASK", payload: taskInfo });
+      dispatch({ type: "SET_IS_OPEN_ADD_TASK", payload: false });
+    } else {
+      alert("Please fill all the fields");
+    }
+  }, [dispatch, mode, taskInfo]);
+  useEffect(() => {
+    const enterClickEvent = (e) => {
+      if (e.key === "Enter") {
+        handleSaveTask();
+      }
+    };
+    window.addEventListener("keydown", enterClickEvent);
+    return () => {
+      window.removeEventListener("keydown", enterClickEvent);
+    };
+  }, [handleSaveTask]);
 
   return (
     <div className="w-[80vw] flex flex-col gap-4 sm:w-[50vw] lg:w-[40vw]">
@@ -71,6 +89,7 @@ const TaskForm = () => {
         </div>
         <SendHorizonal
           title="Save task"
+          id="saveTask"
           onClick={handleSaveTask}
           className={`text-primary  ${
             taskInfo.title && taskInfo.description
