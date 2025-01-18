@@ -87,7 +87,7 @@ const App = () => {
 
   return (
     <main
-      className={`w-full h-screen bg-background flex flex-col justify-end relative ${theme}`}
+      className={`min-w-full w-full min-h-screen h-screen bg-background flex flex-col justify-end relative ${theme} `}
     >
       <div className="h-full xl:ms-[4%] flex flex-col items-center overflow-y-auto ">
         <TopSection />
