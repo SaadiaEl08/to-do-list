@@ -167,7 +167,7 @@ const Home = () => {
               }
             />
           </div>
-          <div className="w-full h-full flex flex-col items-center justify-center gap-4 md:flex-wrap md:flex-row md:justify-start  ">
+          <div className="w-full h-full flex flex-col  justify-center gap-4 items-stretch  md:flex-wrap md:flex-row md:justify-start  ">
             <DndContext
               sensors={sensors}
               collisionDetection={closestCorners}
