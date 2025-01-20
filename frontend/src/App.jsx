@@ -3,12 +3,10 @@ import NavigationMenu from "./components/NavigationMenu";
 import TopSection from "./components/TopSection";
 import TaskAction from "./components/TaskAction";
 import { useDispatch, useSelector } from "react-redux";
-import { useContext, useEffect } from "react";
+import { useEffect } from "react";
 import dayjs from "dayjs";
-import { ThemeContext } from "./contexts/ThemeContext";
 
 const App = () => {
-  const { theme } = useContext(ThemeContext);
   const isOpenAddTask = useSelector((state) => state.isOpenAddTask);
   const dispatch = useDispatch();
   useEffect(() => {
@@ -87,7 +85,7 @@ const App = () => {
 
   return (
     <main
-      className={`min-w-full w-full min-h-screen h-screen bg-background flex flex-col justify-end relative ${theme} `}
+      className={`min-w-full w-full min-h-screen h-screen bg-background flex flex-col justify-end relative `}
     >
       <div className="h-full xl:ms-[4%] flex flex-col items-center overflow-y-auto ">
         <TopSection />
