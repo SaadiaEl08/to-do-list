@@ -9,6 +9,8 @@ export const ThemeProvider = ({ children }) => {
   const [theme, setTheme] = useState(savedTheme || systemTheme);
 
   useEffect(() => {
+    document.querySelector("html").classList = "";
+    document.querySelector("html").classList = theme;
     localStorage.setItem("theme", theme);
   }, [theme]);
   const toggleTheme = () => {
