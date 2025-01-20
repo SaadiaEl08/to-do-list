@@ -19,7 +19,7 @@ const NavigationMenu = () => {
     { id: 4, name: "Profile", icon: <User />, link: "/profile" },
   ];
   return (
-    <div className="bg-muted relative text-foreground w-full flex flex-col items-center justify-center z-10 xl:w-[4%]  xl:absolute xl:p-4 xl:rounded-md xl:top-1/2 xl:-translate-y-1/2 xl:ms-1">
+    <div className="bg-muted relative text-foreground w-full flex flex-col items-center justify-center z-10 md:w-1/2 md:m-auto xl:w-[4%]  xl:absolute xl:p-4 xl:rounded-md xl:top-1/2 xl:-translate-y-1/2 xl:ms-1">
       <div className="rounded-full absolute bg-primary w-16 aspect-square flex items-center justify-center -top-8 left-1/2 -translate-x-1/2    xl:static xl:top-0 xl:translate-x-0 xl:translate-y-0 xl:w-10">
         <Plus
           className="w-8 cursor-pointer  aspect-square"

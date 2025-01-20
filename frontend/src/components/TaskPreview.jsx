@@ -94,7 +94,7 @@ const TaskPreview = ({ task, className }) => {
         {...listeners}
         onClick={(e) => e.stopPropagation()}
         style={style}
-        className={`show-task-animation show-task-animation task-item w-full text-foreground flex items-center justify-between bg-dropDown rounded-lg pointer-events-auto md:w-[48%]  min-h-24  ${className}`}
+        className={`show-task-animation task-item w-full text-foreground flex items-center justify-between bg-dropDown rounded-lg  md:w-[48%]  min-h-24  ${className}`}
       >
         {" "}
         {!isCompleted ? (
@@ -112,13 +112,6 @@ const TaskPreview = ({ task, className }) => {
             role="button"
           />
         )}
-        <ConfirmDialog
-          open={openConfirmDialog}
-          onClose={handleClose}
-          onConfirm={confirmInfo.onConfirm}
-          title={confirmInfo.title}
-          message={confirmInfo.message}
-        />
         <div className=" w-full min-h-24  flex flex-col justify-between p-2 gap-3 ">
           <div className="flex items-center justify-between ">
             <h1>{formattedTitle} </h1>
@@ -168,6 +161,13 @@ const TaskPreview = ({ task, className }) => {
           setTaskToShowDetail={setTaskToShowDetail}
         />
       )}
+      <ConfirmDialog
+        open={openConfirmDialog}
+        onClose={handleClose}
+        onConfirm={confirmInfo.onConfirm}
+        title={confirmInfo.title}
+        message={confirmInfo.message}
+      />
     </>
   );
 };
