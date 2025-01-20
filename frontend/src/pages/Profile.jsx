@@ -1,7 +1,6 @@
 import ChangeAccountName from "@/components/ChangeAccountName";
 import ChangeAccountPassword from "@/components/ChangeAccountPassword";
 import ChangeAccountImage from "@/components/ChangeAccountImage";
-
 import {
   Camera,
   HelpCircle,
@@ -22,7 +21,7 @@ import { useSelector } from "react-redux";
 const Profile = () => {
   const [changeAccount, setChangeAccount] = useState(null);
   const [appInfos, setAppInfos] = useState(null);
-  const name =useSelector((state) => state.accountInfo.name);
+  const name = useSelector((state) => state.accountInfo.name);
 
   const nav = useNavigate();
   const listItems = [
@@ -82,6 +81,12 @@ const Profile = () => {
       ],
     },
   ];
+  const notCompletedTasks = useSelector(
+    (state) => state.tasks.filter((task) => !task.isCompleted).length
+  );
+  const completedTasks = useSelector(
+    (state) => state.tasks.filter((task) => task.isCompleted).length
+  );
   return (
     <div className=" w-full text-foreground flex flex-col items-center gap-4 md:w-[86%]  ">
       <img
@@ -92,10 +97,10 @@ const Profile = () => {
       <span className="capitalize">{name}</span>
       <div className=" w-full flex flex-wrap justify-evenly items-center px-4 py-2">
         <div className="text-center px-9 py-4 bg-popover rounded-lg">
-          Task left
+          {notCompletedTasks} Task{notCompletedTasks > 1 ? "s" : ""}  left
         </div>
         <div className="text-center px-9 py-4 bg-popover rounded-lg">
-          Task Done
+          {completedTasks} Task{completedTasks > 1 ? "s" : ""} Done
         </div>
       </div>
       <div className="w-full flex flex-col gap-6 ">

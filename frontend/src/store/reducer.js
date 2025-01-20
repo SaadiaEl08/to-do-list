@@ -17,6 +17,8 @@ const initialState = {
       mode: "create",
       accountInfo: {
             name: JSON.parse(localStorage.getItem("accountInfo"))?.name || "User",
+            username:"",
+            photo:""
       }
 };
 const reducer = (state = initialState, action) => {
