@@ -6,6 +6,7 @@ const ActionBar = ({
   nextActionFunction,
   cancelActionFunction,
   nextClassName = "",
+  disableNext = false,
 }) => {
   const dispatch = useDispatch();
   return (
@@ -29,6 +30,7 @@ const ActionBar = ({
             ? nextActionFunction
             : () => dispatch({ type: "SET_STEP", payload: steps.TASK_FORM })
         }
+        disabled={disableNext}
       >
         {nextActionText}
       </button>

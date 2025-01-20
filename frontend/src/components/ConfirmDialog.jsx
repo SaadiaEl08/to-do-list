@@ -1,10 +1,4 @@
-import {
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-} from "@mui/material";
+import PopOver from "./PopOver";
 
 const ConfirmDialog = ({
   open,
@@ -15,50 +9,33 @@ const ConfirmDialog = ({
   className,
 }) => {
   return (
-    <Dialog
-      open={open}
-      onClose={onClose}
-      aria-labelledby="confirm-dialog-title"
-      aria-describedby="confirm-dialog-description"
-      sx={{
-        ".MuiDialog-paper": {
-          backgroundColor: "var(--popover)",
-          color: "var(--foreground)",
-        },
-      }}
-    >
-      <DialogTitle id="confirm-dialog-title">
-        {title || "Confirm Action"}
-      </DialogTitle>
-      <DialogContent>
-        <DialogContentText
-        className="sm:text-2xl "
-          id="confirm-dialog-description"
-          sx={{
-            color: "var(--foreground)",
-          }}
-        >
-          {message || "Are you sure you want to proceed?"}
-        </DialogContentText>
-      </DialogContent>
-      <DialogActions>
-        <button
-          onClick={onClose}
-          className="text-muted-foreground  rounded px-2 py-1"
-        >
-          Cancel
-        </button>
-        <button
-          onClick={onConfirm}
-          className={
-            "text-foreground  bg-green-700 rounded px-2 py-1 hover:scale-105 sm:text-xl " +
-            className
-          }
-        >
-          Confirm
-        </button>
-      </DialogActions>
-    </Dialog>
+    <PopOver isOpen={open} toggle={onClose}>
+      <div className="w-full  flex flex-col justify-start gap-4 ">
+        <div className="dialog-title ">
+          <h1 className="text-foreground">{title}</h1>
+        </div>
+        <div className=" description">
+          <p className="text-foreground">{message}</p>
+        </div>
+        <div className="action w-full flex justify-end gap-4">
+          <button
+            onClick={onClose}
+            className="text-muted-foreground  rounded px-2 py-1"
+          >
+            Cancel
+          </button>
+          <button
+            onClick={onConfirm}
+            className={
+              "text-white  bg-green-700 rounded px-2 py-1 hover:scale-105 transition-all duration-150 sm:text-xl " +
+              className
+            }
+          >
+            Confirm
+          </button>
+        </div>
+      </div>
+    </PopOver>
   );
 };
 
