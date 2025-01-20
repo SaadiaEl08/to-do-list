@@ -51,8 +51,8 @@
 }
 .dark {
   --background: #121212;
-  --muted: #363636;
   --foreground: #ffffff;
+  --muted: #363636;
   --muted-foreground: #ffffff85;
   --primary: #8875ff;
   --input: #1d1d1d;

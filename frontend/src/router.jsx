@@ -1,28 +1,27 @@
 import { createBrowserRouter } from "react-router-dom";
 import App from "./App";
-import { Home, SignIn, SignUp, Calendar, Timer,Profile ,Setting} from "./pages";
+import {
+  Home,
+  SignIn,
+  SignUp,
+  Calendar,
+  Timer,
+  Profile,
+  Setting,
+} from "./pages";
 import Intro from "./pages/Intro";
 import Welcome from "./pages/Welcome";
+import ThemeLayout from "./ThemeLayout";
 const router = createBrowserRouter([
   {
-    path: "/login",
-    element: <SignIn />,
-  },
-  {
-    path: "/register",
-    element: <SignUp />,
-  },
-  {
     path: "/",
-    element: <Intro />,
-  },
-  {
-    path: "/welcome",
-    element: <Welcome />,
-  },
-  {
-    path: "/setting",
-    element: <Setting />,
+    element: <ThemeLayout />,
+    children: [
+      { path: "", element: <Intro /> },
+      { path: "welcome", element: <Welcome /> },
+      { path: "login", element: <SignIn /> },
+      { path: "register", element: <SignUp /> },
+    ],
   },
   {
     path: "/",
@@ -32,6 +31,8 @@ const router = createBrowserRouter([
       { path: "calendar", element: <Calendar /> },
       { path: "timer", element: <Timer /> },
       { path: "profile", element: <Profile /> },
+      { path: "setting", element: <Setting /> },
+
     ],
   },
   { path: "*", element: <h1>Not found</h1> },
