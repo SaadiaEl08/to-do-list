@@ -92,13 +92,7 @@ const CreateCategory = () => {
           ))}
         </div>
       </div>
-      <ActionBar
-        nextClassName={`${
-          category.name && category.color 
-            ? "opacity-100 cursor-pointer pointer-events-auto"
-            : "opacity-50 cursor-not-allowed pointer-events-none"
-        }`}
-      />
+      <ActionBar disableNext={!category.name || !category.color} />
     </div>
   );
 };

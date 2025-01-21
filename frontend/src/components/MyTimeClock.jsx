@@ -4,8 +4,8 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import dayjs from "dayjs";
 import ActionBar from "./ActionBar";
 import { useDispatch, useSelector } from "react-redux";
-import { ToastContainer, toast } from "react-toastify";
-import { steps } from "@/constants";
+import { ToastContainer } from "react-toastify";
+import { myToast, steps } from "@/constants";
 import { useState } from "react";
 
 export default function MyTimeClock() {
@@ -17,15 +17,7 @@ export default function MyTimeClock() {
   const validateTime = (newTime) => {
     const isValidTime = newTime.isAfter(dayjs());
     if (!isValidTime) {
-      toast.dismiss();
-      toast.error("Time must be in the future", {
-        position: "top-center",
-        autoClose: 2000,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: false,
-        theme: "dark",
-      });
+      myToast("Time must be in the next 5 minutes or more", "error");
     } else {
       dispatch({ type: "UPDATE_TASK_INFO", payload: { time: selectedTime } });
       dispatch({ type: "SET_STEP", payload: steps.TASK_FORM });
@@ -38,9 +30,9 @@ export default function MyTimeClock() {
         views={["hours", "minutes"]}
         ampmInClock={false}
         ampm={false}
-        minTime={date.isBefore(dayjs()) ? dayjs().add(1, "minute") : date}
+        minTime={date.isBefore(dayjs()) ? dayjs().add(5, "minute") : date}
         displayStaticWrapperAs="mobile"
-        value={selectedTime || dayjs().add(1, "minute")}
+        value={selectedTime}
         onChange={(newValue) => setSelectedTime(newValue)}
         slotProps={{
           nextIconButton: {
