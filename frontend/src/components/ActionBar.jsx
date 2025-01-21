@@ -23,7 +23,7 @@ const ActionBar = ({
       </button>
       <button
         className={
-          "text-foreground h-12 px-5 w-full bg-primary rounded " + nextClassName
+          "text-foreground h-12 px-5 w-full bg-primary rounded disabled:bg-muted-foreground disabled:cursor-not-allowed " + nextClassName
         }
         onClick={
           nextActionFunction
