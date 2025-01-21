@@ -11,6 +11,7 @@ import {
   ShoppingCart,
   Users,
 } from "lucide-react";
+import { toast } from "react-toastify";
 export const steps = {
   TASK_FORM: "taskForm",
   SCHEDULE: "schedule",
@@ -90,4 +91,16 @@ export const getDay = (date) => {
   if (date === dayjs()) return "Today";
   if (date === dayjs().add(1, "day")) return "Tomorrow";
   return date.format("dddd, MMM DD");
+};
+export const myToast = (message, type ) => {
+  const theme = localStorage.getItem("theme") || "dark";
+  toast.dismiss();
+  toast[type](message, {
+    position: "top-center",
+    autoClose: 2000,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: false,
+    theme: theme,
+  });
 };
