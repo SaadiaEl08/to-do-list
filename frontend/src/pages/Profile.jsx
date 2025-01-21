@@ -15,7 +15,7 @@ import {
 import { useState } from "react";
 import { Link, useNavigate } from "react-router";
 import AppInfo from "@/components/AppInfo";
-import ListItem from "@/components/listItem";
+import ListItem from "@/components/ListItem";
 import { useSelector } from "react-redux";
 
 const Profile = () => {
