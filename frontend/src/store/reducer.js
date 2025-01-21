@@ -18,7 +18,7 @@ const initialState = {
       accountInfo: {
             name: JSON.parse(localStorage.getItem("accountInfo"))?.name || "User",
             username: "",
-            image: JSON.parse(localStorage.getItem("accountInfo"))?.image || "https://ui-avatars.com/api/?name=" + initialState.accountInfo.name,
+            image: JSON.parse(localStorage.getItem("accountInfo"))?.image || "https://ui-avatars.com/api/?name=" + JSON.parse(localStorage.getItem("accountInfo"))?.name || "User",
       }
 };
 const reducer = (state = initialState, action) => {
