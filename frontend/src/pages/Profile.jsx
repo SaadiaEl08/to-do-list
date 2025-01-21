@@ -95,7 +95,7 @@ const Profile = () => {
         className="rounded-full w-20 h-20  object-fill -scale-x-100 border border-primary"
       />
       <span className="capitalize">{name}</span>
-      <div className=" w-full flex flex-wrap justify-evenly items-center px-4 py-2">
+      <div className=" w-full flex flex-wrap justify-evenly items-center px-4 py-2 gap-3">
         <div className="text-center px-9 py-4 bg-popover rounded-lg">
           {notCompletedTasks} Task{notCompletedTasks > 1 ? "s" : ""}  left
         </div>
