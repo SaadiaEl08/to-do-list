@@ -18,7 +18,7 @@ const Calendar = () => {
 
   return (
     <div className="p-4 flex flex-col gap-4 items-center  w-full">
-      <div >
+      <div>
         <CalendarComponent
           selectedDay={selectedDay}
           setSelectedDay={setSelectedDay}
@@ -26,9 +26,17 @@ const Calendar = () => {
       </div>
       <div className="flex flex-col gap-4 w-full  md:flex-row justify-center flex-wrap  md:justify-start ">
         {filteredTasks.length > 0 ? (
-          filteredTasks.map((task) => <TaskPreview key={task.id} task={task} className={"cursor-default"} />)
+          filteredTasks.map((task) => (
+            <TaskPreview
+              key={task.id}
+              task={task}
+              className={"cursor-default"}
+            />
+          ))
         ) : (
-          <p className="text-foreground text-center m-auto ">No tasks for the selected day</p>
+          <p className="text-foreground text-center m-auto ">
+            No tasks for the selected day
+          </p>
         )}
       </div>
     </div>
