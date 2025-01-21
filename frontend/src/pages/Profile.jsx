@@ -21,7 +21,7 @@ import { useSelector } from "react-redux";
 const Profile = () => {
   const [changeAccount, setChangeAccount] = useState(null);
   const [appInfos, setAppInfos] = useState(null);
-  const name = useSelector((state) => state.accountInfo.name);
+  const {name,image} = useSelector((state) => state.accountInfo);
 
   const nav = useNavigate();
   const listItems = [
@@ -90,9 +90,9 @@ const Profile = () => {
   return (
     <div className=" w-full text-foreground flex flex-col items-center gap-4 md:w-[86%]  ">
       <img
-        src="/logo.svg"
+        src={image} 
         alt="profile photo"
-        className="rounded-full w-20 h-20  object-fill "
+        className="rounded-full w-20 h-20  object-fill -scale-x-100 border border-primary"
       />
       <span className="capitalize">{name}</span>
       <div className=" w-full flex flex-wrap justify-evenly items-center px-4 py-2">

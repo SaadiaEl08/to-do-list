@@ -9,7 +9,7 @@ const initialState = {
             description: "",
             date: dayjs(),
             priority: "",
-            time: dayjs().add(1, "minute"),
+            time: dayjs().add(5, "minute"),
             category: "",
             order: 0,
       },
@@ -17,8 +17,8 @@ const initialState = {
       mode: "create",
       accountInfo: {
             name: JSON.parse(localStorage.getItem("accountInfo"))?.name || "User",
-            username:"",
-            photo:""
+            username: "",
+            image: JSON.parse(localStorage.getItem("accountInfo"))?.image || "https://ui-avatars.com/api/?name=" + initialState.accountInfo.name,
       }
 };
 const reducer = (state = initialState, action) => {
