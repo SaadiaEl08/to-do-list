@@ -1,13 +1,42 @@
 /* eslint-disable react/prop-types */
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import ActionBar from "./ActionBar";
 import PopOver from "./PopOver";
-import { Eye, EyeClosed} from "lucide-react";
+import { Eye, EyeClosed } from "lucide-react";
+import { ToastContainer } from "react-toastify";
+import { myToast } from "@/constants";
 
 const ChangeAccountPassword = ({ setChangeAccount }) => {
   const [showOldPassword, setShowOldPassword] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [oldPassword, setOldPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+
+  const handleSubmitNewPassword = useCallback(() => {
+    if (!(oldPassword != "" && newPassword != "" && confirmPassword != "")) {
+      myToast("All fields are required", "error");
+      return;
+    }
+    if (newPassword !== confirmPassword) {
+      myToast("Passwords do not match", "error");
+      return;
+    }
+    myToast("Password changed successfully", "success");
+    setChangeAccount(null);
+  }, [confirmPassword, newPassword, oldPassword, setChangeAccount]);
+  useEffect(() => {
+    const enterClickEvent = (e) => {
+      if (e.key === "Enter") {
+        handleSubmitNewPassword();
+      }
+    };
+    window.addEventListener("keydown", enterClickEvent);
+    return () => {
+      window.removeEventListener("keydown", enterClickEvent);
+    };
+  }, [handleSubmitNewPassword]);
 
   return (
     <PopOver isOpen={true} toggle={() => setChangeAccount(null)}>
@@ -20,6 +49,8 @@ const ChangeAccountPassword = ({ setChangeAccount }) => {
           </label>
           <div className="flex items-center gap-1">
             <input
+              value={oldPassword}
+              onChange={(e) => setOldPassword(e.target.value)}
               id="oldPassword"
               type={showOldPassword ? "text" : "password"}
               placeholder="Enter old password"
@@ -44,6 +75,8 @@ const ChangeAccountPassword = ({ setChangeAccount }) => {
           </label>
           <div className="flex items-center gap-1">
             <input
+              value={newPassword}
+              onChange={(e) => setNewPassword(e.target.value)}
               id="newPassword"
               type={showNewPassword ? "text" : "password"}
               placeholder="Enter new password"
@@ -68,6 +101,8 @@ const ChangeAccountPassword = ({ setChangeAccount }) => {
           </label>
           <div className="flex items-center gap-1">
             <input
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
               id="confirmNewPassword"
               type={showConfirmPassword ? "text" : "password"}
               placeholder="Enter new password"
@@ -88,9 +123,17 @@ const ChangeAccountPassword = ({ setChangeAccount }) => {
         </div>
         <ActionBar
           cancelActionFunction={() => setChangeAccount(null)}
-          nextActionFunction={() => setChangeAccount(null)}
+          nextActionFunction={handleSubmitNewPassword}
+          disableNext={
+            !(
+              oldPassword != "" &&
+              newPassword != "" &&
+              newPassword === confirmPassword
+            )
+          }
         />
       </div>
+      <ToastContainer />
     </PopOver>
   );
 };
