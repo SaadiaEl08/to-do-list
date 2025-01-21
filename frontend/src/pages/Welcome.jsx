@@ -6,7 +6,7 @@ const Welcome = () => {
   return (
     <div className="w-full min-h-screen h-screen flex flex-col justify-start items-center bg-background text-foreground p-4 pb-10 ">
       <div className="w-full pt-5 md:w-1/2 cursor-pointer">
-        <ChevronLeft onClick={() => navigate("/")} />
+        <ChevronLeft onClick={() => navigate("/")}  />
       </div>
       <div className=" w-full h-full flex flex-col justify-between items-center md:w-1/2 ">
         <div className="w-full h-[50%] flex flex-col justify-center items-center gap-6">

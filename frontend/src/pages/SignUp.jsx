@@ -16,7 +16,7 @@ const SignUp = () => {
     <main className="w-full min-h-screen h-screen bg-background text-foreground flex flex-col justify-evenly items-start p-4">
       <div className="w-full h-full flex flex-col justify-evenly items-start md:w-1/2  m-auto">
         <div className="w-full">
-          <ChevronLeft onClick={() => navigate(-1)} />
+          <ChevronLeft onClick={() => navigate(-1)} className="cursor-pointer" />
         </div>
         <h1 className="text-3xl font-bold">Register</h1>
         <div className="w-full flex flex-col gap-4 justify-start items-start">
