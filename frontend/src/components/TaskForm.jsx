@@ -1,12 +1,14 @@
 import { steps } from "@/constants";
+import useKeyboardDetection from "@/hooks/useKeyboardDetection";
 import { AlarmClockPlus, LucideFlag, SendHorizonal, Tag } from "lucide-react";
-import { useEffect,useCallback } from "react";
+import { useEffect, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 const TaskForm = () => {
   const dispatch = useDispatch();
   const mode = useSelector((state) => state.mode);
   const taskInfo = useSelector((state) => state.taskInfo);
+  const isKeyboardOpen = useKeyboardDetection();
 
   const handleSaveTask = useCallback(() => {
     if (taskInfo.title && taskInfo.description) {
@@ -31,7 +33,11 @@ const TaskForm = () => {
   }, [handleSaveTask]);
 
   return (
-    <div className="w-[80vw] flex flex-col gap-4 sm:w-[50vw] lg:w-[40vw]">
+    <div
+      className={`w-[80vw] flex flex-col gap-4 sm:w-[50vw] lg:w-[40vw] ${
+        isKeyboardOpen ? "translate-y-[-50px]" : ""
+      } transition-transform duration-300`}
+    >
       <h1>{mode === "create" ? "Add" : "Edit"} Task</h1>
       <input
         type="text"
