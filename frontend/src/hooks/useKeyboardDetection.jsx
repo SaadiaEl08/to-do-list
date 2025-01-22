@@ -8,7 +8,7 @@ const useKeyboardDetection = () => {
 
     const handleResize = () => {
       const currentHeight = window.innerHeight;
-      setIsKeyboardOpen(currentHeight < initialHeight * 0.7); 
+      setIsKeyboardOpen(currentHeight < initialHeight * 1); 
     };
 
     window.addEventListener("resize", handleResize);
