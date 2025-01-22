@@ -48,8 +48,8 @@ const Home = () => {
   const sensors = useSensors(
     useSensor(TouchSensor, {
       activationConstraint: {
-        distance: 8,
-        delay: 1000,
+        distance: 15, // Increase the distance to avoid accidental drags
+        delay: 500,   // Increase the delay for better handling on mobile
       },
     }),
     useSensor(MouseSensor, {

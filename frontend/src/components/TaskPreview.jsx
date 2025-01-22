@@ -112,9 +112,9 @@ const TaskPreview = ({ task, className }) => {
             role="button"
           />
         )}
-        <div className=" w-full min-h-24  flex flex-col justify-between p-2 gap-3 ">
-          <div className="flex items-center justify-between ">
-            <h1>{formattedTitle} </h1>
+        <div className="w-full min-h-24 flex flex-col justify-between p-2 gap-3">
+          <div className="flex items-center justify-between">
+            <h1>{formattedTitle}</h1>
             <Eye
               className="w-4 md:w-6 cursor-pointer"
               onClick={handleShowDetail}
@@ -122,22 +122,23 @@ const TaskPreview = ({ task, className }) => {
               role="button"
             />
           </div>
-          <div className="w-full flex items-center justify-between gap-2 min-h-10  flex-wrap">
+          <div className="w-full flex items-center justify-between gap-2 min-h-10 flex-wrap">
             <div className="flex flex-wrap gap-1 w-fit text-muted-foreground">
-              <p className="text-xs sm:text-sm  lg:text-base">
+              <p className="text-xs sm:text-sm lg:text-base">
                 {formattedDate} At {formattedTime}
               </p>
             </div>
-            <div className="flex items-center justify-end gap-2 ">
+            <div className="flex items-center justify-end gap-2">
               {categoryInfo && (
                 <div
                   className="flex items-center gap-2 rounded px-3 py-2 text-sm"
                   style={{ backgroundColor: `${categoryInfo.color}99` }}
                 >
-                  {cloneElement(categoryInfo.icon, {
-                    className: "w-4 h-4 font-bold ",
-                    strokeWidth: 3,
-                  })}
+                  {categoryInfo.icon &&
+                    cloneElement(categoryInfo.icon, {
+                      className: "w-4 h-4 font-bold",
+                      strokeWidth: 3,
+                    })}
                   <span className="lg:text-base">{categoryInfo.name}</span>
                 </div>
               )}
@@ -155,12 +156,14 @@ const TaskPreview = ({ task, className }) => {
           </div>
         </div>
       </div>
+
       {taskToShowDetail && (
         <TaskDetail
           task={taskToShowDetail}
           setTaskToShowDetail={setTaskToShowDetail}
         />
       )}
+
       <ConfirmDialog
         open={openConfirmDialog}
         onClose={handleClose}
