@@ -85,9 +85,9 @@ const App = () => {
 
   return (
     <main
-      className={`min-w-full border w-full min-h-screen  bg-background flex flex-col justify-between relative `}
+      className={`min-w-full w-full min-h-screen bg-background relative pb-20 xl:pb-0`}
     >
-      <div className="h-full border xl:ms-[4%] flex flex-col items-center overflow-y-auto ">
+      <div className="xl:ms-[4%] flex flex-col items-center overflow-y-auto ">
         <TopSection />
         <Outlet />
       </div>
