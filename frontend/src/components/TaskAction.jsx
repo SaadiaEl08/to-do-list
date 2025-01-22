@@ -8,12 +8,30 @@ import TaskForm from "./TaskForm";
 import { useDispatch, useSelector } from "react-redux";
 import { steps } from "@/constants";
 import dayjs from "dayjs";
-
+import { useEffect } from "react";
 
 // this component is used to add a new task or edit an existing task
 const TaskAction = () => {
   const currentStep = useSelector((state) => state.currentStep);
   const dispatch = useDispatch();
+  const mode = useSelector((state) => state.mode);
+  useEffect(() => {
+    if (mode === "create") {
+      dispatch({
+        type: "UPDATE_TASK_INFO",
+        payload: {
+          id: 0,
+          title: "",
+          description: "",
+          date: dayjs(),
+          priority: "",
+          time: dayjs().add(5, "minute"),
+          category: "",
+          order: 0,
+        },
+      });
+    }
+  }, [dispatch, mode]);
   const renderStep = () => {
     switch (currentStep) {
       case steps.TASK_FORM:
