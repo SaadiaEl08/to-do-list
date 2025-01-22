@@ -46,12 +46,7 @@ const Home = () => {
     dispatch({ type: "SET_TASKS_ORDER", payload: reorderedTasks });
   };
   const sensors = useSensors(
-    useSensor(TouchSensor, {
-      activationConstraint: {
-        distance: 15, // Increase the distance to avoid accidental drags
-        delay: 500,   // Increase the delay for better handling on mobile
-      },
-    }),
+    useSensor(TouchSensor),
     useSensor(MouseSensor, {
       activationConstraint: {
         distance: 8,

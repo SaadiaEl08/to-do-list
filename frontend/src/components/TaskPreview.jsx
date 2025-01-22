@@ -102,7 +102,7 @@ const TaskPreview = ({ task, handle, className }) => {
               {Array.from({ length: 6 }, (_, i) => (
                 <div
                   key={i}
-                  className="border rounded-full w-1 h-1 bg-foreground"
+                  className="border-2 border-foreground rounded-full bg-foreground"
                 ></div>
               ))}
             </div>
