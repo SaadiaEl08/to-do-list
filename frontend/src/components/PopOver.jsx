@@ -16,6 +16,8 @@ const PopOver = ({ isOpen, toggle, children }) => {
         } transition-transform duration-300`}
         onClick={(e) => e.stopPropagation()}
       >
+        {isKeyboardOpen && <h1>isKeyboardOpen </h1>}
+        
         {children}
       </div>
     </div>
