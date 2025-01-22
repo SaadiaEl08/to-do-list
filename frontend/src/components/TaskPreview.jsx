@@ -8,7 +8,7 @@ import ConfirmDialog from "./ConfirmDialog";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 
-const TaskPreview = ({ task, className }) => {
+const TaskPreview = ({ task, handle, className }) => {
   const {
     attributes,
     listeners,
@@ -90,13 +90,25 @@ const TaskPreview = ({ task, className }) => {
     <>
       <div
         ref={setNodeRef}
-        {...attributes}
-        {...listeners}
         onClick={(e) => e.stopPropagation()}
         style={style}
         className={`show-task-animation task-item w-full text-foreground flex items-center justify-between bg-dropDown rounded-lg  md:w-[48%]  min-h-24  ${className}`}
       >
-        {" "}
+        {handle && (
+          <div {...attributes} {...listeners}>
+            <div
+              className={`w-4 h-full flex flex-wrap gap-1 items-center justify-center ms-2 cursor-grab active:cursor-grabbing`}
+            >
+              {Array.from({ length: 6 }, (_, i) => (
+                <div
+                  key={i}
+                  className="border rounded-full w-1 h-1 bg-foreground"
+                ></div>
+              ))}
+            </div>
+          </div>
+        )}
+
         {!isCompleted ? (
           <Circle
             className="w-10 cursor-pointer"

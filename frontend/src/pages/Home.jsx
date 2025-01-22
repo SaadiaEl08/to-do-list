@@ -188,7 +188,7 @@ const Home = () => {
                         task={task}
                         key={index}
                         index={index}
-                        className={"cursor-grab active:cursor-grabbing"}
+                        handle={true}
                       />
                     );
                   })
