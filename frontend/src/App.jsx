@@ -14,9 +14,9 @@ const App = () => {
       {
         id: 1,
         title:
-          "Task 1Task 1Task 1Task 1Task 1Task 1Task 1Task 1Task 1Task 1Task 1Task 1Task 1Task 1Task 1Task 1Task 1Task 1Task 1Task 1Task 1Task 1Task 1Task 1Task 1Task 1",
+          "Task 1",
         description:
-          "Description 1 Task 1Task 1Task 1Task 1Task 1Task 1Task 1Task 1Task 1Task 1Task 1Task 1Task 1Task 1Task 1Task 1Task 1Task 1Task 1Task 1Task 1Task 1Task 1Task 1Task 1Task 1Task 1Task 1Task 1",
+          "Description 1 ",
         date: dayjs("2024-12-31"),
         time: dayjs().add(1, "hour"),
         priority: "High",
@@ -26,7 +26,7 @@ const App = () => {
       },
       {
         id: 2,
-        title: "Task 2 test",
+        title: "Task 2",
         description: "Description 2",
         date: dayjs("2025-01-15"),
         time: dayjs().add(1, "hour"),
@@ -48,8 +48,8 @@ const App = () => {
       },
       {
         id: 4,
-        title: "Task 3",
-        description: "Description 3",
+        title: "Task 4",
+        description: "Description 4",
         date: dayjs().add(1, "day"),
         time: dayjs().add(1, "hour"),
         priority: "Low",
@@ -59,8 +59,8 @@ const App = () => {
       },
       {
         id: 5,
-        title: "Task 3",
-        description: "Description 3",
+        title: "Task 5",
+        description: "Description 5",
         date: dayjs().add(1, "day"),
         time: dayjs().add(1, "hour"),
         priority: "Low",
@@ -70,8 +70,8 @@ const App = () => {
       },
       {
         id: 6,
-        title: "Task 3",
-        description: "Description 3",
+        title: "Task 6",
+        description: "Description 6",
         date: dayjs().add(1, "day"),
         time: dayjs().add(1, "hour"),
         priority: "Low",

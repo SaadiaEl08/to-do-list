@@ -69,12 +69,12 @@ const TaskDetail = ({ task = {}, setTaskToShowDetail }) => {
         </div>
       </div>
       <div className=" w-full flex flex-col gap-5 ">
-        <div className=" flex items-center justify-between">
+        <div className=" flex items-stretch justify-between gap-4">
           <div className=" flex items-center gap-3">
             <Clock className="w-6 h-6 " />
             <span >Task Time :</span>
           </div>
-          <div className="rounded-md px-4 py-2 bg-dropDown ">
+          <div className="rounded-md p-2 bg-dropDown ">
             <span >
               {formattedDate} At {formattedTime}
             </span>
@@ -100,7 +100,6 @@ const TaskDetail = ({ task = {}, setTaskToShowDetail }) => {
             </div>
           </div>
         )}
-
         {priorityInfo && (
           <div className=" flex items-center justify-between ">
             <div className=" flex items-center  gap-3 ">
