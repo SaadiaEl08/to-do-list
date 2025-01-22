@@ -85,9 +85,9 @@ const App = () => {
 
   return (
     <main
-      className={`min-w-full w-full min-h-screen h-screen bg-background flex flex-col justify-end relative `}
+      className={`min-w-full w-full min-h-screen  bg-background flex flex-col justify-between relative `}
     >
-      <div className="h-full xl:ms-[4%] flex flex-col items-center overflow-y-auto ">
+      <div className="h-full  xl:ms-[4%] flex flex-col items-center overflow-y-auto ">
         <TopSection />
         <Outlet />
       </div>
