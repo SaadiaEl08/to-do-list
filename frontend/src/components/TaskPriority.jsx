@@ -14,7 +14,7 @@ const TaskPriority = () => {
         {priorities.map((item) => (
           <div
             key={item.name}
-            className={`transition-all duration-300 rounded flex flex-col gap-2 items-center justify-center  aspect-square w-1/3 ${
+            className={`transition-all duration-300 rounded flex flex-col gap-2 items-center justify-center  aspect-square w-1/3 border cursor-pointer  ${
               selectedPriority === item.name ? "bg-primary" : ""
             }`}
             onClick={() =>
