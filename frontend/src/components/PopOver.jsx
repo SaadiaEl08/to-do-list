@@ -12,7 +12,7 @@ const PopOver = ({ isOpen, toggle, children }) => {
     >
       <div
         className={`absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-popover rounded-xl  p-4 z-20 max-h-[90vh]  overflow-y-auto  border  hide-scrollbar sm:w-fit  ${
-          isKeyboardOpen ? "translate-y-[-50px]" : ""
+          isKeyboardOpen ? "translate-y-[-200px]" : ""
         } transition-transform duration-300`}
         onClick={(e) => e.stopPropagation()}
       >
