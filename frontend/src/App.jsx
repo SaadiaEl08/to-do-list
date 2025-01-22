@@ -1,4 +1,4 @@
-import { Outlet } from "react-router";
+import { Outlet, useLocation } from "react-router";
 import NavigationMenu from "./components/NavigationMenu";
 import TopSection from "./components/TopSection";
 import TaskAction from "./components/TaskAction";
@@ -9,14 +9,13 @@ import dayjs from "dayjs";
 const App = () => {
   const isOpenAddTask = useSelector((state) => state.isOpenAddTask);
   const dispatch = useDispatch();
+  const location = useLocation();
   useEffect(() => {
     const tasksFromApi = [
       {
         id: 1,
-        title:
-          "Task 1",
-        description:
-          "Description 1 ",
+        title: "Task 1",
+        description: "Description 1 ",
         date: dayjs("2024-12-31"),
         time: dayjs().add(1, "hour"),
         priority: "High",
@@ -82,7 +81,9 @@ const App = () => {
     ];
     dispatch({ type: "SET_TASKS", payload: tasksFromApi });
   }, [dispatch]);
-
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location]);
   return (
     <main
       className={`min-w-full w-full min-h-screen bg-background relative pb-20 xl:pb-0`}
