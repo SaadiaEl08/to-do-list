@@ -1,7 +1,13 @@
 import useKeyboardDetection from "@/hooks/useKeyboardDetection";
+import { useEffect } from "react";
 
 const PopOver = ({ isOpen, toggle, children }) => {
   const isKeyboardOpen = useKeyboardDetection();
+  useEffect(()=>{
+    if(isKeyboardOpen){
+      window.scrollBy(0,-100)
+    }
+  },[isKeyboardOpen])
 
   return (
     <div
@@ -15,9 +21,7 @@ const PopOver = ({ isOpen, toggle, children }) => {
           isKeyboardOpen ? "translate-y-[-200px]" : ""
         } transition-transform duration-300`}
         onClick={(e) => e.stopPropagation()}
-      >
-        {isKeyboardOpen && <h1>isKeyboardOpen </h1>}
-        
+      >        
         {children}
       </div>
     </div>
