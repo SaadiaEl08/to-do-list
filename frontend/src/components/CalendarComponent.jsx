@@ -5,11 +5,24 @@ import { DateCalendar } from "@mui/x-date-pickers/DateCalendar";
 import { useSelector } from "react-redux";
 import Badge from "@mui/material/Badge";
 import { PickersDay } from "@mui/x-date-pickers";
+import { useState } from "react";
+import { IconButton } from "@mui/material";
+import { ChevronDown, ChevronUp } from "lucide-react";
 
-export default function DateCalendarViews({selectedDay, setSelectedDay}) {
+export default function DateCalendarViews({ selectedDay, setSelectedDay }) {
   const tasks = useSelector((state) => state.tasks);
   const highlightedDays =
     tasks.map((task) => task.date.format("YYYY-MM-DD")) || [];
+  // State to explicitly manage the current view
+  const [currentView, setCurrentView] = useState("day");
+  const handleViewChange = () => {
+    // Update the current view
+    currentView === "day"
+      ? setCurrentView("month")
+      : currentView === "month"
+      ? setCurrentView("year")
+      : setCurrentView("day");
+  };
   const ServerDay = ({ ...props }) => {
     const { highlightedDays = [], day, outsideCurrentMonth, ...other } = props;
     const isHighlighted = highlightedDays.includes(day.format("YYYY-MM-DD"));
@@ -27,12 +40,31 @@ export default function DateCalendarViews({selectedDay, setSelectedDay}) {
       </Badge>
     );
   };
+  const ServeArrow = ({ ...props }) => {
+    return (
+      <IconButton sx={props.sx}>
+        {currentView === "day" && (
+          <span className="material-symbols-outlined">
+            <ChevronDown />{" "}
+          </span>
+        )}
+
+        {(currentView === "month" || currentView === "year") && (
+          <span className="material-symbols-outlined">
+            <ChevronUp />{" "}
+          </span>
+        )}
+      </IconButton>
+    );
+  };
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <DateCalendar
         value={selectedDay}
         onChange={(newValue) => setSelectedDay(newValue)}
         views={["year", "month", "day"]}
+        view={currentView}
+        onViewChange={handleViewChange}
         showDaysOutsideCurrentMonth={true}
         style={{
           backgroundColor: "var(--popover)",
@@ -41,6 +73,7 @@ export default function DateCalendarViews({selectedDay, setSelectedDay}) {
         }}
         slots={{
           day: ServerDay,
+          switchViewIcon: ServeArrow,
         }}
         slotProps={{
           day: {
