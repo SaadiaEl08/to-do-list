@@ -5,4 +5,5 @@ import Calendar from './Calendar';
 import Timer from './Timer';
 import Profile from './Profile';
 import Setting from './Setting';
-export { Home, SignUp, SignIn, Calendar, Timer, Profile ,Setting};
+import Edit from './Edit';
+export { Home, SignUp, SignIn, Calendar, Timer, Profile ,Setting,Edit};
