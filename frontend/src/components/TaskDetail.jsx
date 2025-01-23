@@ -1,65 +1,52 @@
 import { Clock, Flag, PenLine, Tag, Trash2Icon, X } from "lucide-react";
-import { cloneElement, useEffect, useState } from "react";
+import { cloneElement, useState } from "react";
 import { useDispatch } from "react-redux";
 import { steps } from "@/constants";
 import ConfirmDialog from "./ConfirmDialog";
+import { categories, getDay, priorities } from "@/constants";
+import { useNavigate } from "react-router";
 
-const TaskDetail = ({ task = {}, setTaskToShowDetail }) => {
-  const {
-    id,
-    title,
-    description,
-    formattedDate,
-    formattedTime,
-    priorityInfo,
-    categoryInfo,
-  } = task;
+const TaskDetail = ({ task = {} }) => {
+  const { id, title, description, date, time, priority, category } = task;
+  // Get category and priority info
+  const categoryInfo =
+    categories.find((item) => item.name === category) || null;
+  const priorityInfo =
+    priorities.find((item) => item.name === priority) || null;
+
+  // Formatted values
+  const formattedTime = time.format("HH:mm");
+  const formattedDate = getDay(date);
   const dispatch = useDispatch();
+  const nav = useNavigate();
   const handleEditTask = () => {
     dispatch({ type: "SET_IS_OPEN_ADD_TASK", payload: true });
     dispatch({ type: "SET_STEP", payload: steps.TASK_FORM });
     dispatch({ type: "SET_MODE", payload: "edit" });
     dispatch({ type: "UPDATE_TASK_INFO", payload: task });
-    setTaskToShowDetail(null);
   };
   const [openConfirmDialog, setOpenConfirmDialog] = useState(false);
-  const handleClose = () => setOpenConfirmDialog(false);
+  const handleClose = () => {
+    setOpenConfirmDialog(false);
+    nav(-1);
+  };
   const handleConfirm = () => {
     dispatch({ type: "DELETE_TASK", payload: id });
     handleClose();
-    setTaskToShowDetail(null);
   };
 
   const handleDeleteTask = () => {
     setOpenConfirmDialog(true);
   };
-  useEffect(() => {
-    const handleKeyDown = (event) => {
-      if (event.key === "Escape") {
-        setTaskToShowDetail(null);
-      }
-    };
-    window.addEventListener("keydown", handleKeyDown);
-    return () => {
-      window.removeEventListener("keydown", handleKeyDown);
-    };
-  }, []);
   return (
     <div className="text-foreground fixed w-full min-h-full h-fit  bg-background z-20 top-0 left-0 p-4 flex flex-col items-start gap-5 lg:p-20  xl:p-10 ">
       <div className="w-full flex justify-end">
-        <X
-          className="w-6 h-6 cursor-pointer"
-          onClick={() => setTaskToShowDetail(null)}
-        />
+        <X className="w-6 h-6 cursor-pointer" onClick={() => nav(-1)} />
       </div>
       <div className="w-full flex  justify-between items-start">
         <div className=" w-10/12 flex flex-col justify-between">
-          <h1 className="text-xl font-normal ">
-            {title}
-          </h1>
-          <p className="text-base text-muted-foreground  ">
-            {description}
-          </p>
+          <h1 className="text-xl font-normal ">{title}</h1>
+          <p className="text-base text-muted-foreground  ">{description}</p>
         </div>
         <div>
           <PenLine
@@ -72,10 +59,10 @@ const TaskDetail = ({ task = {}, setTaskToShowDetail }) => {
         <div className=" flex items-stretch justify-between gap-4">
           <div className=" flex items-center gap-3">
             <Clock className="w-6 h-6 " />
-            <span >Task Time :</span>
+            <span>Task Time :</span>
           </div>
           <div className="rounded-md p-2 bg-dropDown ">
-            <span >
+            <span>
               {formattedDate} At {formattedTime}
             </span>
           </div>
@@ -84,7 +71,7 @@ const TaskDetail = ({ task = {}, setTaskToShowDetail }) => {
           <div className=" flex items-center justify-between ">
             <div className=" flex items-center  gap-3 ">
               <Tag className="w-6 h-6 " />
-              <span >Task Category :</span>
+              <span>Task Category :</span>
             </div>
             <div
               className="flex items-center gap-3 rounded-md px-4 py-2 bg-dropDown "
@@ -93,10 +80,7 @@ const TaskDetail = ({ task = {}, setTaskToShowDetail }) => {
               {cloneElement(categoryInfo.icon, {
                 className: "w-6 h-6",
               })}
-              <span>
-                {" "}
-                {categoryInfo.name}
-              </span>
+              <span> {categoryInfo.name}</span>
             </div>
           </div>
         )}
@@ -110,10 +94,7 @@ const TaskDetail = ({ task = {}, setTaskToShowDetail }) => {
               className="flex items-center gap-3 rounded-md px-4 py-2 bg-dropDown "
               style={{ backgroundColor: priorityInfo.color + 50 }}
             >
-              <span
-                style={{ color: priorityInfo.color }}
-                className="font-bold"
-              >
+              <span style={{ color: priorityInfo.color }} className="font-bold">
                 {priorityInfo.name}
               </span>
             </div>
