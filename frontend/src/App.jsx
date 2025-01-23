@@ -86,9 +86,9 @@ const App = () => {
   }, [location]);
   return (
     <main
-      className={`min-w-full w-full min-h-screen bg-background relative pb-20 xl:pb-0`}
+      className={`min-w-full w-full min-h-screen bg-background relative`}
     >
-      <div className="xl:ms-[4%] flex flex-col items-center overflow-y-auto ">
+      <div className="flex flex-col items-center  overflow-y-auto pb-20 xl:pb-0 xl:ms-[4%] ">
         <TopSection />
         <Outlet />
       </div>
