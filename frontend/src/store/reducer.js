@@ -19,6 +19,11 @@ const initialState = {
             name: JSON.parse(localStorage.getItem("accountInfo"))?.name || "User",
             username: "",
             image: JSON.parse(localStorage.getItem("accountInfo"))?.image || "https://ui-avatars.com/api/?name=" + JSON.parse(localStorage.getItem("accountInfo"))?.name || "User",
+      },
+      search: {
+            title: "",
+            date: "Today",
+            isCompleted: "",
       }
 };
 const reducer = (state = initialState, action) => {
@@ -50,6 +55,8 @@ const reducer = (state = initialState, action) => {
                   return { ...state, mode: action.payload };
             case "SET_ACCOUNT_INFO":
                   return { ...state, accountInfo: { ...state.accountInfo, ...action.payload } };
+            case "SET_SEARCH":
+                  return { ...state, search: { ...state.search, ...action.payload } };
             default:
                   return state;
       }
