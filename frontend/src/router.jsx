@@ -8,6 +8,7 @@ import {
   Timer,
   Profile,
   Setting,
+  Edit,
 } from "./pages";
 import Intro from "./pages/Intro";
 import Welcome from "./pages/Welcome";
@@ -25,6 +26,7 @@ const router = createBrowserRouter([
       { path: "timer", element: <Timer /> },
       { path: "profile", element: <Profile /> },
       { path: "setting", element: <Setting /> },
+      { path: "edit/:taskId", element: <Edit /> },
     ],
   },
   { path: "*", element: <h1>Not found</h1> },
