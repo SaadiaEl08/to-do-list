@@ -2,11 +2,11 @@
 import { categories, getDay, priorities } from "@/constants";
 import { CheckCircle2, Circle, Eye, Flag, Tag } from "lucide-react";
 import { cloneElement, useState } from "react";
-import TaskDetail from "./TaskDetail";
 import { useDispatch } from "react-redux";
 import ConfirmDialog from "./ConfirmDialog";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
+import {  useNavigate } from "react-router";
 
 const TaskPreview = ({ task, handle, className }) => {
   const {
@@ -19,13 +19,14 @@ const TaskPreview = ({ task, handle, className }) => {
   } = useSortable({ id: task.id });
   const dispatch = useDispatch();
   const { id, title, date, time, priority, category, isCompleted } = task;
-  const [taskToShowDetail, setTaskToShowDetail] = useState(null);
   const [openConfirmDialog, setOpenConfirmDialog] = useState(false);
   const [confirmInfo, setConfirmInfo] = useState({
     title: "",
     message: "",
     onConfirm: () => {},
   });
+
+  const nav=useNavigate()
 
   // Get category and priority info
   const categoryInfo =
@@ -38,19 +39,6 @@ const TaskPreview = ({ task, handle, className }) => {
     title.length > 30 ? `${title.slice(0, 30)}... ` : title;
   const formattedTime = time.format("HH:mm");
   const formattedDate = getDay(date);
-
-  // Handle showing task details
-  const handleShowDetail = (e) => {
-    const formattedTask = {
-      ...task,
-      categoryInfo: categoryInfo,
-      priorityInfo: priorityInfo,
-      formattedTime: formattedTime,
-      formattedDate: formattedDate,
-    };
-    dispatch({ type: "SET_TASK_INFO", payload: task });
-    setTaskToShowDetail(formattedTask);
-  };
 
   const handleMarkAsCompleted = () => {
     setConfirmInfo({
@@ -129,7 +117,7 @@ const TaskPreview = ({ task, handle, className }) => {
             <h1>{formattedTitle}</h1>
             <Eye
               className="w-4 md:w-6 cursor-pointer"
-              onClick={handleShowDetail}
+              onClick={() => nav(`/edit/${id}`)}
               aria-label="View task details"
               role="button"
             />
@@ -168,14 +156,6 @@ const TaskPreview = ({ task, handle, className }) => {
           </div>
         </div>
       </div>
-
-      {taskToShowDetail && (
-        <TaskDetail
-          task={taskToShowDetail}
-          setTaskToShowDetail={setTaskToShowDetail}
-        />
-      )}
-
       <ConfirmDialog
         open={openConfirmDialog}
         onClose={handleClose}
