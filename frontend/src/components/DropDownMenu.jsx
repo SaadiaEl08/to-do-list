@@ -13,7 +13,7 @@ const DropDownMenu = ({ items = [], onChange }) => {
         <span>{selected}</span> <ChevronDown />
       </MenuButton>
       {items.length > 0 && (
-        <Menu className="text-foreground  bg-dropDown px-2 py-1 rounded-lg ms-1 mt-1 min-w-[150px] text-base">
+        <Menu className="text-foreground  bg-dropDown px-2 py-1 rounded-lg ms-1 mt-1 min-w-[150px] text-base z-20">
           {items.map((item, index) => (
             <MenuItem
               key={index}
