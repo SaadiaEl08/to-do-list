@@ -5,8 +5,8 @@ import { MenuItem } from "@mui/base/MenuItem";
 import { ChevronDown } from "lucide-react";
 import { useState } from "react";
 
-const DropDownMenu = ({ items = [], onChange }) => {
-  const [selected, setSelected] = useState(items[0]);
+const DropDownMenu = ({ items = [], onChange, defaultValue }) => {
+  const [selected, setSelected] = useState(defaultValue);
   return (
     <Dropdown>
       <MenuButton className="text-foreground bg-dropDown px-2 py-1 rounded-lg flex justify-between items-center gap-2 text-base">

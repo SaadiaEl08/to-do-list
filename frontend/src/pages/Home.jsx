@@ -25,20 +25,17 @@ import dayjs from "dayjs";
 const Home = () => {
   const tasks = useSelector((state) => state.tasks);
   const dispatch = useDispatch();
-  const [search, setSearch] = useState({
-    title: "",
-    date: "Today",
-    isCompleted: "",
-  });
+  const search = useSelector((state) => state.search);
   const [loading, setLoading] = useState(true);
   const [reorderedTasks, setReorderedTasks] = useState(tasks);
+  const [filteredTasks, setFilteredTasks] = useState([]);
+
 
   // Sync local state with Redux tasks
   useEffect(() => {
     setReorderedTasks(tasks);
     setLoading(false);
   }, [tasks]);
-
   // Handle drag-and-drop
   const handleDragEnd = (e) => {
     const { active, over } = e;
@@ -47,7 +44,9 @@ const Home = () => {
     if (!over || active.id === over.id) return;
 
     // Find indexes for reordering
-    const originalIndex = reorderedTasks.findIndex((task) => task.id === active.id);
+    const originalIndex = reorderedTasks.findIndex(
+      (task) => task.id === active.id
+    );
     const newIndex = reorderedTasks.findIndex((task) => task.id === over.id);
 
     if (originalIndex === -1 || newIndex === -1) return;
@@ -115,7 +114,9 @@ const Home = () => {
     [search.isCompleted]
   );
 
-  const [filteredTasks, setFilteredTasks] = useState([]);
+  const setSearch = (object) => {
+    dispatch({ type: "SET_SEARCH", payload: object });
+  };
 
   useEffect(() => {
     let result = tasks;
@@ -165,26 +166,23 @@ const Home = () => {
               id="search"
               placeholder="Search for your task..."
               className="w-full placeholder:text-muted-foreground placeholder:opacity-50 border-0 bg-inherit outline-none"
-              onChange={(e) =>
-                setSearch((prev) => ({ ...prev, title: e.target.value }))
-              }
+              onChange={(e) => setSearch({ title: e.target.value })}
               value={search.title}
             />
           </div>
           <div className="w-full flex gap-4 p-4">
             <DropDownMenu
-              text="All"
+              defaultValue={search.date || "All"}
               items={["Today", "Tomorrow", "Upcoming", "All"]}
               onChange={(item) =>
-                setSearch({ ...search, date: item === "All" ? "" : item })
+                setSearch({ date: item === "All" ? "" : item })
               }
             />
             <DropDownMenu
-              text="Today"
+              defaultValue={search.isCompleted || "All"}
               items={["All", "UnCompleted", "Completed"]}
               onChange={(item) =>
                 setSearch({
-                  ...search,
                   isCompleted: item === "All" ? "" : item,
                 })
               }
