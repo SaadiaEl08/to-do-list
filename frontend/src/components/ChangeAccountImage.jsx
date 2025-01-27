@@ -8,11 +8,17 @@ const ChangeAccountImage = ({ setChangeAccount }) => {
   const [chosenOption, setChosenOption] = useState(null);
   const dispatch = useDispatch();
   const [image, setImage] = useState(null);
-  const handleSetImage=()=>{
-    localStorage.setItem("accountInfo",JSON.stringify({...JSON.parse(localStorage.getItem("accountInfo")),image:image}));
-    dispatch({type:"SET_ACCOUNT_INFO",payload:{image:image}});
-    setChangeAccount(null)
-  }
+  const handleSetImage = () => {
+    localStorage.setItem(
+      "accountInfo",
+      JSON.stringify({
+        ...JSON.parse(localStorage.getItem("accountInfo")),
+        image: image,
+      })
+    );
+    dispatch({ type: "SET_ACCOUNT_INFO", payload: { image: image } });
+    setChangeAccount(null);
+  };
 
   const importFromGallery = () => {};
   const takePicture = () => {
@@ -31,7 +37,7 @@ const ChangeAccountImage = ({ setChangeAccount }) => {
       onClick: importFromGallery,
     },
     {
-      key : "drive",
+      key: "drive",
       title: "Import from Google Drive",
       onClick: importFromGoogleDrive,
     },
@@ -45,7 +51,9 @@ const ChangeAccountImage = ({ setChangeAccount }) => {
           <div className="w-full flex flex-col gap-4  sm:w-1/2 ">
             {list.map((item) => (
               <div
-                className={`flex items-center gap-2  hover:bg-slate-600 cursor-pointer p-3 ${chosenOption === item.key ? "bg-slate-600" : ""} `}
+                className={`flex items-center gap-2  hover:bg-slate-600 cursor-pointer p-3 ${
+                  chosenOption === item.key ? "bg-slate-600" : ""
+                } `}
                 key={item.key}
                 onClick={item.onClick}
               >
@@ -53,17 +61,16 @@ const ChangeAccountImage = ({ setChangeAccount }) => {
               </div>
             ))}
           </div>
-          {
-            chosenOption === "camera" &&
+          {chosenOption === "camera" && (
             <div id="cameraCapture" className="w-full">
               <CameraCapture image={image} setImage={setImage} />
             </div>
-          }
+          )}
         </div>
 
         <ActionBar
           cancelActionFunction={() => setChangeAccount(null)}
-          nextActionFunction={handleSetImage }
+          nextActionFunction={handleSetImage}
           disableNext={image === null}
         />
       </div>

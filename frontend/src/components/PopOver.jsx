@@ -4,31 +4,30 @@ const PopOver = ({ isOpen, toggle, children }) => {
 
   useEffect(() => {
     if (isOpen) {
-      // Push a new state to the history stack when the popup is open
-      window.history.pushState({ popupOpen: true }, ""); 
+      // Push a new history state only if the popup opens
+      window.history.pushState({ popupOpen: true }, "");
       isHistoryModified.current = true;
     }
-
+  
     const handlePopState = () => {
-      // Check if the state was modified for the popup
+      // Check if the history state was modified by the popup
       if (isHistoryModified.current && isOpen) {
         toggle(); // Close the popup
-        window.history.go(1); // Prevent navigation, stay on the same page
       }
     };
-
+  
     window.addEventListener("popstate", handlePopState);
-
+  
     return () => {
       window.removeEventListener("popstate", handlePopState);
-
-      // Clean up the history state if the popup was open
+  
+      // Clean up the modified history state only if the popup was open
       if (isHistoryModified.current) {
-        window.history.go(-1); // Reset history when unmounting
         isHistoryModified.current = false;
       }
     };
   }, [isOpen, toggle]);
+  
 
   return (
     <div
