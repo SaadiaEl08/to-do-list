@@ -92,7 +92,7 @@ const Profile = () => {
       <img
         src={image} 
         alt="profile photo"
-        className="rounded-full w-20 h-20  object-fill -scale-x-100 border border-primary"
+        className={`rounded-full w-20 h-20  object-fill ${image.includes("ui-avatars.com") ? "" : "-scale-x-100"}  border border-primary`}
       />
       <span className="capitalize">{name}</span>
       <div className=" w-full flex flex-wrap justify-evenly items-center px-4 py-2 gap-3">
