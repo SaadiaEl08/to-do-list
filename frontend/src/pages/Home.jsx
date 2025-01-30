@@ -1,25 +1,8 @@
 import DropDownMenu from "@/components/DropDownMenu";
-import Loading from "@/components/Loading";
 import TaskPreview from "@/components/TaskPreview";
 import { Search } from "lucide-react";
-import { useCallback, useEffect, useState } from "react";
+import {useCallback, useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  DndContext,
-  DragOverlay,
-  KeyboardSensor,
-  MouseSensor,
-  TouchSensor,
-  closestCorners,
-  useSensor,
-  useSensors,
-} from "@dnd-kit/core";
-import {
-  arrayMove,
-  rectSortingStrategy,
-  SortableContext,
-  sortableKeyboardCoordinates,
-} from "@dnd-kit/sortable";
 import dayjs from "dayjs";
 
 const Home = () => {
