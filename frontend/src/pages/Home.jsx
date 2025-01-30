@@ -70,8 +70,8 @@ const Home = () => {
     if (search.isCompleted) {
       result = HandleIsComplete(result);
     }
-
-    setFilteredTasks(result);
+    const orderedTasks = result.sort((a, b) => a.order - b.order);
+    setFilteredTasks(orderedTasks);
   }, [
     HandleIsComplete,
     HandleSearchDate,
@@ -80,6 +80,40 @@ const Home = () => {
     search.title,
     tasks,
   ]);
+  const onDrop = (e, targetTask) => {
+    e.preventDefault();
+    if (!activeItem || activeItem.id === targetTask.id) return;
+
+    let newTasks = tasks.map((task) => {
+      if (activeItem.order < targetTask.order) {
+        //  Dragging DOWN (Task is moved DOWN)
+        if (task.id === activeItem.id) {
+          return { ...task, order: targetTask.order };
+        }
+        if (
+          (task.order > activeItem.order && task.order < targetTask.order) ||
+          task.id === targetTask.id
+        ) {
+          return { ...task, order: task.order - 1 };
+        }
+      } else if (activeItem.order > targetTask.order) {
+        //  Dragging UP (Task is moved UP)
+        if (task.id === activeItem.id) {
+          return { ...task, order: targetTask.order };
+        }
+        if (
+          (task.order < activeItem.order && task.order > targetTask.order) ||
+          task.id === targetTask.id
+        ) {
+          return { ...task, order: task.order + 1 };
+        }
+      }
+      return task;
+    });
+    newTasks = newTasks.sort((a, b) => a.order - b.order);
+    dispatch({ type: "SET_TASKS", payload: newTasks });
+    setActiveTask(null);
+  };
 
   return (
     <div className="relative w-full">
