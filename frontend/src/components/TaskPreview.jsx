@@ -1,23 +1,18 @@
 /* eslint-disable react/prop-types */
 import { categories, getDay, priorities } from "@/constants";
-import { CheckCircle2, Circle, Eye, Flag, Tag } from "lucide-react";
-import { cloneElement, useState } from "react";
+import { CheckCircle2, Circle, Eye, Flag } from "lucide-react";
+import { cloneElement, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import ConfirmDialog from "./ConfirmDialog";
-import { useSortable } from "@dnd-kit/sortable";
-import { CSS } from "@dnd-kit/utilities";
-import {  useNavigate } from "react-router";
+import { useNavigate } from "react-router";
 
-const TaskPreview = ({ task, handle, className }) => {
-  const {
-    attributes,
-    listeners,
-    setNodeRef,
-    transform,
-    transition,
-    isDragging,
-  } = useSortable({ id: task.id });
-  const dispatch = useDispatch();
+const TaskPreview = ({
+  task,
+  className,
+  draggable = false,
+  setActiveTask = () => {},
+  onDrop = () => {},
+}) => {
   const { id, title, date, time, priority, category, isCompleted } = task;
   const [openConfirmDialog, setOpenConfirmDialog] = useState(false);
   const [confirmInfo, setConfirmInfo] = useState({
