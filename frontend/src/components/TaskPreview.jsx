@@ -64,13 +64,25 @@ const TaskPreview = ({
   return (
     <>
       <div
-        ref={setNodeRef}
+        draggable={draggable}
+        onDragOver={(e) => {
+          e.preventDefault();
+          setEnteredTask(task);
+        }}
+        onDragLeave={() => setEnteredTask(null)}
+        onDragStart={() => {
+          setActiveTask(task);
+        }}
+        onDragEnd={() => {
+          setActiveTask(null);
+          ;
+        }}
         onClick={(e) => e.stopPropagation()}
-        style={style}
+        onDrop={(event) => {onDrop(event, task);setEnteredTask(null)}}
         className={`show-task-animation task-item w-full text-foreground flex items-center justify-between bg-dropDown rounded-lg  md:w-[48%]  min-h-24  ${className}`}
       >
-        {handle && (
-          <div {...attributes} {...listeners}>
+        {draggable && (
+          <div>
             <div
               className={`w-4 h-full flex flex-wrap gap-1 items-center justify-center ms-2 cursor-grab active:cursor-grabbing`}
             >
