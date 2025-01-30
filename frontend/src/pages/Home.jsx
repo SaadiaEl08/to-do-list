@@ -1,20 +1,16 @@
 import DropDownMenu from "@/components/DropDownMenu";
 import TaskPreview from "@/components/TaskPreview";
 import { Search } from "lucide-react";
-import {useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import dayjs from "dayjs";
+import { ReactSortable } from "react-sortablejs";
 
 const Home = () => {
   const tasks = useSelector((state) => state.tasks);
   const dispatch = useDispatch();
   const search = useSelector((state) => state.search);
   const [filteredTasks, setFilteredTasks] = useState(tasks);
-  const [activeTask, setActiveTask] = useState(null);
-  const activeItem = useMemo(
-    () => filteredTasks.find((item) => item.id === activeTask?.id),
-    [activeTask, filteredTasks]
-  );
   // Filtering logic
   const HandleSearchDate = useCallback(
     (tasksToFilter) => {
@@ -80,41 +76,6 @@ const Home = () => {
     search.title,
     tasks,
   ]);
-  const onDrop = (e, targetTask) => {
-    e.preventDefault();
-    if (!activeItem || activeItem.id === targetTask.id) return;
-
-    let newTasks = tasks.map((task) => {
-      if (activeItem.order < targetTask.order) {
-        //  Dragging DOWN (Task is moved DOWN)
-        if (task.id === activeItem.id) {
-          return { ...task, order: targetTask.order };
-        }
-        if (
-          (task.order > activeItem.order && task.order < targetTask.order) ||
-          task.id === targetTask.id
-        ) {
-          return { ...task, order: task.order - 1 };
-        }
-      } else if (activeItem.order > targetTask.order) {
-        //  Dragging UP (Task is moved UP)
-        if (task.id === activeItem.id) {
-          return { ...task, order: targetTask.order };
-        }
-        if (
-          (task.order < activeItem.order && task.order > targetTask.order) ||
-          task.id === targetTask.id
-        ) {
-          return { ...task, order: task.order + 1 };
-        }
-      }
-      return task;
-    });
-    newTasks = newTasks.sort((a, b) => a.order - b.order);
-    dispatch({ type: "SET_TASKS", payload: newTasks });
-    setActiveTask(null);
-  };
-
   return (
     <div className="relative w-full">
       {tasks.length === 0 ? (
@@ -164,16 +125,25 @@ const Home = () => {
                 No tasks for the applied filters
               </p>
             ) : (
-              filteredTasks.map((task) => (
-                <TaskPreview
-                  key={task.id}
-                  task={task}
-                  draggable={true}
-                  setActiveTask={setActiveTask}
-                  className={"active:opacity-50"}
-                  onDrop={onDrop}
-                />
-              ))
+              <ReactSortable
+                filter=".addImageButtonContainer"
+                animation="200"
+                easing="ease-out"
+                list={filteredTasks}
+                setList={setFilteredTasks}
+                forceFallback={true} // Makes dragging smoother
+                scroll={true} // Enables scrolling
+                scrollSensitivity={100} // Adjusts scrolling speed
+                scrollSpeed={10} // Controls how fast it scrolls
+                className="w-full h-full flex flex-col justify-center gap-4 items-stretch md:flex-wrap md:flex-row md:justify-start"
+                ghostClass="opacity-50" // Style the placeholder
+                chosenClass="bg-primary" // Style the item while picking it up
+                handle=".drag-handle"
+              >
+                {filteredTasks.map((task) => (
+                  <TaskPreview key={task.id} task={task} draggable={true} />
+                ))}
+              </ReactSortable>
             )}
           </div>
         </div>

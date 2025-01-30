@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import { categories, getDay, priorities } from "@/constants";
 import { CheckCircle2, Circle, Eye, Flag } from "lucide-react";
-import { cloneElement, useEffect, useState } from "react";
+import { cloneElement, useState } from "react";
 import { useDispatch } from "react-redux";
 import ConfirmDialog from "./ConfirmDialog";
 import { useNavigate } from "react-router";
@@ -10,8 +10,6 @@ const TaskPreview = ({
   task,
   className,
   draggable = false,
-  setActiveTask = () => {},
-  onDrop = () => {},
 }) => {
   const { id, title, date, time, priority, category, isCompleted } = task;
   const dispatch = useDispatch();
@@ -23,8 +21,6 @@ const TaskPreview = ({
   });
 
   const nav = useNavigate();
-  const [enteredTask, setEnteredTask] = useState(null);
-
   // Get category and priority info
   const categoryInfo =
     categories.find((item) => item.name === category) || null;
@@ -64,27 +60,13 @@ const TaskPreview = ({
   return (
     <>
       <div
-        draggable={draggable}
-        onDragOver={(e) => {
-          e.preventDefault();
-          setEnteredTask(task);
-        }}
-        onDragLeave={() => setEnteredTask(null)}
-        onDragStart={() => {
-          setActiveTask(task);
-        }}
-        onDragEnd={() => {
-          setActiveTask(null);
-          ;
-        }}
         onClick={(e) => e.stopPropagation()}
-        onDrop={(event) => {onDrop(event, task);setEnteredTask(null)}}
         className={`show-task-animation task-item w-full text-foreground flex items-center justify-between bg-dropDown rounded-lg  md:w-[48%]  min-h-24  ${className}`}
       >
         {draggable && (
           <div>
             <div
-              className={`w-4 h-full flex flex-wrap gap-1 items-center justify-center ms-2 cursor-grab active:cursor-grabbing`}
+              className={`drag-handle w-4 h-full flex flex-wrap gap-1 items-center justify-center ms-2 cursor-grab active:cursor-grabbing`}
             >
               {Array.from({ length: 6 }, (_, i) => (
                 <div
@@ -113,7 +95,7 @@ const TaskPreview = ({
         )}
         <div className="w-full min-h-24 flex flex-col justify-between p-2 gap-3">
           <div className="flex items-center justify-between">
-            <h1>{formattedTitle}</h1>
+            <h1>{id} {formattedTitle}</h1>
             <Eye
               className="w-4 md:w-6 cursor-pointer"
               onClick={() => nav(`/edit/${id}`)}
@@ -153,15 +135,6 @@ const TaskPreview = ({
               )}
             </div>
           </div>
-        <h1
-          className={`text-foreground text-center border w-full  p-2 rounded-lg ${
-            enteredTask && enteredTask.id && enteredTask.id === id
-              ? "block"
-              : "hidden"
-          }`}
-        >
-          Drag and drop to reorder
-        </h1>
         </div>
 
       </div>
