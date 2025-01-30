@@ -153,7 +153,17 @@ const TaskPreview = ({
               )}
             </div>
           </div>
+        <h1
+          className={`text-foreground text-center border w-full  p-2 rounded-lg ${
+            enteredTask && enteredTask.id && enteredTask.id === id
+              ? "block"
+              : "hidden"
+          }`}
+        >
+          Drag and drop to reorder
+        </h1>
         </div>
+
       </div>
       <ConfirmDialog
         open={openConfirmDialog}
