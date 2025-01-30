@@ -9,57 +9,12 @@ const Home = () => {
   const tasks = useSelector((state) => state.tasks);
   const dispatch = useDispatch();
   const search = useSelector((state) => state.search);
-  const [loading, setLoading] = useState(true);
-  const [reorderedTasks, setReorderedTasks] = useState(tasks);
-  const [filteredTasks, setFilteredTasks] = useState([]);
-
-
-  // Sync local state with Redux tasks
-  useEffect(() => {
-    setReorderedTasks(tasks);
-    setLoading(false);
-  }, [tasks]);
-  // Handle drag-and-drop
-  const handleDragEnd = (e) => {
-    const { active, over } = e;
-
-    // Ensure there's a valid drop target
-    if (!over || active.id === over.id) return;
-
-    // Find indexes for reordering
-    const originalIndex = reorderedTasks.findIndex(
-      (task) => task.id === active.id
-    );
-    const newIndex = reorderedTasks.findIndex((task) => task.id === over.id);
-
-    if (originalIndex === -1 || newIndex === -1) return;
-
-    // Update the local reorderedTasks immediately for smooth UI
-    const updatedTasks = arrayMove(reorderedTasks, originalIndex, newIndex);
-    setReorderedTasks(updatedTasks);
-
-    // Dispatch the updated order to Redux after UI updates
-    setTimeout(() => {
-      dispatch({ type: "SET_TASKS", payload: updatedTasks });
-    }, 0);
-  };
-
-  const sensors = useSensors(
-    useSensor(TouchSensor, {
-      activationConstraint: {
-        distance: 8,
-        delay: 1000,
-      },
-    }),
-    useSensor(MouseSensor, {
-      activationConstraint: {
-        distance: 8,
-        delay: 1000,
-      },
-    }),
-    useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates })
+  const [filteredTasks, setFilteredTasks] = useState(tasks);
+  const [activeTask, setActiveTask] = useState(null);
+  const activeItem = useMemo(
+    () => filteredTasks.find((item) => item.id === activeTask?.id),
+    [activeTask, filteredTasks]
   );
-
   // Filtering logic
   const HandleSearchDate = useCallback(
     (tasksToFilter) => {
