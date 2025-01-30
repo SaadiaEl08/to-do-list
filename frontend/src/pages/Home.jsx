@@ -159,32 +159,22 @@ const Home = () => {
             />
           </div>
           <div className="w-full h-full flex flex-col justify-center gap-4 items-stretch md:flex-wrap md:flex-row md:justify-start">
-            <DndContext
-              sensors={sensors}
-              collisionDetection={closestCorners}
-              onDragEnd={handleDragEnd}
-            >
-              <SortableContext
-                items={filteredTasks}
-                strategy={rectSortingStrategy}
-              >
-                {filteredTasks.length === 0 ? (
-                  <p className="text-foreground text-center m-auto">
-                    No tasks for the applied filters
-                  </p>
-                ) : (
-                  filteredTasks.map((task, index) => (
-                    <TaskPreview
-                      task={task}
-                      key={index}
-                      index={index}
-                      handle={true}
-                    />
-                  ))
-                )}
-              </SortableContext>
-              <DragOverlay></DragOverlay>
-            </DndContext>
+            {filteredTasks.length === 0 ? (
+              <p className="text-foreground text-center m-auto">
+                No tasks for the applied filters
+              </p>
+            ) : (
+              filteredTasks.map((task) => (
+                <TaskPreview
+                  key={task.id}
+                  task={task}
+                  draggable={true}
+                  setActiveTask={setActiveTask}
+                  className={"active:opacity-50"}
+                  onDrop={onDrop}
+                />
+              ))
+            )}
           </div>
         </div>
       )}
