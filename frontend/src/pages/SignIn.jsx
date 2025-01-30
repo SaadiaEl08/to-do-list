@@ -16,11 +16,13 @@ const SignIn = () => {
   }, []);
   useEffect(() => {
     const oldUsername = localStorage.getItem("username");
-    if (username && username != oldUsername) {
+    if (username == "" || username != oldUsername) {
       setShowFingerprint(false);
-    } else {
+    } 
+    if (username != "" && username == oldUsername) {
       setShowFingerprint(true);
     }
+  
   }, [username, password]);
   const handleLogin = () => {
     localStorage.setItem("username", username);
