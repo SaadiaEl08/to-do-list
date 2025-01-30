@@ -127,10 +127,10 @@ const TaskPreview = ({
                 {formattedDate} At {formattedTime}
               </p>
             </div>
-            <div className="flex items-center justify-end gap-2">
+            <div className="w-full  flex items-center justify-end gap-2 sm:w-auto">
               {categoryInfo && (
                 <div
-                  className="flex items-center gap-2 rounded px-3 py-2 text-sm"
+                  className="flex items-center gap-2 rounded px-1 py-2 text-sm"
                   style={{ backgroundColor: `${categoryInfo.color}99` }}
                 >
                   {categoryInfo.icon &&
@@ -144,7 +144,7 @@ const TaskPreview = ({
 
               {priorityInfo && (
                 <div
-                  className="flex items-center gap-2 rounded px-3 py-2 text-sm"
+                  className="flex items-center gap-2 rounded px-1 py-2 text-sm"
                   style={{ backgroundColor: `${priorityInfo.color}99` }}
                 >
                   <Flag className="w-4 h-4" />
