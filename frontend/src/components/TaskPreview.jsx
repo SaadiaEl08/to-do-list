@@ -14,6 +14,7 @@ const TaskPreview = ({
   onDrop = () => {},
 }) => {
   const { id, title, date, time, priority, category, isCompleted } = task;
+  const dispatch = useDispatch();
   const [openConfirmDialog, setOpenConfirmDialog] = useState(false);
   const [confirmInfo, setConfirmInfo] = useState({
     title: "",
@@ -21,7 +22,8 @@ const TaskPreview = ({
     onConfirm: () => {},
   });
 
-  const nav=useNavigate()
+  const nav = useNavigate();
+  const [enteredTask, setEnteredTask] = useState(null);
 
   // Get category and priority info
   const categoryInfo =
@@ -59,16 +61,6 @@ const TaskPreview = ({
     dispatch({ type: "MARK_TASK_AS_COMPLETED", payload: id });
     setOpenConfirmDialog(false);
   };
-  const style = {
-    transform: CSS.Transform.toString({
-      ...transform,
-    }),
-    transition,
-    PointerEvents: "none",
-    zIndex: isDragging ? 2 : "auto",
-    opacity: isDragging ? 0.5 : 1,
-  };
-
   return (
     <>
       <div
