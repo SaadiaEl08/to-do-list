@@ -1,6 +1,7 @@
 import { ChevronLeft, Eye, EyeClosed } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router";
+import { useRegister } from "../hooks/Auth.jsx";
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -9,14 +10,21 @@ const SignUp = () => {
   const [confirmedPassword, setConfirmedPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmedPassword, setShowConfirmedPassword] = useState(false);
+  const { mutate, isLoading, error } = useRegister();
+  console.log(mutate);
+
   const handleRegister = () => {
-    navigate("/home");
+    mutate({ username, password }, { onSuccess: () => navigate("/home") });
+    error && console.log(error);
   };
   return (
     <main className="w-full min-h-screen h-screen bg-background text-foreground flex flex-col justify-evenly items-start p-4">
       <div className="w-full h-full flex flex-col justify-evenly items-start md:w-1/2  m-auto">
         <div className="w-full">
-          <ChevronLeft onClick={() => navigate(-1)} className="cursor-pointer" />
+          <ChevronLeft
+            onClick={() => navigate(-1)}
+            className="cursor-pointer"
+          />
         </div>
         <h1 className="text-3xl font-bold">Register</h1>
         <div className="w-full flex flex-col gap-4 justify-start items-start">
