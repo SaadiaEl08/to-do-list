@@ -9,7 +9,7 @@ const Loading = ({ className, ...props }) => {
       {...props}
     >
       <div className="logo">
-        <img src="/logo.svg" />
+        <img src="/logo.svg" alt="logo" />
       </div>
       <p className="logo-text text-4xl font-bold ">
         {["U", "p", "t", "o", "d", "o"].map((letter, index) => (
