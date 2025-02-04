@@ -28,6 +28,10 @@ const SignIn = () => {
     localStorage.setItem("username", username);
     navigate("/home");
   };
+  const handleFakeLogin = () => {
+    localStorage.setItem("username", "fake-username");
+    navigate("/home");
+  };
 
   return (
     <main className="w-full min-h-screen h-screen bg-background text-foreground flex flex-col justify-evenly items-start p-4">
@@ -89,7 +93,7 @@ const SignIn = () => {
         </button>
         <button
           className="w-full p-2 bg-primary rounded disabled:opacity-50 disabled:cursor-not-allowed"
-          onClick={() => navigate("/home")}
+          onClick={handleFakeLogin}
         >
           Login without a real authentication needed only to view the work
         </button>
