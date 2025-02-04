@@ -91,7 +91,7 @@ const SignIn = () => {
           className="w-full p-2 bg-primary rounded disabled:opacity-50 disabled:cursor-not-allowed"
           onClick={() => navigate("/home")}
         >
-          Login without a real authentication needed only to view the work;
+          Login without a real authentication needed only to view the work
         </button>
         <div className="w-full h-fit flex items-center justify-center gap-1">
           <div className="w-full border border-muted-foreground gap-2"></div>

@@ -9,6 +9,7 @@ import {
   Profile,
   Setting,
   Edit,
+  NotFound
 } from "./pages";
 import Intro from "./pages/Intro";
 import Welcome from "./pages/Welcome";
@@ -29,7 +30,7 @@ const router = createBrowserRouter([
       { path: "edit/:taskId", element: <Edit /> },
     ],
   },
-  { path: "*", element: <h1>Not found</h1> },
+  { path: "*", element: <NotFound /> },
 ]);
 
 export default router;

@@ -6,4 +6,5 @@ import Timer from './Timer';
 import Profile from './Profile';
 import Setting from './Setting';
 import Edit from './Edit';
-export { Home, SignUp, SignIn, Calendar, Timer, Profile ,Setting,Edit};
+import NotFound from './NotFound';
+export { Home, SignUp, SignIn, Calendar, Timer, Profile ,Setting,Edit,NotFound};
