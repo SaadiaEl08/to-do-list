@@ -12,6 +12,7 @@ const CountryInput = () => {
         );
         const data = await response.json();
         setCountryCode(data.country_code);
+        console.log("Country code:", data.country_code);
       } catch (error) {
         console.error("Error fetching location:", error);
       }
