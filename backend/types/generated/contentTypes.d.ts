@@ -331,7 +331,7 @@ export interface AdminUser extends Struct.CollectionTypeSchema {
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     email: Schema.Attribute.Email &
-      // Schema.Attribute.Required &
+      Schema.Attribute.Required &
       Schema.Attribute.Private &
       Schema.Attribute.Unique &
       Schema.Attribute.SetMinMaxLength<{
@@ -879,7 +879,7 @@ export interface PluginUsersPermissionsRole
 
 export interface PluginUsersPermissionsUser
   extends Struct.CollectionTypeSchema {
-  collectionName: 'up_users';
+  collectionName: 'users';
   info: {
     description: '';
     displayName: 'User';
@@ -899,7 +899,6 @@ export interface PluginUsersPermissionsUser
       Schema.Attribute.Private;
     email: Schema.Attribute.Email &
       Schema.Attribute.Unique &
-      Schema.Attribute.Configurable &
       Schema.Attribute.SetMinMaxLength<{
         minLength: 6;
       }>;
