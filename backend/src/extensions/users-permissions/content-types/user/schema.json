@@ -1,6 +1,6 @@
 {
   "kind": "collectionType",
-  "collectionName": "up_users",
+  "collectionName": "users",
   "info": {
     "name": "user",
     "description": "",
@@ -23,8 +23,8 @@
       "type": "email",
       "minLength": 6,
       "configurable": true,
-      "required": false,
-      "unique": true
+      "unique": true,
+      "required": false 
     },
     "provider": {
       "type": "string",
