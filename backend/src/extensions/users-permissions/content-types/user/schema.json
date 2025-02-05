@@ -24,7 +24,7 @@
       "minLength": 6,
       "configurable": false,
       "unique": true,
-      "required": true 
+      "required": false
     },
     "provider": {
       "type": "string",
@@ -69,6 +69,10 @@
     "phoneNumber": {
       "type": "biginteger",
       "unique": true
+    },
+    "name": {
+      "type": "string",
+      "required": true
     }
   }
 }
