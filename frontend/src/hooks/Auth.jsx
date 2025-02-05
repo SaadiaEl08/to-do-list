@@ -7,19 +7,22 @@ const API_URL = `http://${host}:${port}/api/auth/local`;
 
 // Register User
 export const useRegister = () => {
-  return useMutation(async (userData) => {
-    console.log(userData);
-    const { data } = await axios.post(`${API_URL}/register`, userData);
-    return data;
+  return useMutation({
+    mutationFn: async (userData) => {
+      const { data } = await axios.post(`${API_URL}/register`, userData);
+      return data;
+    },
   });
 };
 
 // Login User
 export const useLogin = () => {
-  return useMutation(async (credentials) => {
-    const { data } = await axios.post(`${API_URL}`, credentials);
-    localStorage.setItem("token", data.jwt);
-    localStorage.setItem("username", data.user.username);
-    return data;
+  return useMutation({
+    mutationFn: async (credentials) => {
+      const { data } = await axios.post(`${API_URL}`, credentials);
+      localStorage.setItem("token", data.jwt);
+      localStorage.setItem("username", data.user.username);
+      return data;
+    },
   });
 };
