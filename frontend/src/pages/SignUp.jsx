@@ -1,39 +1,64 @@
 import { ChevronLeft, Eye, EyeClosed } from "lucide-react";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { Link, useNavigate } from "react-router";
 import { useRegister } from "../hooks/Auth.jsx";
 import { myToast } from "@/constants.jsx";
 import { ToastContainer } from "react-toastify";
-import CountryInput from "@/components/CountryInput.jsx";
+import "react-phone-number-input/style.css";
+import PhoneInput, { isPossiblePhoneNumber } from "react-phone-number-input";
 const SignUp = () => {
   const navigate = useNavigate();
   const [name, setName] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
   const [confirmedPassword, setConfirmedPassword] = useState("");
   const [registerMethod, setRegisterMethod] = useState("phone");
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmedPassword, setShowConfirmedPassword] = useState(false);
-  const { mutate, isPending, error } = useRegister();
-  const handleRegister = () => {
-    if (password !== confirmedPassword) {
-      myToast("Passwords do not match", "error");
-      return;
+  const { mutate, isPending ,isError  } = useRegister();
+  const registerValidation = useCallback(() => {
+    if (name === "") {
+      return { status: false, message: "Name is required" };
     }
+    if (registerMethod === "phone" && !isPossiblePhoneNumber(phoneNumber)) {
+      return { status: false, message: "Invalid Phone Number" };
+    }
+    if (registerMethod === "email" && username === "") {
+      return { status: false, message: "Email is required" };
+    }
+    if (password === "") {
+      return { status: false, message: "Password is required" };
+    }
+    if (password !== confirmedPassword) {
+      return { status: false, message: "Passwords do not match" };
+    }
+    return { status: true, message: "Registration successful" };
+  }, [
+    confirmedPassword,
+    name,
+    password,
+    phoneNumber,
+    registerMethod,
+    username,
+  ]);
 
-    mutate(
-      { email: username, username, password },
-      {
-        onSuccess: () => {
-          navigate("/home");
-          myToast("Registration Successful", "success");
-        },
-        onError: (error) => {
-          console.log(error);
-          myToast(error.response.data.error.message);
-        },
-      }
-    );
+  const handleRegister = () => {
+    const validated = registerValidation().status;
+    if (validated) {
+      mutate(
+        { email: username, username, password },
+        {
+          onSuccess: () => {
+            navigate("/home");
+            myToast("Registration Successful", "success");
+          },
+          onError: (error) => {
+            myToast(error.response.data.error.message, "error");
+          },
+        }
+      );
+    }
   };
   return (
     <main className="w-full min-h-screen  bg-background text-foreground flex flex-col justify-evenly items-start p-4">
@@ -83,8 +108,21 @@ const SignUp = () => {
                 className="w-full p-2 placeholder:text-muted-foreground placeholder:opacity-50  border-2 border-muted-foreground bg-input rounded outline-none"
               />
             ) : (
-              <div className="w-full flex items-center gap-2">
-                <CountryInput />
+              <div className="w-full flex items-start gap-2  flex-col ">
+                <PhoneInput
+                  international
+                  countryCallingCodeEditable={false}
+                  defaultCountry="US"
+                  className="w-full p-2 border-2 border-muted-foreground bg-input rounded"
+                  onChange={setPhoneNumber}
+                  value={phoneNumber}
+                />
+                {phoneNumber != "" &&
+                  !isPossiblePhoneNumber(phoneNumber || "") && (
+                    <span className="text-red-500 text-xs">
+                      Invalid Phone Number
+                    </span>
+                  )}
               </div>
             )}
           </div>
@@ -140,17 +178,11 @@ const SignUp = () => {
         <button
           className="w-full p-2 bg-primary rounded disabled:opacity-50 disabled:cursor-not-allowed"
           disabled={
-            username != "" &&
-            password != "" &&
-            name != "" &&
-            confirmedPassword === password &&
-            !isPending
-              ? false
-              : true
+            registerValidation().status === false || isPending
           }
           onClick={handleRegister}
         >
-          Register
+          Register{isPending &&!isError && "ing..."}
         </button>
         <div className="w-full h-fit flex items-center justify-center gap-1">
           <div className="w-full border border-muted-foreground gap-2"></div>
@@ -167,7 +199,7 @@ const SignUp = () => {
             <img src="/apple.svg" alt="apple icon" /> Register with Appel
           </button>
         </div>
-        <div className="text-xs mx-auto">
+        <div className="text-xs mx-auto mt-3">
           <span className="text-muted-foreground">
             Already have an account?
           </span>{" "}
