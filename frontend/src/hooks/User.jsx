@@ -25,7 +25,21 @@ export const useUpdateUser = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-      localStorage.setItem("user", JSON.stringify(data.user));
+      return data;
     },
   });
 };
+
+export const useDeleteUser = () => {
+  return useMutation({
+    mutationFn: async (id) => {
+      await axios.delete(`${API_URL}/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+    },
+  });
+};
+
+
