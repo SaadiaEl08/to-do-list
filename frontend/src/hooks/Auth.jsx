@@ -12,15 +12,13 @@ export const useRegister = () => {
   return useMutation({
     mutationFn: async (userData) => {
       //get all data from the form and send only password and email and username to the backend for registration
-      const { name, password, phoneNumber, registerMethod, login } = userData;
+      const { name, password, phoneNumber, registerMethod } = userData;
       let email =
         registerMethod === "email"
-          ? login
+          ? userData.email
           : `${new Date().getTime()}@gmail.com`;
       let username =
-        registerMethod === "username"
-          ? login
-          : `${new Date().getTime()}`;
+        registerMethod === "phone" ? phoneNumber : `${new Date().getTime()}`;
 
       const { data } = await axios.post(`${API_URL}/register`, {
         email,
@@ -28,14 +26,12 @@ export const useRegister = () => {
         password,
       });
       localStorage.setItem("token", data.jwt);
-      //if the registration is successful, update the user with the new data 
+      //if the registration is successful, update the user with the new data
       if (data) {
-        const { jwt, user } = data;
         mutate({
-          ...user,
-          phoneNumber,
+          ...data.user,
           name,
-          jwt,
+          phoneNumber,
         });
       }
     },
@@ -45,10 +41,12 @@ export const useRegister = () => {
 // Login User
 export const useLogin = () => {
   return useMutation({
-    mutationFn: async (credentials) => {
+    mutationFn: async ({ credentials }) => {
       const { data } = await axios.post(`${API_URL}`, credentials);
-      localStorage.setItem("token", data.jwt);
-      localStorage.setItem("username", data.user.username);
+      if (data.error) throw new Error(data.error.message);
+      if (data.jwt !== null && data.user !== null) {
+        localStorage.setItem("token", data.jwt);
+      }
       return data;
     },
   });
