@@ -55,13 +55,13 @@ const SignUp = () => {
   const handleRegister = () => {
     const validated = registerValidation().status;
     if (validated) {
-      mutate(
+     mutate(
         {
           name,
           login,
           password,
-          registerMethod,
           phoneNumber,
+          registerMethod,
         },
         {
           onSuccess: () => {
