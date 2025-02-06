@@ -1,58 +1,119 @@
 import { ChevronLeft, Eye, EyeClosed } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useCallback, useContext, useState } from "react";
 import { Link, useNavigate } from "react-router";
+import { ToastContainer } from "react-toastify";
+import "react-phone-number-input/style.css";
+import PhoneInput, { isPossiblePhoneNumber } from "react-phone-number-input";
+import { useLogin } from "@/hooks/Auth";
+import { myToast } from "@/constants";
+import { AuthContext } from "@/contexts/AuthContext";
+
 const SignIn = () => {
   const navigate = useNavigate();
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [showFingerprint, setShowFingerprint] = useState(false);
-  useEffect(() => {
-    const username = localStorage.getItem("username");
-    if (username) {
-      setUsername(username);
-      setShowFingerprint(true);
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const { mutate, isPending, isError } = useLogin();
+  const [loginMethod, setLoginMethod] = useState("email");
+  const { setIsAuthenticated, lastLocation } = useContext(AuthContext);
+
+  const loginValidation = useCallback(() => {
+    if (email === "" && phoneNumber === "") {
+      return { status: false, message: "Email or Phone number is required" };
     }
-  }, []);
-  useEffect(() => {
-    const oldUsername = localStorage.getItem("username");
-    if (username == "" || username != oldUsername) {
-      setShowFingerprint(false);
-    } 
-    if (username != "" && username == oldUsername) {
-      setShowFingerprint(true);
+    if (password === "") {
+      return { status: false, message: "Password is required" };
     }
-  
-  }, [username, password]);
+    const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+    if (loginMethod === "email" && !emailRegex.test(email)) {
+      return { status: false, message: "Invalid Email" };
+    }
+    if (loginMethod === "phone" && !isPossiblePhoneNumber(phoneNumber)) {
+      return { status: false, message: "Invalid Phone Number" };
+    }
+    return { status: true, message: "Login successful" };
+  }, [email, phoneNumber, password, loginMethod]);
   const handleLogin = () => {
-    localStorage.setItem("username", username);
-    navigate("/home");
+    const validated = loginValidation().status;
+    if (!validated) {
+      myToast(loginValidation().message, "error");
+      return;
+    }
+    const identifier = loginMethod === "email" ? email : phoneNumber;
+    mutate(
+      { identifier, password },
+      {
+        onSuccess: () => {
+          setIsAuthenticated(true);
+          navigate(lastLocation || "/home", { replace: true });
+          myToast("Login Successful", "success");
+        },
+        onError: (error) => {
+          setIsAuthenticated(false);
+          myToast(error.response.data.error.message, "error");
+        },
+      }
+    );
   };
   const handleFakeLogin = () => {
-    localStorage.setItem("username", "fake-username");
+    localStorage.setItem("user", "fake-user");
     navigate("/home");
   };
-
+  const {fakeLogin}=useContext(AuthContext);
   return (
     <main className="w-full min-h-screen h-screen bg-background text-foreground flex flex-col justify-evenly items-start p-4">
       <div className="w-full h-full flex flex-col justify-evenly items-start md:w-1/2  m-auto">
         <div className="w-full">
-          <ChevronLeft onClick={() => navigate(-1)} className="cursor-pointer" />
+          <ChevronLeft
+            onClick={() => navigate(-1)}
+            className="cursor-pointer"
+          />
         </div>
         <h1 className="text-3xl font-bold">Login</h1>
         <div className="w-full flex flex-col gap-4 justify-start items-start">
           <div className="w-full flex flex-col gap-2 justify-start items-start">
-            <label htmlFor="username">Username, Email or Phone Number</label>
-            <input
-              type="text"
-              id="username"
-              placeholder="Enter your Username, email or phone number"
-              className="w-full p-2 placeholder:text-muted-foreground placeholder:opacity-50  border-2 border-muted-foreground bg-input rounded outline-none"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-            />
+            <label htmlFor="email" className="w-full flex justify-between">
+              {loginMethod === "email" ? "Email" : "Phone Number"}
+              <span
+                className="text-muted-foreground text-end cursor-pointer"
+                onClick={() => {
+                  setLoginMethod(loginMethod === "phone" ? "email" : "phone");
+                }}
+              >
+                or use your {loginMethod === "email" ? "Phone Number" : "Email"}
+              </span>
+            </label>
+            {loginMethod !== "phone" ? (
+              <input
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                type="email"
+                id="email"
+                placeholder="Enter your Email"
+                className="w-full p-2 placeholder:text-muted-foreground placeholder:opacity-50  border-2 border-muted-foreground bg-input rounded outline-none"
+              />
+            ) : (
+              <div className="w-full flex items-start gap-2  flex-col ">
+                <PhoneInput
+                  international
+                  countryCallingCodeEditable={false}
+                  defaultCountry="US"
+                  className="w-full p-2 border-2 border-muted-foreground bg-input rounded"
+                  onChange={setPhoneNumber}
+                  value={phoneNumber || ""}
+                />
+                {phoneNumber != "" &&
+                  !isPossiblePhoneNumber(phoneNumber || "") && (
+                    <span className="text-red-500 text-xs">
+                      Invalid Phone Number
+                    </span>
+                  )}
+              </div>
+            )}
           </div>
-          <div className="w-full flex flex-col gap-2 justify-start items-start">
+
+          <div className="w-full flex flex-col gap-2 justify-start items-start mb-3">
             <label htmlFor="password">Password</label>
             <div className="w-full flex items-center">
               <input
@@ -74,26 +135,19 @@ const SignIn = () => {
                   onClick={() => setShowPassword(!showPassword)}
                 />
               )}
-              {showFingerprint && (
-                <img
-                  src="/fingerprint.svg"
-                  alt="fingerprint icon "
-                  className="w-12 h-12"
-                />
-              )}
             </div>
           </div>
         </div>
         <button
           className="w-full p-2 bg-primary rounded disabled:opacity-50 disabled:cursor-not-allowed"
-          disabled={!username || !password}
+          disabled={loginValidation().status === false || isPending}
           onClick={handleLogin}
         >
-          Login
+          Login{isPending && !isError && "..."}
         </button>
         <button
           className="w-full p-2 bg-primary rounded disabled:opacity-50 disabled:cursor-not-allowed"
-          onClick={handleFakeLogin}
+          onClick={fakeLogin}
         >
           Login without a real authentication needed only to view the work
         </button>
@@ -117,6 +171,7 @@ const SignIn = () => {
           <Link to="/register">Register</Link>{" "}
         </div>
       </div>
+      <ToastContainer />
     </main>
   );
 };
