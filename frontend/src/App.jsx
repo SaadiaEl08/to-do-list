@@ -5,6 +5,8 @@ import TaskAction from "./components/TaskAction";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import dayjs from "dayjs";
+import { ToastContainer } from "react-toastify";
+
 
 const App = () => {
   const isOpenAddTask = useSelector((state) => state.isOpenAddTask);
@@ -117,6 +119,7 @@ const App = () => {
       </div>
       <NavigationMenu />
       {isOpenAddTask === true ? <TaskAction /> : ""}
+      <ToastContainer />
     </main>
   );
 };
