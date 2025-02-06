@@ -1,19 +1,18 @@
 import { ChevronLeft, Eye, EyeClosed } from "lucide-react";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { Link, useNavigate } from "react-router";
 import { useRegister } from "../hooks/Auth.jsx";
 import { myToast } from "@/constants.jsx";
-import { ToastContainer } from "react-toastify";
 import "react-phone-number-input/style.css";
 import PhoneInput, { isPossiblePhoneNumber } from "react-phone-number-input";
 const SignUp = () => {
   const navigate = useNavigate();
   const [name, setName] = useState("");
-  const [login, setLogin] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [confirmedPassword, setConfirmedPassword] = useState("");
-  const [registerMethod, setRegisterMethod] = useState("");
+  const [registerMethod, setRegisterMethod] = useState("email");
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmedPassword, setShowConfirmedPassword] = useState(false);
   const { mutate, isPending, isError } = useRegister();
@@ -24,8 +23,12 @@ const SignUp = () => {
     if (registerMethod === "phone" && !isPossiblePhoneNumber(phoneNumber)) {
       return { status: false, message: "Invalid Phone Number" };
     }
-    if (registerMethod !== "phone" && login === "") {
-      return { status: false, message: "Email or Username is required" };
+    if (registerMethod == "email" && email === "") {
+      return { status: false, message: "Email is required" };
+    }
+    const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+    if (registerMethod == "email" && !emailRegex.test(email)) {
+      return { status: false, message: "Invalid Email" };
     }
     if (password === "") {
       return { status: false, message: "Password is required" };
@@ -34,31 +37,14 @@ const SignUp = () => {
       return { status: false, message: "Passwords do not match" };
     }
     return { status: true, message: "Registration successful" };
-  }, [confirmedPassword, name, password, phoneNumber, registerMethod, login]);
-
-  useEffect(() => {
-    if (registerMethod === "phone") {
-      return;
-    }
-    if (login === "") {
-      setRegisterMethod("");
-      return;
-    }
-    const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
-    if (emailRegex.test(login)) {
-      setRegisterMethod("email");
-    } else {
-      setRegisterMethod("username");
-    }
-  }, [registerMethod, login]);
-
+  }, [name, registerMethod, phoneNumber, email, password, confirmedPassword]);
   const handleRegister = () => {
     const validated = registerValidation().status;
     if (validated) {
-     mutate(
+      mutate(
         {
           name,
-          login,
+          email,
           password,
           phoneNumber,
           registerMethod,
@@ -98,35 +84,31 @@ const SignUp = () => {
             />
           </div>
           <div className="w-full flex flex-col gap-2 justify-start items-start">
-            <label htmlFor="login" className="w-full flex justify-between">
-              {registerMethod === ""
-                ? "Username or Email"
-                : registerMethod === "phone"
-                ? "Phone Number"
-                : registerMethod === "email"
+            <label htmlFor="email" className="w-full flex justify-between">
+              {registerMethod === "" || registerMethod === "email"
                 ? "Email"
-                : "Username"}
+                : "Phone Number"}
               <span
                 className="text-muted-foreground text-end cursor-pointer"
                 onClick={() => {
                   setRegisterMethod(
                     registerMethod === "" || registerMethod != "phone"
                       ? "phone"
-                      : ""
+                      : "email"
                   );
                 }}
               >
-                or use{" "}
-                {registerMethod !== "phone" ? "Phone Number" : "Email/Username"}
+                or use your{" "}
+                {registerMethod !== "phone" ? "Phone Number" : "Email"}
               </span>
             </label>
-            {registerMethod !== "phone" ? (
+            {registerMethod == "email" || registerMethod == "" ? (
               <input
-                value={login}
-                onChange={(e) => setLogin(e.target.value)}
-                type={registerMethod === "email" ? "email" : "text"}
-                id="login"
-                placeholder="Enter your Username or Email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                type="email" 
+                id="email"
+                placeholder="Enter your Email"
                 className="w-full p-2 placeholder:text-muted-foreground placeholder:opacity-50  border-2 border-muted-foreground bg-input rounded outline-none"
               />
             ) : (
@@ -137,7 +119,7 @@ const SignUp = () => {
                   defaultCountry="US"
                   className="w-full p-2 border-2 border-muted-foreground bg-input rounded"
                   onChange={setPhoneNumber}
-                  value={phoneNumber}
+                  value={phoneNumber || ""}
                 />
                 {phoneNumber != "" &&
                   !isPossiblePhoneNumber(phoneNumber || "") && (
@@ -226,7 +208,6 @@ const SignUp = () => {
           <Link to="/login">Login</Link>{" "}
         </div>
       </div>
-      <ToastContainer />
     </main>
   );
 };
