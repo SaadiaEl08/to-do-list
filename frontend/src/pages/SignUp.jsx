@@ -1,5 +1,5 @@
 import { ChevronLeft, Eye, EyeClosed } from "lucide-react";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router";
 import { useRegister } from "../hooks/Auth.jsx";
 import { myToast } from "@/constants.jsx";
@@ -9,14 +9,14 @@ import PhoneInput, { isPossiblePhoneNumber } from "react-phone-number-input";
 const SignUp = () => {
   const navigate = useNavigate();
   const [name, setName] = useState("");
-  const [username, setUsername] = useState("");
+  const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [confirmedPassword, setConfirmedPassword] = useState("");
-  const [registerMethod, setRegisterMethod] = useState("phone");
+  const [registerMethod, setRegisterMethod] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmedPassword, setShowConfirmedPassword] = useState(false);
-  const { mutate, isPending ,isError  } = useRegister();
+  const { mutate, isPending, isError } = useRegister();
   const registerValidation = useCallback(() => {
     if (name === "") {
       return { status: false, message: "Name is required" };
@@ -24,8 +24,8 @@ const SignUp = () => {
     if (registerMethod === "phone" && !isPossiblePhoneNumber(phoneNumber)) {
       return { status: false, message: "Invalid Phone Number" };
     }
-    if (registerMethod === "email" && username === "") {
-      return { status: false, message: "Email is required" };
+    if (registerMethod !== "phone" && login === "") {
+      return { status: false, message: "Email or Username is required" };
     }
     if (password === "") {
       return { status: false, message: "Password is required" };
@@ -34,20 +34,35 @@ const SignUp = () => {
       return { status: false, message: "Passwords do not match" };
     }
     return { status: true, message: "Registration successful" };
-  }, [
-    confirmedPassword,
-    name,
-    password,
-    phoneNumber,
-    registerMethod,
-    username,
-  ]);
+  }, [confirmedPassword, name, password, phoneNumber, registerMethod, login]);
+
+  useEffect(() => {
+    if (registerMethod === "phone") {
+      return;
+    }
+    if (login === "") {
+      setRegisterMethod("");
+      return;
+    }
+    const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+    if (emailRegex.test(login)) {
+      setRegisterMethod("email");
+    } else {
+      setRegisterMethod("username");
+    }
+  }, [registerMethod, login]);
 
   const handleRegister = () => {
     const validated = registerValidation().status;
     if (validated) {
       mutate(
-        { email: username, username, password },
+        {
+          name,
+          login,
+          password,
+          registerMethod,
+          phoneNumber,
+        },
         {
           onSuccess: () => {
             navigate("/home");
@@ -83,28 +98,35 @@ const SignUp = () => {
             />
           </div>
           <div className="w-full flex flex-col gap-2 justify-start items-start">
-            <label htmlFor="username" className="w-full flex justify-between">
-              {registerMethod === "email"
-                ? " Username or Email "
-                : "Phone Number"}
+            <label htmlFor="login" className="w-full flex justify-between">
+              {registerMethod === ""
+                ? "Username or Email"
+                : registerMethod === "phone"
+                ? "Phone Number"
+                : registerMethod === "email"
+                ? "Email"
+                : "Username"}
               <span
                 className="text-muted-foreground text-end cursor-pointer"
-                onClick={() =>
+                onClick={() => {
                   setRegisterMethod(
-                    registerMethod === "email" ? "phone" : "email"
-                  )
-                }
+                    registerMethod === "" || registerMethod != "phone"
+                      ? "phone"
+                      : ""
+                  );
+                }}
               >
-                or use {registerMethod === "email" ? "Phone Number" : "Email"}
+                or use{" "}
+                {registerMethod !== "phone" ? "Phone Number" : "Email/Username"}
               </span>
             </label>
-            {registerMethod === "email" ? (
+            {registerMethod !== "phone" ? (
               <input
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                type="text"
-                id="username"
-                placeholder="Enter your Username, Email or Phone Number"
+                value={login}
+                onChange={(e) => setLogin(e.target.value)}
+                type={registerMethod === "email" ? "email" : "text"}
+                id="login"
+                placeholder="Enter your Username or Email"
                 className="w-full p-2 placeholder:text-muted-foreground placeholder:opacity-50  border-2 border-muted-foreground bg-input rounded outline-none"
               />
             ) : (
@@ -177,12 +199,10 @@ const SignUp = () => {
         </div>
         <button
           className="w-full p-2 bg-primary rounded disabled:opacity-50 disabled:cursor-not-allowed"
-          disabled={
-            registerValidation().status === false || isPending
-          }
+          disabled={registerValidation().status === false || isPending}
           onClick={handleRegister}
         >
-          Register{isPending &&!isError && "ing..."}
+          Register{isPending && !isError && "ing..."}
         </button>
         <div className="w-full h-fit flex items-center justify-center gap-1">
           <div className="w-full border border-muted-foreground gap-2"></div>
