@@ -1,10 +1,12 @@
 import { ChevronLeft, Eye, EyeClosed } from "lucide-react";
-import { useCallback, useState } from "react";
+import { useCallback, useContext, useState } from "react";
 import { Link, useNavigate } from "react-router";
 import { useRegister } from "../hooks/Auth.jsx";
 import { myToast } from "@/constants.jsx";
 import "react-phone-number-input/style.css";
 import PhoneInput, { isPossiblePhoneNumber } from "react-phone-number-input";
+import { AuthContext } from "@/contexts/AuthContext.jsx";
+import { ToastContainer } from "react-toastify";
 const SignUp = () => {
   const navigate = useNavigate();
   const [name, setName] = useState("");
@@ -38,6 +40,7 @@ const SignUp = () => {
     }
     return { status: true, message: "Registration successful" };
   }, [name, registerMethod, phoneNumber, email, password, confirmedPassword]);
+  const {register}=useContext(AuthContext)
   const handleRegister = () => {
     const validated = registerValidation().status;
     if (validated) {
@@ -51,7 +54,7 @@ const SignUp = () => {
         },
         {
           onSuccess: () => {
-            navigate("/home");
+            register()
             myToast("Registration Successful", "success");
           },
           onError: (error) => {
@@ -208,6 +211,7 @@ const SignUp = () => {
           <Link to="/login">Login</Link>{" "}
         </div>
       </div>
+      <ToastContainer />
     </main>
   );
 };
