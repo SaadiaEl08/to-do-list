@@ -41,8 +41,9 @@ const SignIn = () => {
       return;
     }
     const identifier = loginMethod === "email" ? email : phoneNumber;
+    const credentials = { identifier, password };
     mutate(
-      { identifier, password },
+      { credentials },
       {
         onSuccess: () => {
           setIsAuthenticated(true);
