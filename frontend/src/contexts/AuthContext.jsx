@@ -24,6 +24,12 @@ export const AuthProvider = ({ children }) => {
     setLastLocation("");
   };
 
+  const register = () => {
+    setIsAuthenticated(true);
+    setLastLocation("/home");
+    localStorage.setItem("lastLocation", "/home");
+  };
+
   const fakeLogin = () => {
     localStorage.setItem("token", "fake-token");
     localStorage.setItem("user", "fake-user");
@@ -38,7 +44,8 @@ export const AuthProvider = ({ children }) => {
         lastLocation,
         setLastLocation,
         logout,
-        fakeLogin
+        fakeLogin,
+        register
       }}
     >
       {children}
