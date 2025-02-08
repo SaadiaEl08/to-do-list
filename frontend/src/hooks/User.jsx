@@ -1,9 +1,8 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import axios from "axios";
 
-const port = import.meta.env.VITE_BACKEND_PORT || 1337;
-const host = import.meta.env.VITE_BACKEND_HOST || "localhost";
-const API_URL = `http://${host}:${port}/api/users`;
+const host = import.meta.env.VITE_BACKEND_HOST || "http://localhost:1337";
+const API_URL = `${host}/api/users`;
 const token = localStorage.getItem("token");
 
 // export const useUser = () => {
