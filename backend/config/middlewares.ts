@@ -12,7 +12,6 @@ export default ({ env }) => [
     },
   },
   "strapi::security",
-  "strapi::cors",
   "strapi::poweredBy",
   "strapi::query",
   "strapi::body",
