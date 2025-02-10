@@ -58,6 +58,7 @@ const SignUp = () => {
             myToast("Registration Successful", "success");
           },
           onError: (error) => {
+            console.log(error);
             myToast(error.response.data.error.message, "error");
           },
         }
