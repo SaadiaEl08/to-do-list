@@ -1,5 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
+import { useGoogleLogin } from "@react-oauth/google";
 
 const host = import.meta.env.VITE_BACKEND_HOST || "http://localhost:1337";
 const API_URL = `${host}/api/auth/local`;
@@ -24,11 +25,7 @@ export const useRegister = () => {
         name,
         phoneNumber,
       });
-      localStorage.setItem("token", data.jwt);
-      localStorage.setItem(
-        "user",
-        JSON.stringify({ name: data.user.name, image: data.user.image })
-      )
+      return data;
     },
   });
 };
@@ -37,24 +34,24 @@ export const useRegister = () => {
 export const useLogin = () => {
   return useMutation({
     mutationFn: async ({ credentials }) => {
-      console.log(credentials);
       const response = await axios.post(`${API_URL}`, credentials);
-      console.log(response);
       const data = response.data;
       if (data.error) throw new Error(data.error.message);
-      if (data.jwt !== null && data.user !== null) {
-        localStorage.setItem("token", data.jwt);
-        localStorage.setItem(
-          "user",
-          JSON.stringify({ name: data.user.name, image: data.user.image })
-        );
-      }
       return data;
     },
   });
 };
 
-
-const useLoginWithGoogle = () => {
-
+export const useLoginWithGoogle = () => {
+  return useMutation({
+    mutationFn: async (token) => {
+      const response = await axios.get(
+        "http://localhost:1337/api/auth/google/callback",
+        {
+          params: { access_token: token },
+        }
+      );
+      return response.data;
+    },
+  });
 };
