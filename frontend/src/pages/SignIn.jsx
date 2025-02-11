@@ -4,9 +4,10 @@ import { Link, useNavigate } from "react-router";
 import { ToastContainer } from "react-toastify";
 import "react-phone-number-input/style.css";
 import PhoneInput, { isPossiblePhoneNumber } from "react-phone-number-input";
-import { useLogin } from "@/hooks/Auth";
+import { useLogin, useLoginWithGoogle } from "@/hooks/Auth";
 import { myToast } from "@/constants";
 import { AuthContext } from "@/contexts/AuthContext";
+import { useGoogleLogin } from "@react-oauth/google";
 
 const SignIn = () => {
   const navigate = useNavigate();
@@ -14,9 +15,14 @@ const SignIn = () => {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [phoneNumber, setPhoneNumber] = useState("");
-  const { mutate, isPending, isError } = useLogin();
   const [loginMethod, setLoginMethod] = useState("email");
+  const { mutate, isPending, isError } = useLogin();
+  const { mutate: googleLoginMutation, isPending: googleLoginPending } =
+  useLoginWithGoogle();
   const { setIsAuthenticated, lastLocation } = useContext(AuthContext);
+  const { login } = useContext(AuthContext);
+  const { fakeLogin } = useContext(AuthContext);
+
 
   const loginValidation = useCallback(() => {
     if (email === "" && phoneNumber === "") {
@@ -45,23 +51,47 @@ const SignIn = () => {
     mutate(
       { credentials },
       {
-        onSuccess: () => {
-          setIsAuthenticated(true);
+        onSuccess: (data) => {
+          login(data);
           navigate(lastLocation || "/home", { replace: true });
-          myToast("Login Successful", "success");
+          myToast(loginValidation().message, "success");
         },
         onError: (error) => {
           setIsAuthenticated(false);
-          myToast(error.response.data.error.message, "error");
+          myToast(
+            `Login failed : ${error.response.data.error.message}`,
+            "error"
+          );
         },
       }
     );
   };
-  const handleFakeLogin = () => {
-    localStorage.setItem("user", "fake-user");
-    navigate("/home");
-  };
-  const {fakeLogin}=useContext(AuthContext);
+
+  const handleGoogleLogin = useGoogleLogin({
+    onSuccess: (tokenResponse) => {
+      // Mutate the data when Google login is successful
+      googleLoginMutation(tokenResponse.access_token, {
+        onSuccess: (data) => {
+          login(data);
+          navigate(lastLocation || "/home", { replace: true });
+          myToast(loginValidation().message, "success");
+        },
+        onError: (error) => {
+          // Handle error
+          console.error("Google login failed:", error);
+          myToast(
+            `Login failed : ${error.response.data.error.message}`,
+            "error"
+          );
+        },
+      });
+    },
+    onError: (error) => {
+      console.error("Google login error:", error);
+      myToast("Google login failed", "error");
+    },
+  });
+
   return (
     <main className="w-full min-h-screen h-screen bg-background text-foreground flex flex-col justify-evenly items-start p-4">
       <div className="w-full h-full flex flex-col justify-evenly items-start md:w-1/2  m-auto">
@@ -141,7 +171,11 @@ const SignIn = () => {
         </div>
         <button
           className="w-full p-2 bg-primary rounded disabled:opacity-50 disabled:cursor-not-allowed"
-          disabled={loginValidation().status === false || isPending}
+          disabled={
+            loginValidation().status === false ||
+            isPending ||
+            googleLoginPending
+          }
           onClick={handleLogin}
         >
           Login{isPending && !isError && "..."}
@@ -160,10 +194,17 @@ const SignIn = () => {
           <div className="w-full border border-muted-foreground"></div>
         </div>
         <div className="w-full flex flex-col gap-4 items-center">
-          <button className="w-full border border-primary h-12 rounded flex gap-1 items-center justify-center">
+          <button
+            onClick={handleGoogleLogin}
+            disabled={isPending || googleLoginPending}
+            className="w-full border border-primary h-12 rounded flex gap-1 items-center justify-center disabled:cursor-not-allowed"
+          >
             <img src="/google.svg" alt="google icon" /> Login with Google
           </button>
-          <button className="w-full border border-primary h-12 rounded flex gap-1 items-center justify-center">
+          <button
+            disabled={isPending || googleLoginPending}
+            className="w-full border border-primary h-12 rounded flex gap-1 items-center justify-center disabled:cursor-not-allowed"
+          >
             <img src="/apple.svg" alt="apple icon" /> Login with Appel
           </button>
         </div>
