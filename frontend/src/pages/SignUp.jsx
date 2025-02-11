@@ -1,12 +1,13 @@
 import { ChevronLeft, Eye, EyeClosed } from "lucide-react";
 import { useCallback, useContext, useState } from "react";
 import { Link, useNavigate } from "react-router";
-import { useRegister } from "../hooks/Auth.jsx";
+import { useLoginWithGoogle, useRegister } from "../hooks/Auth.jsx";
 import { myToast } from "@/constants.jsx";
 import "react-phone-number-input/style.css";
 import PhoneInput, { isPossiblePhoneNumber } from "react-phone-number-input";
 import { AuthContext } from "@/contexts/AuthContext.jsx";
 import { ToastContainer } from "react-toastify";
+import { useGoogleLogin } from "@react-oauth/google";
 const SignUp = () => {
   const navigate = useNavigate();
   const [name, setName] = useState("");
@@ -18,6 +19,11 @@ const SignUp = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmedPassword, setShowConfirmedPassword] = useState(false);
   const { mutate, isPending, isError } = useRegister();
+  const { lastLocation } = useContext(AuthContext);
+  const { register } = useContext(AuthContext);
+  const { mutate: googleLoginMutation, isPending: googleLoginPending } =
+    useLoginWithGoogle();
+
   const registerValidation = useCallback(() => {
     if (name === "") {
       return { status: false, message: "Name is required" };
@@ -40,7 +46,6 @@ const SignUp = () => {
     }
     return { status: true, message: "Registration successful" };
   }, [name, registerMethod, phoneNumber, email, password, confirmedPassword]);
-  const {register}=useContext(AuthContext)
   const handleRegister = () => {
     const validated = registerValidation().status;
     if (validated) {
@@ -53,18 +58,48 @@ const SignUp = () => {
           registerMethod,
         },
         {
-          onSuccess: () => {
-            register()
-            myToast("Registration Successful", "success");
+          onSuccess: (data) => {
+            register(data);
+            navigate(lastLocation || "/home", { replace: true });
+            myToast(registerValidation().message, "success");
           },
           onError: (error) => {
             console.log(error);
-            myToast(error.response.data.error.message, "error");
+            myToast(
+              `Registration failed : ${error.response.data.error.message}`,
+              "error"
+            );
           },
         }
       );
     }
   };
+
+  const handleGoogleRegister = useGoogleLogin({
+    onSuccess: (tokenResponse) => {
+      // Mutate the data when Google login is successful
+      googleLoginMutation(tokenResponse.access_token, {
+        onSuccess: (data) => {
+          register(data);
+          navigate(lastLocation || "/home", { replace: true });
+          myToast(registerValidation().message, "success");
+        },
+        onError: (error) => {
+          // Handle error
+          console.error("Google Registration failed:", error);
+          myToast(
+            `Registration failed : ${error.response.data.error.message}`,
+            "error"
+          );
+        },
+      });
+    },
+    onError: (error) => {
+      console.error("Google login error:", error);
+      myToast("Google login failed", "error");
+    },
+  });
+
   return (
     <main className="w-full min-h-screen  bg-background text-foreground flex flex-col justify-evenly items-start p-4">
       <div className="w-full h-full  flex flex-col justify-evenly items-start md:w-1/2  m-auto ">
@@ -110,7 +145,7 @@ const SignUp = () => {
               <input
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                type="email" 
+                type="email"
                 id="email"
                 placeholder="Enter your Email"
                 className="w-full p-2 placeholder:text-muted-foreground placeholder:opacity-50  border-2 border-muted-foreground bg-input rounded outline-none"
@@ -185,7 +220,11 @@ const SignUp = () => {
         </div>
         <button
           className="w-full p-2 bg-primary rounded disabled:opacity-50 disabled:cursor-not-allowed"
-          disabled={registerValidation().status === false || isPending}
+          disabled={
+            registerValidation().status === false ||
+            isPending ||
+            googleLoginPending
+          }
           onClick={handleRegister}
         >
           Register{isPending && !isError && "ing..."}
@@ -198,10 +237,17 @@ const SignUp = () => {
           <div className="w-full border border-muted-foreground"></div>
         </div>
         <div className="w-full flex flex-col gap-4 items-center">
-          <button className="w-full border border-primary h-12 rounded flex gap-1 items-center justify-center">
+          <button
+            onClick={handleGoogleRegister}
+            disabled={isPending || googleLoginPending}
+            className="w-full border border-primary h-12 rounded flex gap-1 items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed"
+          >
             <img src="/google.svg" alt="google icon" /> Register with Google
           </button>
-          <button className="w-full border border-primary h-12 rounded flex gap-1 items-center justify-center">
+          <button
+            disabled={isPending || googleLoginPending}
+            className="w-full border border-primary h-12 rounded flex gap-1 items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed"
+          >
             <img src="/apple.svg" alt="apple icon" /> Register with Appel
           </button>
         </div>
