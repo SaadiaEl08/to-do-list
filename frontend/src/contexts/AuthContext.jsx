@@ -16,7 +16,7 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     !isAuthenticated && localStorage.removeItem("token");
-    !isAuthenticated && localStorage.removeItem("user");
+    !isAuthenticated && localStorage.removeItem("accountInfo");
   }, [isAuthenticated]);
 
   const logout = () => {
@@ -24,17 +24,39 @@ export const AuthProvider = ({ children }) => {
     setLastLocation("");
   };
 
-  const register = () => {
+  const register = (data) => {
+    const { jwt, user } = data;
     setIsAuthenticated(true);
     setLastLocation("/home");
     localStorage.setItem("lastLocation", "/home");
+    localStorage.setItem("token", jwt);
+    localStorage.setItem(
+      "accountInfo",
+      JSON.stringify({
+        name: user?.name || user?.username || "User",
+        image: user?.image || "",
+      })
+    );
   };
 
   const fakeLogin = () => {
     localStorage.setItem("token", "fake-token");
-    localStorage.setItem("user", "fake-user");
+    localStorage.setItem("accountInfo", "fake-user");
     setIsAuthenticated(true);
     setLastLocation("/home");
+  };
+
+  const login = (data) => {
+    const { jwt, user } = data;
+    setIsAuthenticated(true);
+    localStorage.setItem("token", jwt);
+    localStorage.setItem(
+      "accountInfo",
+      JSON.stringify({
+        name: user?.name || user?.username || "User",
+        image: user?.image || "",
+      })
+    );
   };
   return (
     <AuthContext.Provider
@@ -45,7 +67,8 @@ export const AuthProvider = ({ children }) => {
         setLastLocation,
         logout,
         fakeLogin,
-        register
+        register,
+        login,
       }}
     >
       {children}
