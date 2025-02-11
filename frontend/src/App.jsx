@@ -7,7 +7,6 @@ import { useEffect } from "react";
 import dayjs from "dayjs";
 import { ToastContainer } from "react-toastify";
 
-
 const App = () => {
   const isOpenAddTask = useSelector((state) => state.isOpenAddTask);
   const dispatch = useDispatch();
@@ -17,7 +16,8 @@ const App = () => {
       {
         id: 1,
         title: "Complete project report",
-        description: "Finish the final draft of the project report for client review.",
+        description:
+          "Finish the final draft of the project report for client review.",
         date: dayjs("2024-12-31"),
         time: dayjs().add(2, "hour"),
         priority: "High",
@@ -50,7 +50,8 @@ const App = () => {
       {
         id: 4,
         title: "Schedule doctor appointment",
-        description: "Call the clinic to schedule an appointment for a check-up.",
+        description:
+          "Call the clinic to schedule an appointment for a check-up.",
         date: dayjs().add(1, "day"),
         time: dayjs().add(2, "hour"),
         priority: "Medium",
@@ -61,7 +62,8 @@ const App = () => {
       {
         id: 5,
         title: "Submit budget proposal",
-        description: "Submit the finalized budget proposal to the finance department.",
+        description:
+          "Submit the finalized budget proposal to the finance department.",
         date: dayjs().add(2, "day"),
         time: dayjs().add(1, "hour"),
         priority: "High",
@@ -94,7 +96,8 @@ const App = () => {
       {
         id: 8,
         title: "Plan weekend trip",
-        description: "Research hotels and activities for a weekend getaway to the mountains.",
+        description:
+          "Research hotels and activities for a weekend getaway to the mountains.",
         date: dayjs("2025-02-05"),
         time: dayjs().add(5, "hours"),
         priority: "Medium",
@@ -103,16 +106,27 @@ const App = () => {
         order: 8,
       },
     ];
-    
+
     dispatch({ type: "SET_TASKS", payload: tasksFromApi });
   }, [dispatch]);
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, [location]);
+    dispatch(
+      {
+      type: "SET_ACCOUNT_INFO",
+      payload: {
+        name: JSON.parse(localStorage.getItem("accountInfo"))?.name || "User",
+        username: "",
+        image:
+          JSON.parse(localStorage.getItem("accountInfo"))?.image ||
+          "https://ui-avatars.com/api/?name=" +
+            JSON.parse(localStorage.getItem("accountInfo"))?.name ||
+          "User",
+      },
+    });
+  }, [dispatch, location]);
   return (
-    <main
-      className={`min-w-full w-full min-h-screen bg-background relative`}
-    >
+    <main className={`min-w-full w-full min-h-screen bg-background relative`}>
       <div className="flex flex-col items-center  overflow-y-auto pb-20 xl:pb-0 xl:ms-[4%] ">
         <TopSection />
         <Outlet />
