@@ -47,7 +47,7 @@
       "type": "integer",
       "required": true
     },
-    "creator_id": {
+    "users_permissions_user": {
       "type": "relation",
       "relation": "manyToOne",
       "target": "plugin::users-permissions.user",
