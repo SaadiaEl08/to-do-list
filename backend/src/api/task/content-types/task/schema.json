@@ -47,10 +47,11 @@
       "type": "integer",
       "required": true
     },
-    "creatorId": {
+    "creator_id": {
       "type": "relation",
-      "relation": "oneToOne",
-      "target": "plugin::users-permissions.user"
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "tasks"
     }
   }
 }
