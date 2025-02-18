@@ -1,6 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
-import { useGoogleLogin } from "@react-oauth/google";
 
 const host = import.meta.env.VITE_BACKEND_HOST || "http://localhost:1337";
 const API_URL = `${host}/api/auth/local`;
