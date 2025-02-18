@@ -5,17 +5,18 @@ import { steps } from "@/constants";
 import ConfirmDialog from "./ConfirmDialog";
 import { categories, getDay, priorities } from "@/constants";
 import { useNavigate } from "react-router";
+import dayjs from "dayjs";
 
 const TaskDetail = ({ task = {} }) => {
   const { id, title, description, date, time, priority, category } = task;
   // Get category and priority info
   const categoryInfo =
-    categories.find((item) => item.name === category) || null;
+    categories.find((item) => item.name === category?.name) || null;
   const priorityInfo =
     priorities.find((item) => item.name === priority) || null;
 
   // Formatted values
-  const formattedTime = time.format("HH:mm");
+  const formattedTime = dayjs(time).format("HH:mm");
   const formattedDate = getDay(date);
   const dispatch = useDispatch();
   const nav = useNavigate();
@@ -41,7 +42,7 @@ const TaskDetail = ({ task = {} }) => {
   return (
     <div className="text-foreground fixed w-full min-h-full h-fit  bg-background z-20 top-0 left-0 p-4 flex flex-col items-start gap-5 lg:p-20  xl:p-10 ">
       <div className="w-full flex justify-end">
-        <X className="w-6 h-6 cursor-pointer" onClick={() => nav(-1)} />
+        <X className="w-6 h-6 cursor-pointer" onClick={() => nav("/home")} />
       </div>
       <div className="w-full flex  justify-between items-start">
         <div className=" w-10/12 flex flex-col justify-between">
