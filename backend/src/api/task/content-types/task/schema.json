@@ -26,14 +26,6 @@
     "time": {
       "type": "time"
     },
-    "priority": {
-      "type": "enumeration",
-      "enum": [
-        "High",
-        "Medium",
-        "Low"
-      ]
-    },
     "category": {
       "type": "relation",
       "relation": "oneToOne",
@@ -47,11 +39,20 @@
       "type": "integer",
       "required": true
     },
-    "users_permissions_user": {
+    "creator": {
       "type": "relation",
       "relation": "manyToOne",
       "target": "plugin::users-permissions.user",
       "inversedBy": "tasks"
+    },
+    "priority": {
+      "type": "enumeration",
+      "enum": [
+        "High",
+        "Medium",
+        "Low",
+        "null"
+      ]
     }
   }
 }
