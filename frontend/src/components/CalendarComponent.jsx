@@ -6,13 +6,14 @@ import { useSelector } from "react-redux";
 import Badge from "@mui/material/Badge";
 import { PickersDay } from "@mui/x-date-pickers";
 import { useState } from "react";
-import { IconButton } from "@mui/material";
+import { Icon, IconButton } from "@mui/material";
 import { ChevronDown, ChevronUp } from "lucide-react";
+import dayjs from "dayjs";
 
 export default function DateCalendarViews({ selectedDay, setSelectedDay }) {
   const tasks = useSelector((state) => state.tasks);
   const highlightedDays =
-    tasks.map((task) => task.date.format("YYYY-MM-DD")) || [];
+    tasks.map((task) => dayjs(task.date).format("YYYY-MM-DD")) || [];
   // State to explicitly manage the current view
   const [currentView, setCurrentView] = useState("day");
   const handleViewChange = () => {
@@ -42,7 +43,7 @@ export default function DateCalendarViews({ selectedDay, setSelectedDay }) {
   };
   const ServeArrow = ({ ...props }) => {
     return (
-      <IconButton sx={props.sx}>
+      <Icon sx={props.sx}>
         {currentView === "day" && (
           <span className="material-symbols-outlined">
             <ChevronDown />{" "}
@@ -54,7 +55,7 @@ export default function DateCalendarViews({ selectedDay, setSelectedDay }) {
             <ChevronUp />{" "}
           </span>
         )}
-      </IconButton>
+      </Icon>
     );
   };
   return (
