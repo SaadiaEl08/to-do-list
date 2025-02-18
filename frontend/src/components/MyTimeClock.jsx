@@ -19,7 +19,7 @@ export default function MyTimeClock() {
     if (!isValidTime) {
       myToast("Time must be in the next 5 minutes or more", "error");
     } else {
-      dispatch({ type: "UPDATE_TASK_INFO", payload: { time: selectedTime } });
+      dispatch({ type: "UPDATE_TASK_INFO", payload: { time: dayjs(selectedTime, "HH:mm:ss")  } });
       dispatch({ type: "SET_STEP", payload: steps.TASK_FORM });
     }
   };
