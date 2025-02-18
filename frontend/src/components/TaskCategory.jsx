@@ -6,7 +6,7 @@ import { categories, steps } from "@/constants";
 
 const TaskCategory = () => {
   const taskCategory = useSelector((state) => state.taskInfo.category);
-  const [selectedCategory, setSelectedCategory] = useState(taskCategory);
+  const [selectedCategory, setSelectedCategory] = useState(taskCategory.name);
   const dispatch = useDispatch();
   return (
     <div className="w-[80vw] sm:w-[50vw]  ">
