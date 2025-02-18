@@ -85,7 +85,7 @@
       "type": "relation",
       "relation": "oneToMany",
       "target": "api::task.task",
-      "mappedBy": "users_permissions_user"
+      "mappedBy": "creator"
     }
   }
 }
