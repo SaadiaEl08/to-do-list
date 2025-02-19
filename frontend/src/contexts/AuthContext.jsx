@@ -41,7 +41,14 @@ export const AuthProvider = ({ children }) => {
 
   const fakeLogin = () => {
     localStorage.setItem("token", "fake-token");
-    localStorage.setItem("accountInfo", "fake-user");
+    localStorage.setItem(
+      "accountInfo",
+      JSON.stringify({
+        name: "Fake User",
+        username: "",
+        image: "https://ui-avatars.com/api/?name=" + "Fake User",
+      })
+    );
     setIsAuthenticated(true);
     setLastLocation("/home");
   };
@@ -50,13 +57,7 @@ export const AuthProvider = ({ children }) => {
     const { jwt, user } = data;
     setIsAuthenticated(true);
     localStorage.setItem("token", jwt);
-    localStorage.setItem(
-      "accountInfo",
-      JSON.stringify({
-        name: user?.name || user?.username || "User",
-        image: user?.image || "",
-      })
-    );
+    localStorage.setItem("accountInfo", JSON.stringify(user));
   };
   return (
     <AuthContext.Provider
