@@ -2,16 +2,24 @@
 import { categories, getDay, priorities } from "@/constants";
 import { CheckCircle2, Circle, Eye, Flag } from "lucide-react";
 import { cloneElement, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import ConfirmDialog from "./ConfirmDialog";
 import { useNavigate } from "react-router";
+import dayjs from "dayjs";
+import { useMarkTaskAsCompleted, useUpdateTask, useUpdateTaskCompleted } from "@/apis/Task";
 
-const TaskPreview = ({
-  task,
-  className,
-  draggable = false,
-}) => {
-  const { id, title, date, time, priority, category, isCompleted } = task;
+const TaskPreview = ({ task, className, draggable = false }) => {
+  const {
+    id,
+    order,
+    title,
+    date,
+    time,
+    priority,
+    category,
+    isCompleted,
+    documentId,
+  } = task;
   const dispatch = useDispatch();
   const [openConfirmDialog, setOpenConfirmDialog] = useState(false);
   const [confirmInfo, setConfirmInfo] = useState({
@@ -20,17 +28,20 @@ const TaskPreview = ({
     onConfirm: () => {},
   });
 
+  const { mutate: updateTaskCompleted } = useUpdateTaskCompleted();
   const nav = useNavigate();
+  const loginMode = useSelector((state) => state.loginMode);
   // Get category and priority info
   const categoryInfo =
-    categories.find((item) => item.name === category) || null;
+    categories.find((item) => item.name === category?.name) || null;
   const priorityInfo =
     priorities.find((item) => item.name === priority) || null;
 
   // Formatted values
   const formattedTitle =
     title.length > 30 ? `${title.slice(0, 30)}... ` : title;
-  const formattedTime = time.format("HH:mm");
+
+  const formattedTime = dayjs(time).format("HH:mm");
   const formattedDate = getDay(date);
 
   const handleMarkAsCompleted = () => {
@@ -54,8 +65,25 @@ const TaskPreview = ({
   const handleClose = () => setOpenConfirmDialog(false);
 
   const handleConfirm = () => {
-    dispatch({ type: "MARK_TASK_AS_COMPLETED", payload: id });
-    setOpenConfirmDialog(false);
+    if (loginMode !== "fake-user") {
+      updateTaskCompleted(
+        {
+          id,
+          data: {
+            isCompleted: true,
+          },
+        },
+        {
+          onSuccess: () => {
+            dispatch({ type: "MARK_TASK_AS_COMPLETED", payload: id });
+            setOpenConfirmDialog(false);
+          },
+        }
+      );
+    } else {
+      dispatch({ type: "MARK_TASK_AS_COMPLETED", payload: id });
+      setOpenConfirmDialog(false);
+    }
   };
   return (
     <>
@@ -95,10 +123,12 @@ const TaskPreview = ({
         )}
         <div className="w-full min-h-24 flex flex-col justify-between p-2 gap-3">
           <div className="flex items-center justify-between">
-            <h1>{id} {formattedTitle}</h1>
+            <h1>
+              {order} {formattedTitle}
+            </h1>
             <Eye
               className="w-4 md:w-6 cursor-pointer"
-              onClick={() => nav(`/edit/${id}`)}
+              onClick={() => nav(`/edit/${documentId}`)}
               aria-label="View task details"
               role="button"
             />
@@ -136,7 +166,6 @@ const TaskPreview = ({
             </div>
           </div>
         </div>
-
       </div>
       <ConfirmDialog
         open={openConfirmDialog}
