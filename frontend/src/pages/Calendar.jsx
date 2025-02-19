@@ -11,7 +11,7 @@ const Calendar = () => {
 
   useEffect(() => {
     const filtered = tasks.filter((task) =>
-      task.date.isSame(selectedDay, "day")
+      dayjs(task.date).isSame(selectedDay, "day")
     );
     setFilteredTasks(filtered);
   }, [selectedDay, tasks]);
