@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router";
 import { ToastContainer } from "react-toastify";
 import "react-phone-number-input/style.css";
 import PhoneInput, { isPossiblePhoneNumber } from "react-phone-number-input";
-import { useLogin, useLoginWithGoogle } from "@/hooks/Auth";
+import { useLogin, useLoginWithGoogle } from "@/apis/Auth";
 import { myToast } from "@/constants";
 import { AuthContext } from "@/contexts/AuthContext";
 import { useGoogleLogin } from "@react-oauth/google";
@@ -52,9 +52,9 @@ const SignIn = () => {
       { credentials },
       {
         onSuccess: (data) => {
+          myToast(loginValidation().message, "success");
           login(data);
           navigate(lastLocation || "/home", { replace: true });
-          myToast(loginValidation().message, "success");
         },
         onError: (error) => {
           setIsAuthenticated(false);
