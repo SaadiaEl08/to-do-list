@@ -1,7 +1,7 @@
 import DropDownMenu from "@/components/DropDownMenu";
 import TaskPreview from "@/components/TaskPreview";
 import { Search } from "lucide-react";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import dayjs from "dayjs";
 import { ReactSortable } from "react-sortablejs";
@@ -17,15 +17,15 @@ const Home = () => {
       switch (search.date) {
         case "Today":
           return tasksToFilter.filter((task) =>
-            task.date.isSame(dayjs(), "day")
+            dayjs(task.date).isSame(dayjs(), "day")
           );
         case "Tomorrow":
           return tasksToFilter.filter((task) =>
-            task.date.isSame(dayjs().add(1, "day"), "day")
+            dayjs(task.date).isSame(dayjs().add(1, "day"), "day")
           );
         case "Upcoming":
           return tasksToFilter.filter((task) =>
-            task.date.isAfter(dayjs(), "day")
+            dayjs(task.date).isAfter(dayjs(), "day")
           );
         default:
           return tasksToFilter;
