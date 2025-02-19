@@ -1,7 +1,7 @@
 import { ChevronLeft, Eye, EyeClosed } from "lucide-react";
 import { useCallback, useContext, useState } from "react";
 import { Link, useNavigate } from "react-router";
-import { useLoginWithGoogle, useRegister } from "../hooks/Auth.jsx";
+import { useLoginWithGoogle, useRegister } from "../apis/Auth.jsx";
 import { myToast } from "@/constants.jsx";
 import "react-phone-number-input/style.css";
 import PhoneInput, { isPossiblePhoneNumber } from "react-phone-number-input";
