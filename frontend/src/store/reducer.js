@@ -1,25 +1,17 @@
-import dayjs from "dayjs";
+import { myToast } from "@/constants";
 
 const initialState = {
       currentStep: "",
       isOpenAddTask: false,
-      taskInfo: {
-            id: 0,
-            title: "",
-            description: "",
-            date: dayjs(),
-            priority: "",
-            time: dayjs().add(5, "minute"),
-            category: "",
-            order: 0,
-      },
+      taskInfo: {},
       tasks: [],
       mode: "create",
       accountInfo: {
-            name: JSON.parse(localStorage.getItem("accountInfo"))?.name || "User",
+            name: "User",
             username: "",
-            image: JSON.parse(localStorage.getItem("accountInfo"))?.image || "https://ui-avatars.com/api/?name=" + JSON.parse(localStorage.getItem("accountInfo"))?.name || "User",
+            image: "https://ui-avatars.com/api/?name=" + "User",
       },
+      loginMode: "fake-user",
       search: {
             title: "",
             date: "Today",
@@ -37,12 +29,16 @@ const reducer = (state = initialState, action) => {
             case "SET_TASKS":
                   return { ...state, tasks: action.payload };
             case "DELETE_TASK":
+                  myToast("Task deleted successfully", "success");
                   return { ...state, tasks: state.tasks.filter((task) => task.id !== action.payload) };
             case "UPDATE_TASK":
+                  myToast("Task updated successfully", "success");
                   return { ...state, tasks: state.tasks.map((task) => task.id === state.taskInfo.id ? state.taskInfo : task) };
             case "CREATE_TASK":
+                  myToast("Task created successfully", "success");
                   return { ...state, tasks: [...state.tasks, state.taskInfo] };
             case "MARK_TASK_AS_COMPLETED":
+                  myToast("Task marked as completed successfully", "success");
                   return { ...state, tasks: state.tasks.map((task) => task.id === action.payload ? { ...task, isCompleted: !task.isCompleted } : task) };
             case "SET_TASKS_ORDER":
                   return {
@@ -53,6 +49,8 @@ const reducer = (state = initialState, action) => {
                   };
             case "SET_MODE":
                   return { ...state, mode: action.payload };
+            case "SET_LOGIN_MODE":
+                  return { ...state, loginMode: action.payload };
             case "SET_ACCOUNT_INFO":
                   return { ...state, accountInfo: { ...state.accountInfo, ...action.payload } };
             case "SET_SEARCH":
