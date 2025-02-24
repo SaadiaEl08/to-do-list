@@ -9,6 +9,7 @@ const TaskForm = () => {
   const dispatch = useDispatch();
   const mode = useSelector((state) => state.mode);
   const taskInfo = useSelector((state) => state.taskInfo);
+  console.log("taskInfo1",taskInfo);
   const loginMode = useSelector((state) => state.loginMode);
   const { data: categories = [] } = useCategories();
   const { mutate: createTask } = useCreateTask();
@@ -74,6 +75,8 @@ const TaskForm = () => {
       // If title or description is missing, alert the user
       alert("Please fill all the fields");
     }
+  console.log("taskInfo22",taskInfo);
+
   }, [categories, createTask, dispatch, loginMode, mode, taskInfo, updateTask]);
 
   useEffect(() => {
