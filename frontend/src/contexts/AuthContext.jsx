@@ -9,6 +9,11 @@ export const AuthProvider = ({ children }) => {
     localStorage.getItem("lastLocation") || ""
   );
 
+  const [token, setToken] = useState(localStorage.getItem("token"));
+  const [authenticatedUserId, setAuthenticatedUserId] = useState(
+    JSON.parse(localStorage.getItem("accountInfo"))?.id
+  );
+
   useEffect(() => {
     if (lastLocation != "") localStorage.setItem("lastLocation", lastLocation);
     if (lastLocation === "") localStorage.removeItem("lastLocation");
@@ -30,6 +35,7 @@ export const AuthProvider = ({ children }) => {
     setLastLocation("/home");
     localStorage.setItem("lastLocation", "/home");
     localStorage.setItem("token", jwt);
+    setToken(jwt);
     localStorage.setItem(
       "accountInfo",
       JSON.stringify({
@@ -37,10 +43,12 @@ export const AuthProvider = ({ children }) => {
         image: user?.image || "",
       })
     );
+    setAuthenticatedUserId(user?.id);
   };
 
   const fakeLogin = () => {
     localStorage.setItem("token", "fake-token");
+    setToken("fake-token");
     localStorage.setItem(
       "accountInfo",
       JSON.stringify({
@@ -51,13 +59,16 @@ export const AuthProvider = ({ children }) => {
     );
     setIsAuthenticated(true);
     setLastLocation("/home");
+    setAuthenticatedUserId(null);
   };
 
   const login = (data) => {
     const { jwt, user } = data;
     setIsAuthenticated(true);
     localStorage.setItem("token", jwt);
+    setToken(jwt);
     localStorage.setItem("accountInfo", JSON.stringify(user));
+    setAuthenticatedUserId(user?.id);
   };
   return (
     <AuthContext.Provider
@@ -70,6 +81,8 @@ export const AuthProvider = ({ children }) => {
         fakeLogin,
         register,
         login,
+        token,
+        authenticatedUserId,
       }}
     >
       {children}
