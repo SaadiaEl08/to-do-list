@@ -1,21 +1,20 @@
+import { AuthContext } from "@/contexts/AuthContext";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
+import { useContext } from "react";
 
 const host = import.meta.env.VITE_BACKEND_HOST || "http://localhost:1337";
 const API_URL = `${host}/api/tasks`;
-const token = localStorage.getItem("token");
-const headers = {
-  Authorization: `Bearer ${token}`,
-};
-const authenticatedUserId = JSON.parse(localStorage.getItem("accountInfo")).id;
 
 export const useGetTasks = () => {
+  const { token ,authenticatedUserId} = useContext(AuthContext);
+
   return useQuery({
     queryKey: ["tasks", authenticatedUserId],
     queryFn: async () => {
       const { data } = await axios.get(
         `${API_URL}?filters[creator][id][$eq]=${authenticatedUserId}&populate=*`,
-        { headers }
+        { headers: { Authorization: `Bearer ${token}` } }
       );
       return data;
     },
@@ -24,6 +23,8 @@ export const useGetTasks = () => {
 };
 
 export const useCreateTask = () => {
+  const { token ,authenticatedUserId} = useContext(AuthContext);
+
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async ({ data }) => {
@@ -36,7 +37,7 @@ export const useCreateTask = () => {
       const response = await axios.post(
         API_URL,
         { data: finalData },
-        { headers: headers }
+        { headers: { Authorization: `Bearer ${token}` } }
       );
       return response.data;
     },
@@ -48,6 +49,8 @@ export const useCreateTask = () => {
 };
 
 export const useUpdateTask = () => {
+  const { token ,authenticatedUserId} = useContext(AuthContext);
+
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async ({ data }) => {
@@ -60,7 +63,7 @@ export const useUpdateTask = () => {
       const response = await axios.put(
         `${API_URL}/${id}`,
         { data },
-        { headers: headers }
+        { headers: { Authorization: `Bearer ${token}` } }
       );
       return response.data;
     },
@@ -72,11 +75,13 @@ export const useUpdateTask = () => {
 };
 
 export const useDeleteTask = () => {
+  const { token ,authenticatedUserId} = useContext(AuthContext);
+
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async ({ id }) => {
       const response = await axios.delete(`${API_URL}/${id}`, {
-        headers: headers,
+        headers: { Authorization: `Bearer ${token}` },
       });
       return response.data;
     },
@@ -88,12 +93,14 @@ export const useDeleteTask = () => {
 };
 
 export const useUpdateTaskCompleted = () => {
+  const { token } = useContext(AuthContext);
+
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: async ({ id ,isCompleted}) => {
+    mutationFn: async ({ id, isCompleted }) => {
       const response = await axios.patch(`${API_URL}/${id}`, {
         data: { isCompleted: isCompleted },
-        headers: headers,
+        headers: { Authorization: `Bearer ${token}` },
       });
       return response.data;
     },
