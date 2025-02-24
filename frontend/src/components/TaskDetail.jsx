@@ -6,9 +6,10 @@ import ConfirmDialog from "./ConfirmDialog";
 import { categories, getDay, priorities } from "@/constants";
 import { useNavigate } from "react-router";
 import dayjs from "dayjs";
+import { useDeleteTask } from "@/apis/Task";
 
 const TaskDetail = ({ task = {} }) => {
-  const { id, title, description, date, time, priority, category } = task;
+  const { id,documentId, title, description, date, time, priority, category } = task;
   // Get category and priority info
   const categoryInfo =
     categories.find((item) => item.name === category?.name) || null;
@@ -20,6 +21,8 @@ const TaskDetail = ({ task = {} }) => {
   const formattedDate = getDay(date);
   const dispatch = useDispatch();
   const nav = useNavigate();
+  // Delete task
+  const { mutate: deleteTask } = useDeleteTask();
   const handleEditTask = () => {
     dispatch({ type: "SET_IS_OPEN_ADD_TASK", payload: true });
     dispatch({ type: "SET_STEP", payload: steps.TASK_FORM });
@@ -32,8 +35,17 @@ const TaskDetail = ({ task = {} }) => {
     nav(-1);
   };
   const handleConfirm = () => {
-    dispatch({ type: "DELETE_TASK", payload: id });
-    handleClose();
+    console.log("id to send", documentId);
+    deleteTask({documentId}, {
+      onSuccess: () => {
+        console.log("jjjjjj")
+        dispatch({ type: "DELETE_TASK", payload: id });
+        handleClose();
+      },
+      onError: (er) => {
+        console.log(er);
+      },
+    });
   };
 
   const handleDeleteTask = () => {
