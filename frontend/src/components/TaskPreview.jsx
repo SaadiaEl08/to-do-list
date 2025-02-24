@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import ConfirmDialog from "./ConfirmDialog";
 import { useNavigate } from "react-router";
 import dayjs from "dayjs";
-import { useMarkTaskAsCompleted, useUpdateTask, useUpdateTaskCompleted } from "@/apis/Task";
+import { useUpdateTaskCompleted } from "@/apis/Task";
 
 const TaskPreview = ({ task, className, draggable = false }) => {
   const {
@@ -124,7 +124,7 @@ const TaskPreview = ({ task, className, draggable = false }) => {
         <div className="w-full min-h-24 flex flex-col justify-between p-2 gap-3">
           <div className="flex items-center justify-between">
             <h1>
-              {order} {formattedTitle}
+               {formattedTitle}
             </h1>
             <Eye
               className="w-4 md:w-6 cursor-pointer"
