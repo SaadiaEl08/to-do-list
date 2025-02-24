@@ -21,14 +21,14 @@ const TaskAction = () => {
       dispatch({
         type: "UPDATE_TASK_INFO",
         payload: {
-          id: Math.max(...new Set(tasks.map((t) => t.id))) + 1,
+          id: tasks.length > 0 ? Math.max(...new Set(tasks.map((t) => t.id))) + 1 : 1,
           title: "",
           description: "",
           date: dayjs(),
           priority: "",
           time: dayjs().add(5, "minute").format("HH:mm:ss"),
           category: "",
-          order: Math.max(...new Set(tasks.map((t) => t.order))) + 1,
+          order: tasks.length > 0 ? Math.max(...new Set(tasks.map((t) => t.order))) + 1 : 1,
         },
       });
     }
