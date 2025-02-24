@@ -7,7 +7,7 @@ const host = import.meta.env.VITE_BACKEND_HOST || "http://localhost:1337";
 const API_URL = `${host}/api/tasks`;
 
 export const useGetTasks = () => {
-  const { token ,authenticatedUserId} = useContext(AuthContext);
+  const { token, authenticatedUserId } = useContext(AuthContext);
 
   return useQuery({
     queryKey: ["tasks", authenticatedUserId],
@@ -23,7 +23,7 @@ export const useGetTasks = () => {
 };
 
 export const useCreateTask = () => {
-  const { token ,authenticatedUserId} = useContext(AuthContext);
+  const { token, authenticatedUserId } = useContext(AuthContext);
 
   const queryClient = useQueryClient();
   return useMutation({
@@ -49,7 +49,7 @@ export const useCreateTask = () => {
 };
 
 export const useUpdateTask = () => {
-  const { token ,authenticatedUserId} = useContext(AuthContext);
+  const { token, authenticatedUserId } = useContext(AuthContext);
 
   const queryClient = useQueryClient();
   return useMutation({
@@ -75,12 +75,14 @@ export const useUpdateTask = () => {
 };
 
 export const useDeleteTask = () => {
-  const { token ,authenticatedUserId} = useContext(AuthContext);
+  const { token, authenticatedUserId } = useContext(AuthContext);
 
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: async ({ id }) => {
-      const response = await axios.delete(`${API_URL}/${id}`, {
+    mutationFn: async ({ documentId }) => {
+      console.log("hhhhhhhhhhhhhhhhhhhhh", documentId);
+
+      const response = await axios.delete(`${API_URL}/${documentId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       return response.data;
