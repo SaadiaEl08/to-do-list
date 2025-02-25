@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import { ToastContainer } from "react-toastify";
 const PopOver = ({ isOpen, toggle, children }) => {
   const isHistoryModified = useRef(false); // Track if we modified the history state
 
@@ -42,6 +43,7 @@ const PopOver = ({ isOpen, toggle, children }) => {
       >
         {children}
       </div>
+      <ToastContainer/>
     </div>
   );
 };
