@@ -1,5 +1,7 @@
-import { useQuery } from "@tanstack/react-query";
+import { AuthContext } from "@/contexts/AuthContext";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import axios from "axios";
+import { useContext } from "react";
 
 const host = import.meta.env.VITE_BACKEND_HOST || "http://localhost:1337";
 const API_URL = `${host}/api/users`;
@@ -36,19 +38,17 @@ export const useUserTasks = () => {
 };
 
 // Fetch or modify user data
-export const useUpdateUser = (userData) => {
-  return useQuery({
-    queryKey: ["updateUser", userData?.id], // Cache the update query based on the user ID
-    queryFn: async () => {
-      if (!userData) return; // Make sure userData exists before sending the request
-      const { data } = await axios.put(`${API_URL}/${userData.id}`, userData, {
+export const useUpdateUser = () => {
+  const { token } = useContext(AuthContext);
+  return useMutation({
+    mutationFn: async ({ id, data }) => {
+      const { data:responseData } = await axios.put(`${API_URL}/${id}`, data, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-      return data;
+      return responseData;
     },
-    enabled: !!userData, // Only run the query when userData exists
   });
 };
 
