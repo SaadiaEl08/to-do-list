@@ -6,20 +6,11 @@ import { useDispatch, useSelector } from "react-redux";
 import ConfirmDialog from "./ConfirmDialog";
 import { useNavigate } from "react-router";
 import dayjs from "dayjs";
-import { useUpdateTaskCompleted } from "@/apis/Task";
+import { useUpdateTask } from "@/apis/Task";
 
 const TaskPreview = ({ task, className, draggable = false }) => {
-  const {
-    id,
-    order,
-    title,
-    date,
-    time,
-    priority,
-    category,
-    isCompleted,
-    documentId,
-  } = task;
+  const { title, date, time, priority, category, isCompleted, documentId } =
+    task;
   const dispatch = useDispatch();
   const [openConfirmDialog, setOpenConfirmDialog] = useState(false);
   const [confirmInfo, setConfirmInfo] = useState({
@@ -28,7 +19,7 @@ const TaskPreview = ({ task, className, draggable = false }) => {
     onConfirm: () => {},
   });
 
-  const { mutate: updateTaskCompleted } = useUpdateTaskCompleted();
+  const { mutate: updateTaskCompleted } = useUpdateTask();
   const nav = useNavigate();
   const loginMode = useSelector((state) => state.loginMode);
   // Get category and priority info
@@ -66,13 +57,9 @@ const TaskPreview = ({ task, className, draggable = false }) => {
 
   const handleConfirm = () => {
     if (loginMode !== "fake-user") {
+      const { id, ...data } = task;
       updateTaskCompleted(
-        {
-          id,
-          data: {
-            isCompleted: true,
-          },
-        },
+        { id: id, data: { ...data, isCompleted: !isCompleted } },
         {
           onSuccess: () => {
             dispatch({ type: "MARK_TASK_AS_COMPLETED", payload: id });
@@ -123,9 +110,7 @@ const TaskPreview = ({ task, className, draggable = false }) => {
         )}
         <div className="w-full min-h-24 flex flex-col justify-between p-2 gap-3">
           <div className="flex items-center justify-between">
-            <h1>
-               {formattedTitle}
-            </h1>
+            <h1>{formattedTitle}</h1>
             <Eye
               className="w-4 md:w-6 cursor-pointer"
               onClick={() => nav(`/edit/${documentId}`)}
