@@ -49,16 +49,18 @@ export const useCreateTask = () => {
 };
 
 export const useUpdateTask = () => {
-  const { token, authenticatedUserId } = useContext(AuthContext);
+  const { token } = useContext(AuthContext);
 
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async ({ data }) => {
       const id = data.documentId;
+      console.log(id);
       delete data.documentId;
       delete data.createdAt;
       delete data.updatedAt;
       delete data.chosen;
+      delete data.selected;
       data.creator = data.creator.id;
       const response = await axios.put(
         `${API_URL}/${id}`,
@@ -75,33 +77,11 @@ export const useUpdateTask = () => {
 };
 
 export const useDeleteTask = () => {
-  const { token, authenticatedUserId } = useContext(AuthContext);
-
+  const { token } = useContext(AuthContext);
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async ({ documentId }) => {
-      console.log("hhhhhhhhhhhhhhhhhhhhh", documentId);
-
       const response = await axios.delete(`${API_URL}/${documentId}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      return response.data;
-    },
-    onSuccess: () => {
-      // Invalidate the cache for tasks so it refetches
-      queryClient.invalidateQueries("tasks");
-    },
-  });
-};
-
-export const useUpdateTaskCompleted = () => {
-  const { token } = useContext(AuthContext);
-
-  const queryClient = useQueryClient();
-  return useMutation({
-    mutationFn: async ({ id, isCompleted }) => {
-      const response = await axios.patch(`${API_URL}/${id}`, {
-        data: { isCompleted: isCompleted },
         headers: { Authorization: `Bearer ${token}` },
       });
       return response.data;
