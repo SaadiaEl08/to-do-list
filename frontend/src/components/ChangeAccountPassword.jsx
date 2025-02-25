@@ -5,6 +5,8 @@ import PopOver from "./PopOver";
 import { Eye, EyeClosed } from "lucide-react";
 import { ToastContainer } from "react-toastify";
 import { myToast } from "@/constants";
+import { useSelector } from "react-redux";
+import { useUpdateUser } from "@/apis/User";
 
 const ChangeAccountPassword = ({ setChangeAccount }) => {
   const [showOldPassword, setShowOldPassword] = useState(false);
@@ -13,6 +15,9 @@ const ChangeAccountPassword = ({ setChangeAccount }) => {
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const loginMode = useSelector((state) => state.loginMode);
+  const accountInfo = useSelector((state) => state.accountInfo);
+  const { mutate } = useUpdateUser();
 
   const handleSubmitNewPassword = useCallback(() => {
     if (!(oldPassword != "" && newPassword != "" && confirmPassword != "")) {
@@ -23,9 +28,23 @@ const ChangeAccountPassword = ({ setChangeAccount }) => {
       myToast("Passwords do not match", "error");
       return;
     }
-    myToast("Password changed successfully", "success");
-    setChangeAccount(null);
-  }, [confirmPassword, newPassword, oldPassword, setChangeAccount]);
+    if (loginMode !== "fake-user") {
+      const { id } = accountInfo;
+      mutate(
+        { id: id, data: { password: newPassword } },
+        {
+          onSuccess: () => {
+            setChangeAccount(null);
+          },
+          onError: () => {
+            console.log("error");
+          },
+        }
+      );
+    } else {
+      setChangeAccount(null);
+    }
+  }, [accountInfo, confirmPassword, loginMode, mutate, newPassword, oldPassword, setChangeAccount]);
   useEffect(() => {
     const enterClickEvent = (e) => {
       if (e.key === "Enter") {
