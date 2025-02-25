@@ -1,25 +1,54 @@
-import {  useState } from "react";
+import { useState } from "react";
 import ActionBar from "./ActionBar";
 import PopOver from "./PopOver";
 import { useDispatch, useSelector } from "react-redux";
+import { useUpdateUser } from "@/apis/User";
+import { myToast } from "@/constants";
+import { data } from "react-router";
 
 const ChangeAccountName = ({ setChangeAccount }) => {
   const dispatch = useDispatch();
+  const accountInfo = useSelector((state) => state.accountInfo);
   const [name, setName] = useState(
-    useSelector((state) => state.accountInfo.name)
+    accountInfo?.name ||
+      JSON.parse(localStorage.getItem("accountInfo"))?.name ||
+      ""
   );
+  const loginMode = useSelector((state) => state.loginMode);
+  const { mutate } = useUpdateUser();
   const handleSubmitNewName = () => {
-    dispatch({
-      type: "SET_ACCOUNT_INFO",
-      payload: { name: name },
-    });
-    const accountInfo = JSON.parse(localStorage.getItem("accountInfo")) || {};
-    accountInfo.name = name;
-    localStorage.setItem("accountInfo", JSON.stringify(accountInfo));
-    setChangeAccount(null);
+    if (loginMode !== "fake-user") {
+      mutate(
+        { id: accountInfo.id, data: { name: name } },
+        {
+          onSuccess: () => {
+            console.log("success");
+            dispatch({
+              type: "SET_ACCOUNT_INFO",
+              payload: { name: name },
+            });
+            const accountInfo =
+              JSON.parse(localStorage.getItem("accountInfo")) || {};
+            accountInfo.name = name;
+            localStorage.setItem("accountInfo", JSON.stringify(accountInfo));
+            setChangeAccount(null);
+          },
+          onError: () => {},
+        }
+      );
+    } else {
+      dispatch({
+        type: "SET_ACCOUNT_INFO",
+        payload: { name: name },
+      });
+      const accountInfo = JSON.parse(localStorage.getItem("accountInfo")) || {};
+      accountInfo.name = name;
+      localStorage.setItem("accountInfo", JSON.stringify(accountInfo));
+      setChangeAccount(null);
+    }
   };
   const handleNameChange = (e) => {
-     setName(e.target.value.slice(0,30));
+    setName(e.target.value.slice(0, 30));
   };
   return (
     <PopOver isOpen={true} toggle={() => setChangeAccount(null)}>
