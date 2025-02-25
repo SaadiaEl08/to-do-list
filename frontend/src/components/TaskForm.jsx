@@ -9,7 +9,6 @@ const TaskForm = () => {
   const dispatch = useDispatch();
   const mode = useSelector((state) => state.mode);
   const taskInfo = useSelector((state) => state.taskInfo);
-  console.log("taskInfo1",taskInfo);
   const loginMode = useSelector((state) => state.loginMode);
   const { data: categories = [] } = useCategories();
   const { mutate: createTask } = useCreateTask();
