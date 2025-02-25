@@ -3,24 +3,24 @@ import NavigationMenu from "./components/NavigationMenu";
 import TopSection from "./components/TopSection";
 import TaskAction from "./components/TaskAction";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { ToastContainer } from "react-toastify";
 import { fakeTasks } from "./constants";
 import { useGetTasks } from "./apis/Task";
 import Loading from "./components/Loading";
-import { useUser } from "./apis/User";
 const App = () => {
   const isOpenAddTask = useSelector((state) => state.isOpenAddTask);
   const dispatch = useDispatch();
   const location = useLocation();
   const loginMode = useSelector((state) => state.loginMode);
-  const { data: tasksFromApi, isLoading } = useGetTasks();
-  const { data: user } = useUser();
+  const { data: tasksFromApi } = useGetTasks();
+  const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
     dispatch({
       type: "SET_TASKS",
       payload: loginMode === "fake-user" ? fakeTasks : tasksFromApi?.data || [],
     });
+    setIsLoading(false);
   }, [dispatch, loginMode, tasksFromApi]);
 
   useEffect(() => {
@@ -42,7 +42,10 @@ const App = () => {
     <main className={`min-w-full w-full min-h-screen bg-background relative`}>
       <div className="flex flex-col items-center  overflow-y-auto pb-20 xl:pb-0 xl:ms-[4%] ">
         <TopSection />
-        {isLoading ? <Loading /> : <Outlet />}
+        {
+        isLoading ? <Loading /> : 
+        <Outlet />
+        }
       </div>
       <NavigationMenu />
       {isOpenAddTask === true ? <TaskAction /> : ""}
