@@ -35,10 +35,8 @@ const TaskDetail = ({ task = {} }) => {
     nav(-1);
   };
   const handleConfirm = () => {
-    console.log("id to send", documentId);
     deleteTask({documentId}, {
       onSuccess: () => {
-        console.log("jjjjjj")
         dispatch({ type: "DELETE_TASK", payload: id });
         handleClose();
       },
