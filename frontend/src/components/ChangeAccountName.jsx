@@ -4,7 +4,6 @@ import PopOver from "./PopOver";
 import { useDispatch, useSelector } from "react-redux";
 import { useUpdateUser } from "@/apis/User";
 import { myToast } from "@/constants";
-import { data } from "react-router";
 
 const ChangeAccountName = ({ setChangeAccount }) => {
   const dispatch = useDispatch();
@@ -22,7 +21,6 @@ const ChangeAccountName = ({ setChangeAccount }) => {
         { id: accountInfo.id, data: { name: name } },
         {
           onSuccess: () => {
-            console.log("success");
             dispatch({
               type: "SET_ACCOUNT_INFO",
               payload: { name: name },
@@ -32,6 +30,7 @@ const ChangeAccountName = ({ setChangeAccount }) => {
             accountInfo.name = name;
             localStorage.setItem("accountInfo", JSON.stringify(accountInfo));
             setChangeAccount(null);
+            myToast("Name changed successfully", "success");
           },
           onError: () => {},
         }
